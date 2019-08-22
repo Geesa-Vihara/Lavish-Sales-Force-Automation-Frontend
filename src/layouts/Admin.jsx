@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Material Dashboard React - v1.7.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -33,8 +16,8 @@ import routes from "routes.js";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
-import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png";
+import image from "assets/img/tea-sidebar-1.jpg";
+import logo from "assets/img/lavishlogo.png";
 
 let ps;
 
@@ -59,7 +42,7 @@ const switchRoutes = (
 class Dashboard extends React.Component {
   state = {
     image: image,
-    color: "blue",
+    color: "green",
     hasImage: true,
     fixedClasses: "dropdown show",
     mobileOpen: false
@@ -114,8 +97,7 @@ class Dashboard extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={routes}
-          logoText={"Lavish Tea"}
+          routes={routes}          
           logo={logo}
           image={this.state.image}
           handleDrawerToggle={this.handleDrawerToggle}
