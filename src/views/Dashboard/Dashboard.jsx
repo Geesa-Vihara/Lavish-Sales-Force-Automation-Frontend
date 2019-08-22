@@ -48,7 +48,7 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
-import { bugs, website, server } from "variables/general.jsx";
+import { goods, reps, distributor } from "variables/general.jsx";
 
 import {
   dailySalesChart,
@@ -137,8 +137,8 @@ class Dashboard extends React.Component {
                 <CardIcon color="info">
                   <Accessibility />
                 </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <p className={classes.cardCategory}>Sales Reps</p>
+                <h3 className={classes.cardTitle}>+25</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -234,35 +234,35 @@ class Dashboard extends React.Component {
               headerColor="primary"
               tabs={[
                 {
-                  tabName: "Bugs",
-                  tabIcon: BugReport,
+                  tabName: "Goods",  //Bugs
+                  //tabIcon: BugReport,
                   tabContent: (
                     <Tasks
                       checkedIndexes={[0, 3]}
                       tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
+                      tasks={goods}//bugs
                     />
                   )
                 },
                 {
-                  tabName: "Website",
-                  tabIcon: Code,
+                  tabName: "Sale Reps",  //website
+                 // tabIcon: Code,
                   tabContent: (
                     <Tasks
                       checkedIndexes={[0]}
                       tasksIndexes={[0, 1]}
-                      tasks={website}
+                      tasks={reps}
                     />
                   )
                 },
                 {
-                  tabName: "Server",
-                  tabIcon: Cloud,
+                  tabName: "Distributors", //Server
+                 // tabIcon: Cloud,
                   tabContent: (
                     <Tasks
                       checkedIndexes={[1]}
                       tasksIndexes={[0, 1, 2]}
-                      tasks={server}
+                      tasks={distributor}//server
                     />
                   )
                 }
@@ -280,7 +280,7 @@ class Dashboard extends React.Component {
               <CardBody>
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
+                  tableHead={["ID", "Name", "Salary", "District"]}
                   tableData={[
                     ["1", "Dakota Rice", "$36,738", "Niger"],
                     ["2", "Minerva Hooper", "$23,789", "Curaçao"],
