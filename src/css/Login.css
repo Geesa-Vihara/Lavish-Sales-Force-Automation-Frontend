@@ -1,0 +1,32 @@
+.login{
+    color: rgba(0, 0, 0, 0.87);
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    width: 500px;
+    height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    
+    }
+.logo{
+    margin: -50px auto 0;
+    padding: 0;
+    overflow: hidden;
+    max-width: 180px;
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    max-height: 180px;
+    border-radius: 50%;
+}
+#logoimg{
+    width: 100%;
+    height: auto;
+}
+.bottom{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
