@@ -1,8 +1,8 @@
 .login{
+    
     color: rgba(0, 0, 0, 0.87);
-    text-align: center;
     background-color: rgb(255, 255, 255);
-    width: 500px;
+    width: 450px;
     height: 600px;
     position: absolute;
     left: 50%;
@@ -29,4 +29,27 @@
     position: absolute;
     width: 100%;
     bottom: 0;
+}
+.content{
+    text-align: center;
+}
+#login{
+    width: 100%;
+    margin-top: 30px;
+
+}
+#remember{
+    margin-top: 50px;
+}
+.userlogin{
+    text-align: center;
+    color: #00acc1;
+    padding-bottom: 0;
+    margin-bottom: 20px;
+    
+}
+#logintitle{
+    text-align:center;
+   
+    
 }
