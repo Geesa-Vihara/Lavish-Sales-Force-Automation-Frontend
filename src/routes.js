@@ -1,5 +1,8 @@
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import People from "@material-ui/icons/People";
+import Store from "@material-ui/icons/Store";
+import Storage from "@material-ui/icons/Storage";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -26,32 +29,16 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
- 
+
   {
-    path: "/user",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
-  },
-  {
-    path: "/salesreps",
-    name: "Sales Reps Profiles",
-    rtlName: "قائمة الجدول",
-    icon: "content_paste",
+    path: "/stock",
+    name: "Stock ",
+    rtlName: "خرائط",
+    icon: Storage,
     component: TableList,
     layout: "/admin"
   },
-   
-  {
-    path: "/track",
-    name: "Track Sales Reps",
-    rtlName: "خرائط",
-    icon: LocationOn,
-    component: Maps,
-    layout: "/admin"
-  },
+
   {
     path: "/notifications",
     name: "Notifications",
@@ -60,14 +47,52 @@ const dashboardRoutes = [
     component: NotificationsPage,
     layout: "/admin"
   },
+     
   {
-    path: "/orders",
-    name: "Sale Orders",
+    path: "/track",
+    name: "Tracking",
+    rtlName: "خرائط",
+    icon: LocationOn,
+    component: Maps,
+    layout: "/admin"
+  },
+  
+  {
+    path: "/salesreps",
+    name: "Sales Representatives",
+    rtlName: "قائمة الجدول",
+    icon: People,
+    component: TableList,
+    layout: "/admin"
+  },
+
+  {
+    path: "/customer",
+    name: "Customers",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Store,
+    component: TableList,
+    layout: "/admin"
+  },
+
+  {
+    path: "/distributor",
+    name: "Distributors",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: People,
+    component: TableList,
+    layout: "/admin"
+  },
+  
+  {
+    path: "/invoices",
+    name: "Sales Invoices",
     rtlName: "قائمة الجدول",
     icon: AttachMoney,
     component: TableList,
     layout: "/admin"
   },
+  
   {
     path: "/analytics",
     name: "Analytics",
