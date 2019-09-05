@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Material Dashboard React - v1.7.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
@@ -25,10 +9,10 @@ import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
 import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
+//import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-const styles = {
+/*const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "rgba(255,255,255,.62)",
@@ -56,7 +40,7 @@ const styles = {
       lineHeight: "1"
     }
   }
-};
+};*/
 
 function TableList(props) {
   const { classes } = props;
@@ -64,12 +48,12 @@ function TableList(props) {
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="primary">
+      {/* <CardHeader color="primary">                                          removed header in table
             <h4 className={classes.cardTitleWhite}>Simple Table</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
-          </CardHeader>
+        </CardHeader>          */}
           <CardBody>
             <Table
               tableHeaderColor="primary"
@@ -86,16 +70,16 @@ function TableList(props) {
           </CardBody>
         </Card>
       </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
+      {/*<GridItem xs={12} sm={12} md={12}>
         <Card plain>
-          <CardHeader plain color="primary">
+          {/*<CardHeader plain color="primary">
             <h4 className={classes.cardTitleWhite}>
               Table on Plain Background
             </h4>
             <p className={classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
-          </CardHeader>
+            </CardHeader>
           <CardBody>
             <Table
               tableHeaderColor="primary"
@@ -123,7 +107,7 @@ function TableList(props) {
             />
           </CardBody>
         </Card>
-      </GridItem>
+      </GridItem>*/}
     </GridContainer>
   );
 }
@@ -132,4 +116,4 @@ TableList.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(styles)(TableList);
+export default TableList;
