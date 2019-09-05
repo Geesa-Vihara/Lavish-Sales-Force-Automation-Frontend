@@ -4,7 +4,7 @@ import People from "@material-ui/icons/People";
 import Store from "@material-ui/icons/Store";
 import Storage from "@material-ui/icons/Storage";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
+//import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
@@ -15,6 +15,9 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
+import SalesRepTableList from "views/TableList/SalesRepTableList.jsx";
+import DistributorTableList from "views/TableList/DistributorTableList.jsx";
+import CustomerTableList from "views/TableList/CustomerTableList.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 // core components/views for RTL layout
@@ -24,7 +27,7 @@ const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
+    //rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
@@ -33,7 +36,7 @@ const dashboardRoutes = [
   {
     path: "/stock",
     name: "Stock ",
-    rtlName: "خرائط",
+  //  rtlName: "خرائط",
     icon: Storage,
     component: TableList,
     layout: "/admin"
@@ -42,7 +45,7 @@ const dashboardRoutes = [
   {
     path: "/notifications",
     name: "Notifications",
-    rtlName: "إخطارات",
+   // rtlName: "إخطارات",
     icon: Notifications,
     component: NotificationsPage,
     layout: "/admin"
@@ -51,7 +54,7 @@ const dashboardRoutes = [
   {
     path: "/track",
     name: "Tracking",
-    rtlName: "خرائط",
+    //rtlName: "خرائط",
     icon: LocationOn,
     component: Maps,
     layout: "/admin"
@@ -60,34 +63,34 @@ const dashboardRoutes = [
   {
     path: "/salesreps",
     name: "Sales Representatives",
-    rtlName: "قائمة الجدول",
+ //   rtlName: "قائمة الجدول",
     icon: People,
-    component: TableList,
+    component: SalesRepTableList,
     layout: "/admin"
   },
 
   {
     path: "/customer",
     name: "Customers",
-    rtlName: "ملف تعريفي للمستخدم",
+  //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
-    component: TableList,
+    component: CustomerTableList,
     layout: "/admin"
   },
 
   {
     path: "/distributor",
     name: "Distributors",
-    rtlName: "ملف تعريفي للمستخدم",
+  //  rtlName: "ملف تعريفي للمستخدم",
     icon: People,
-    component: TableList,
+    component: DistributorTableList,
     layout: "/admin"
   },
   
   {
     path: "/invoices",
     name: "Sales Invoices",
-    rtlName: "قائمة الجدول",
+    //rtlName: "قائمة الجدول",
     icon: AttachMoney,
     component: TableList,
     layout: "/admin"
@@ -96,7 +99,7 @@ const dashboardRoutes = [
   {
     path: "/analytics",
     name: "Analytics",
-    rtlName: "لوحة القيادة",
+    //rtlName: "لوحة القيادة",
     icon: Timeline,
     component: DashboardPage,
     layout: "/admin"
