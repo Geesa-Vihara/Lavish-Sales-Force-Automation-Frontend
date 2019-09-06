@@ -7,6 +7,7 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 //import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
+import Description from "@material-ui/icons/Description";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 import Timeline from "@material-ui/icons/Timeline";
@@ -43,10 +44,10 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/notifications",
-    name: "Notifications",
+    path: "/reports",
+    name: "Reports",
    // rtlName: "إخطارات",
-    icon: Notifications,
+    icon: Description,
     component: NotificationsPage,
     layout: "/admin"
   },
@@ -70,7 +71,7 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/customer",
+    path: "/customers",
     name: "Customers",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
@@ -79,7 +80,7 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/distributor",
+    path: "/distributors",
     name: "Distributors",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: People,
