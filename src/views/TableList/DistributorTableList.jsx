@@ -12,10 +12,7 @@ import CardBody from "components/Card/CardBody.jsx";
 function DistributorTableList() {
     
     return (
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardBody>
+     
               <Table
                 tableHeaderColor="primary"
                 tableHead={["Name", "Country", "City", "Salary"]}
@@ -28,10 +25,7 @@ function DistributorTableList() {
                   ["Mason Porter", "Chile", "Gloucester", "$78,615"]
                 ]}
               />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
+           
     );
   }
   
