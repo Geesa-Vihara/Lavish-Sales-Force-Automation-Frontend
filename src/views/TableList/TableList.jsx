@@ -1,16 +1,16 @@
 
 import React from "react";
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+//import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+//import GridItem from "components/Grid/GridItem.jsx";
+//import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
+//import Card from "components/Card/Card.jsx";
 //import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+//import CardBody from "components/Card/CardBody.jsx";
 
 /*const styles = {
   cardCategoryWhite: {
@@ -42,19 +42,20 @@ import CardBody from "components/Card/CardBody.jsx";
   }
 };*/
 
-function TableList(props) {
-  const { classes } = props;
+function TableList() {
+  //const { classes } = props;
   return (
-    <GridContainer>
+   /*<GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-      {/* <CardHeader color="primary">                                          removed header in table
+       <CardHeader color="primary">                                          removed header in table
             <h4 className={classes.cardTitleWhite}>Simple Table</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
-        </CardHeader>          */}
-          <CardBody>
+        </CardHeader>          
+  <CardBody>*/
+            <paper>
             <Table
               tableHeaderColor="primary"
               tableHead={["Name", "Country", "City", "Salary"]}
@@ -67,12 +68,13 @@ function TableList(props) {
                 ["Mason Porter", "Chile", "Gloucester", "$78,615"]
               ]}
             />
-          </CardBody>
+            </paper>
+            /*</CardBody>
         </Card>
       </GridItem>
-      {/*<GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={12} md={12}>
         <Card plain>
-          {/*<CardHeader plain color="primary">
+          <CardHeader plain color="primary">
             <h4 className={classes.cardTitleWhite}>
               Table on Plain Background
             </h4>
@@ -107,13 +109,13 @@ function TableList(props) {
             />
           </CardBody>
         </Card>
-      </GridItem>*/}
-    </GridContainer>
+      </GridItem>
+            </GridContainer>*/
   );
 }
 
-TableList.propTypes = {
+/*TableList.propTypes = {
   classes: PropTypes.object
-};
+};*/
 
 export default TableList;

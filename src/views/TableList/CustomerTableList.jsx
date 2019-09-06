@@ -3,19 +3,14 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+
 import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+;
 
 function CustomerTableList() {
     
     return (
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardBody>
+    
               <Table
                 tableHeaderColor="primary"
                 tableHead={["Name", "Country", "City", "Salary"]}
@@ -28,10 +23,7 @@ function CustomerTableList() {
                   ["Mason Porter", "Chile", "Gloucester", "$78,615"]
                 ]}
               />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
+         
     );
   }
   
