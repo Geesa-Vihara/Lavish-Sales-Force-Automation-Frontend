@@ -1,6 +1,6 @@
 
 import React from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -111,4 +111,6 @@ CustomTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
 };*/
 
-export default CustomTable;                                  {/*withStyles(tableStyle)(CustomTable);*/}
+export default CustomTable; 
+
+/*{withStyles(tableStyle)(CustomTable);}*/
