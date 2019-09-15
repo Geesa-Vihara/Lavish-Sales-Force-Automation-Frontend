@@ -11,7 +11,7 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 class Login extends Component{
     
     render(){
-        const { classes } = this.props;
+        
         return(
             <div>
             <div className="login">
@@ -22,7 +22,7 @@ class Login extends Component{
                
                 <GridContainer justify="center">
                     <div id="logintitle">
-                        <label ><h7>Welcome to Lavish Tea Pvt LTD</h7><br />
+                        <label >Welcome to Lavish Tea Pvt LTD<br />
                         <small >Sales Force Automation System</small></label>
                     </div>
                     <GridItem xs={8} sm={8} md={8}>
@@ -56,7 +56,7 @@ class Login extends Component{
                     <GridItem xs={8} sm={8} md={8} >
                         <Button id="login" color="info">LOGIN</Button> 
                         <div id="logintitle">
-                            <label id="forgot"><small >Forgot your password? <a href="https://www.creative-tim.com?ref=mdr-footer" target="_blank">Get help</a></small></label>                     
+                            <label id="forgot"><small >Forgot your password? <a href="https://www.creative-tim.com?ref=mdr-footer">Get help</a></small></label>                     
                         </div>  
                     </GridItem>
                     

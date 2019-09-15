@@ -1,13 +1,13 @@
 import React from "react";
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+//import GridItem from "components/Grid/GridItem.jsx";
+//import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+//import Card from "components/Card/Card.jsx";
+//import CardBody from "components/Card/CardBody.jsx";
 
 function DistributorTableList() {
     
