@@ -3,6 +3,8 @@ import avatar from "assets/img/faces/lavish.jpg";
 import "css/Login.css";
 import Footer from "components/Footer/Footer";
 import { Link } from "react-router-dom";
+import axios from "axios"
+
 
 class Login extends Component{
 
@@ -14,16 +16,26 @@ class Login extends Component{
           errors: {}
         };        
       }
-      onChange = e => {
-        this.setState({ [e.target.id]: e.target.value });
-      };
-      onSubmit = e => {
-        e.preventDefault();const userData = {
-          username: this.state.username,
-          password: this.state.password
+    onChange = e => {
+    this.setState({ [e.target.id]: e.target.value });
+    };
+
+    onSubmit = e => {
+        e.preventDefault();
+        const userData = {
+            username: this.state.username,
+            password: this.state.password
         };
         console.log(userData);
-      };
+        axios.post('http://localhost:8000/login',userData).then(res => {
+        if(res.status===200){
+            console.log(res.status);
+            this.props.history.push("/");
+        }
+        });      
+           
+        
+    };
 
     render(){
         const { errors } = this.state;
