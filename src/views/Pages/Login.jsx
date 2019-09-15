@@ -6,7 +6,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-
+import { Link } from "react-router-dom";
 
 class Login extends Component{
     
@@ -56,7 +56,7 @@ class Login extends Component{
                     <GridItem xs={8} sm={8} md={8} >
                         <Button id="login" color="info">LOGIN</Button> 
                         <div id="logintitle">
-                            <label id="forgot"><small >Forgot your password? <a href="https://www.creative-tim.com?ref=mdr-footer">Get help</a></small></label>                     
+                            <label id="forgot"><small >Forgot your password? <Link to="/forgotpassword">Get help</Link></small></label>                     
                         </div>  
                     </GridItem>
                     

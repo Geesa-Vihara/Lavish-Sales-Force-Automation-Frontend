@@ -9,6 +9,7 @@ import Login from "views/Pages/Login.jsx";
 import RTL from "layouts/RTL.jsx";
 
 import "assets/css/material-dashboard-react.css?v=1.7.0";
+import ForgotPassword from "views/Pages/ForgotPassword";
 
 const hist = createBrowserHistory();
 
@@ -17,6 +18,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/login" component={Login} />
+      <Route path="/forgotpassword" component={ForgotPassword} />
       <Route path="/rtl" component={RTL} />
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
