@@ -40,7 +40,7 @@ class SMNavBar extends Component{
                     }}                    
                     className="btn-floating green"                    
                     >
-                    <Link to="/dashboard"> <i class="material-icons">dashboard</i></Link>           
+                    <Link to="/dashboard"> <i className="material-icons">dashboard</i></Link>           
                 </button>
 
                 <button
@@ -51,7 +51,7 @@ class SMNavBar extends Component{
                     className="btn-floating green"
                     
                     >
-                     <i class="material-icons">add_alert</i>                                  
+                     <i className="material-icons">add_alert</i>                                  
                 </button>
 
                 <button
@@ -64,7 +64,7 @@ class SMNavBar extends Component{
                     aria-haspopup="true"                     
                     onClick={this.handleClick}
                     >
-                    <i class="material-icons">person</i>               
+                    <i className="material-icons">person</i>               
                 </button>
                 
                 <Menu
