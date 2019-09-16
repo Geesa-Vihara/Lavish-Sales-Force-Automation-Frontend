@@ -55,7 +55,7 @@ function TableList() {
             </p>
         </CardHeader>          
   <CardBody>*/
-            <paper>
+            
             <Table
               tableHeaderColor="primary"
               tableHead={["Name", "Country", "City", "Salary"]}
@@ -68,7 +68,7 @@ function TableList() {
                 ["Mason Porter", "Chile", "Gloucester", "$78,615"]
               ]}
             />
-            </paper>
+            
             /*</CardBody>
         </Card>
       </GridItem>
