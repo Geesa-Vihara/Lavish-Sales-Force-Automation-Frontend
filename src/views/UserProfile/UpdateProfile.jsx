@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import avatar from "assets/img/faces/marc.jpg";
 import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
-import { Link } from "react-router-dom";
 import axios from "axios"
 //import "../../components/Helpers/AuthHelper";
 

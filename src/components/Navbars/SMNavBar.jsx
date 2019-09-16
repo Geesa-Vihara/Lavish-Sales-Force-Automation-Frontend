@@ -4,32 +4,27 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 class SMNavBar extends Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            anchorEl: false,
-            setAnchorEl: false
+    
+        state = {
+            anchorEl: null,
+          
         };
-    }    
-      
+    
    
-    handleClick=()=> {
+    handleClick=(event)=> {
         
-        this.setState( {
-            setAnchorEl: !this.state.setAnchorEl
-          });
+        this.setState({ anchorEl: event.currentTarget });
           
     }
 
     handleClose=()=> {
         
-        this.setState( {
-            setAnchorEl: false
-          });
+        this.setState({ anchorEl: null });
     
     }
     render(){
-       const {anchorEl,setAnchorEl}=this.state;
+       const {anchorEl}=this.state;
+       const open = Boolean(anchorEl);
         return(
            
             <div>                
@@ -60,7 +55,7 @@ class SMNavBar extends Component{
                     marginTop: "1rem"                                        
                     }}                    
                     className="btn-floating green"
-                    aria-controls="simple-menu" 
+                    aria-owns={open ? "simple-menu" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.handleClick}
                     >
@@ -69,20 +64,14 @@ class SMNavBar extends Component{
                 
                 <Menu
                     id="simple-menu"
-                    anchorEl={!this.state.setAnchorEl}
+                    anchorEl={anchorEl}
                     keepMounted
-                    open={Boolean(setAnchorEl)}                    
+                    open={open}                    
                     onClose={this.handleClose}
-                    
-                    anchorOrigin={{                        
-                        horizontal: 'right',
-                        
-                    }}                                   
-                    PaperProps={{
-                        style: {
-                           marginTop: "-17%"      
-                        },
-                      }}                   
+                    getContentAnchorEl={null}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                                   
                 >
                     <MenuItem onClick={this.handleClose}><Link to="/updateprofile"> Profile</Link></MenuItem>                    
                     <MenuItem onClick={this.handleClose}>Logout</MenuItem>
