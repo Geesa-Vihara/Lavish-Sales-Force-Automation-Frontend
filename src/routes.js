@@ -1,19 +1,20 @@
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
+//import Person from "@material-ui/icons/Person";
 import People from "@material-ui/icons/People";
 import Store from "@material-ui/icons/Store";
 import Storage from "@material-ui/icons/Storage";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
+//import LibraryBooks from "@material-ui/icons/LibraryBooks";
 //import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
-import Language from "@material-ui/icons/Language";
+//import Notifications from "@material-ui/icons/Notifications";
+import Description from "@material-ui/icons/Description";
+//import Unarchive from "@material-ui/icons/Unarchive";
+//import Language from "@material-ui/icons/Language";
 import Timeline from "@material-ui/icons/Timeline";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import UserProfile from "views/UserProfile/UserProfile.jsx";
+//import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
 import SalesRepTableList from "views/TableList/SalesRepTableList.jsx";
 import DistributorTableList from "views/TableList/DistributorTableList.jsx";
@@ -43,10 +44,10 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/notifications",
-    name: "Notifications",
+    path: "/reports",
+    name: "Reports",
    // rtlName: "إخطارات",
-    icon: Notifications,
+    icon: Description,
     component: NotificationsPage,
     layout: "/admin"
   },
@@ -70,7 +71,7 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/customer",
+    path: "/customers",
     name: "Customers",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
@@ -79,7 +80,7 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/distributor",
+    path: "/distributors",
     name: "Distributors",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: People,
