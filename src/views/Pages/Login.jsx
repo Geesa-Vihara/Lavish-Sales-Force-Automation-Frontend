@@ -4,7 +4,7 @@ import "css/Login.css";
 import Footer from "components/Footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios"
-
+//import "../../components/Helpers/AuthHelper";
 
 class Login extends Component{
 
@@ -27,14 +27,19 @@ class Login extends Component{
             password: this.state.password
         };
         console.log(userData);
-        axios.post('http://localhost:8000/login',userData).then(res => {
-        if(res.status===200){
-            console.log(res.status);
-            this.props.history.push("/");
-        }
-        });      
-           
-        
+        axios.post('/login',userData).then(res => {
+            if(res.status===200){                                
+                this.props.history.push("/admin/dashboard");
+            } else {
+                const error = new Error(res.error);
+                throw error;
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            
+        }); 
+              
     };
 
     render(){
