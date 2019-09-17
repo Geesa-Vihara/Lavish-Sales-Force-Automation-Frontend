@@ -7,24 +7,38 @@ class SMNavBar extends Component{
     
         state = {
             anchorEl: null,
-          
+            openNotification:false,
+            openProfile:false
         };
     
    
-    handleClick=(event)=> {
-        
+    profileClick=(event)=> {
+        this.setState({ openProfile: true });
         this.setState({ anchorEl: event.currentTarget });
           
     }
 
-    handleClose=()=> {
-        
+    profileClose=()=> {
+        this.setState({ openProfile: false });
+        this.setState({ anchorEl: null });
+    
+    }
+    notiClick=(event)=> {
+        this.setState({ openNotification: true });
+        this.setState({ anchorEl: event.currentTarget });
+          
+    }
+
+    notiClose=()=> {
+        this.setState({ openNotification: false });
         this.setState({ anchorEl: null });
     
     }
     render(){
-       const {anchorEl}=this.state;
-       const open = Boolean(anchorEl);
+       
+       const {anchorEl,openNotification,openProfile}=this.state;
+       const opennoti = openNotification;
+       const openprof = openProfile;
         return(
            
             <div>                
@@ -44,41 +58,62 @@ class SMNavBar extends Component{
                     marginTop: "1rem"                                        
                     }}                   
                     className="btn-floating green"
+                    aria-owns={opennoti ? "notifications" : null}                    
+                    aria-haspopup="true"                     
+                    onClick={this.notiClick}
                     
                     >
+                     
                      <i className="material-icons">add_alert</i>                                  
                 </button>
-
+                <Menu
+                    id="notifications"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={opennoti}                    
+                    onClose={this.notiClose}
+                    getContentAnchorEl={null}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                                   
+                >
+                    <MenuItem onClick={this.notiClose}>Mike John responded to your email</MenuItem>                    
+                    <MenuItem onClick={this.notiClose}>You have 5 new tasks</MenuItem>
+                    <MenuItem onClick={this.notiClose}>You are now friend with Andrew</MenuItem>  
+                    <MenuItem onClick={this.notiClose}>Another Notification</MenuItem>  
+                    <MenuItem onClick={this.notiClose}>Another One</MenuItem> 
+                </Menu>       
                 <button
                     style={{                   
                     marginRight:"10px",                 
                     marginTop: "1rem"                                        
                     }}                    
                     className="btn-floating green"
-                    aria-owns={open ? "simple-menu" : null}                    
+                    aria-owns={openprof ? "menu" : null}                    
                     aria-haspopup="true"                     
-                    onClick={this.handleClick}
+                    onClick={this.profileClick}
                     >
                     <i className="material-icons">person</i>               
                 </button>
                 
                 <Menu
-                    id="simple-menu"
+                    id="menu"
                     anchorEl={anchorEl}
                     keepMounted
-                    open={open}                    
-                    onClose={this.handleClose}
+                    open={openprof}                    
+                    onClose={this.profileClose}
                     getContentAnchorEl={null}
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }}
                                    
                 >
-                    <MenuItem onClick={this.handleClose}><Link to="/updateprofile"> Profile</Link></MenuItem>                    
-                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={this.profileClose}><Link to="/updateprofile"> Profile</Link></MenuItem>                    
+                    <MenuItem onClick={this.profileClose}>Logout</MenuItem>
                 </Menu>               
                 
             </div>
         )
     }
 }
+
 export default SMNavBar;
