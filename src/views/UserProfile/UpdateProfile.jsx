@@ -6,6 +6,7 @@ import axios from "axios"
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
+import { Link } from "react-router-dom";
 
 
 class UpdateProfile extends Component{
@@ -70,14 +71,21 @@ class UpdateProfile extends Component{
         const { errors } = this.state;
         return(
             <div style={{ marginTop: "5rem" }}>
+                
                 <div>
+                
                     <div className="row">
+                    
                        <div className="logo1" >                    
                             <img id="logoimg1" src={avatar} alt="img" />                    
-                        </div>              
-                    <h6 className="userlogin1"><b>Update Profile</b></h6>
+                        </div>                                   
+                        <h6 className="userlogin1"><b>Update Profile</b></h6>
                         <div className="col s10 offset-s2 " >                
-                           
+                        <div className="row">
+                        <Link to="/" className="btn-flat waves-effect">
+                            <i className="material-icons left">keyboard_backspace</i><b style={{color: "#2bbbad" }}> Back to Dashboard</b>
+                        </Link> 
+                        </div>  
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="row" >
                                     <div className="input-field col s3">
