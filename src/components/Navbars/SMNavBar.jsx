@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { Link } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Badge from '@material-ui/core/Badge';
 class SMNavBar extends Component{
     
         state = {
@@ -40,32 +40,37 @@ class SMNavBar extends Component{
        const opennoti = openNotification;
        const openprof = openProfile;
         return(
-           
+            
             <div>                
                 <button
                     style={{                        
-                    marginRight:"10px",              
-                    marginTop: "1rem"                                        
+                        marginRight:"10px"             
+                                                        
                     }}                    
                     className="btn-floating green"                    
                     >
                     <Link to="/dashboard"> <i className="material-icons">dashboard</i></Link>           
                 </button>
-
+                
+                
+                <Badge 
+                    color="secondary" 
+                    badgeContent={5}                    
+                    style={{
+                        marginRight:"10px"
+                    }}      
+                >
                 <button
-                    style={{                     
-                    marginRight:"10px",                 
-                    marginTop: "1rem"                                        
-                    }}                   
+                                     
                     className="btn-floating green"
                     aria-owns={opennoti ? "notifications" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.notiClick}
                     
                     >
-                     
-                     <i className="material-icons">add_alert</i>                                  
+                     <i className="material-icons">add_alert</i>                      
                 </button>
+                </Badge>
                 <Menu
                     id="notifications"
                     anchorEl={anchorEl}
@@ -85,8 +90,8 @@ class SMNavBar extends Component{
                 </Menu>       
                 <button
                     style={{                   
-                    marginRight:"10px",                 
-                    marginTop: "1rem"                                        
+                        marginRight:"10px"             
+                                                        
                     }}                    
                     className="btn-floating green"
                     aria-owns={openprof ? "menu" : null}                    
@@ -116,4 +121,4 @@ class SMNavBar extends Component{
     }
 }
 
-export default SMNavBar;
+export default (SMNavBar);
