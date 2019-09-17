@@ -3,18 +3,37 @@ import avatar from "assets/img/faces/marc.jpg";
 import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
 import axios from "axios"
-//import "../../components/Helpers/AuthHelper";
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+
 
 class UpdateProfile extends Component{
 
     constructor() {
         super();
         this.state = {
+          showPassword: false,
           username: "",
           password: "",
+          firstname:"",
+          lastname:"",
+          nic:"",
+          email:"",
+          telno:"",
+          address:"",
           errors: {}
         };        
       }
+     handleClickShowPassword = () => {
+        this.setState({ showPassword: !this.state.showPassword });
+        
+      };
+    
+     handleMouseDownPassword = event => {
+        event.preventDefault();
+      };
+    
     onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
     };
@@ -23,10 +42,16 @@ class UpdateProfile extends Component{
         e.preventDefault();
         const userData = {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
+            firstname:this.state.firstname,
+            lastname:this.state.lastname,
+            nic:this.state.nic,
+            email:this.state.email,
+            telno:this.state.telno,
+            address:this.state.address
         };
         console.log(userData);
-        axios.post('/login',userData).then(res => {
+        axios.post('/update',userData).then(res => {
             if(res.status===200){                                
                 this.props.history.push("/admin/dashboard");
             } else {
@@ -45,17 +70,17 @@ class UpdateProfile extends Component{
         const { errors } = this.state;
         return(
             <div style={{ marginTop: "5rem" }}>
-                <div className="container">
+                <div>
                     <div className="row">
-                       <div className="logo" >                    
-                            <img id="logoimg" src={avatar} alt="img" />                    
+                       <div className="logo1" >                    
+                            <img id="logoimg1" src={avatar} alt="img" />                    
                         </div>              
-                    <h6 className="userlogin"><b>Update Profile</b></h6>
-                        <div className="col s12 " >                
+                    <h6 className="userlogin1"><b>Update Profile</b></h6>
+                        <div className="col s10 offset-s2 " >                
                            
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="row">
-                                    <div className="input-field col s4">
+                                <div className="row" >
+                                    <div className="input-field col s3">
                                         <input
                                             onChange={this.onChange}
                                             value={this.state.username}
@@ -63,68 +88,103 @@ class UpdateProfile extends Component{
                                             id="username"
                                             type="text"
                                         />
-                                        <label htmlFor="username">Username</label>
-                                        </div>
-
-                                        <div className="input-field col s6">
+                                        <label htmlFor="username">Userame</label>
+                                    </div>                                    
+                                    
+                                        <div className="input-field col s3">
                                             <input
-                                            //onChange={this.onChange}
-                                            //value={this.state.username}
-                                            //error={errors.username}
-                                            id="fullname"
+                                                onChange={this.onChange}
+                                                value={this.state.password}
+                                                error={errors.password}
+                                                id="password"                                                
+                                                type={this.state.showPassword ? 'text' : 'password'}     
+                                            />
+                                            <label htmlFor="password">Password</label>
+                                        </div>
+                                       
+                                        <div className="col s1">
+                                            <IconButton                                                
+                                                aria-label="toggle password visibility"
+                                                onClick={this.handleClickShowPassword}
+                                                onMouseDown={this.handleMouseDownPassword}
+                                                >
+                                                {this.state.showPassword ? (<Visibility /> ): <VisibilityOff />}
+                                                
+                                            </IconButton>
+                                        </div>
+                                        <div className="input-field col s3">
+                                            <input
+                                                onChange={this.onChange}
+                                                value={this.state.nic}
+                                                error={errors.nic}
+                                                id="nic"
+                                                type="text"
+                                            />
+                                            <label htmlFor="nic">NIC</label>
+                                        </div>
+                                        
+                                </div>
+                                <div className="row" >
+                                    <div className="input-field col s4">
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.firstname}
+                                            error={errors.firstname}
+                                            id="firstname"
                                             type="text"
                                         />
-                                        <label htmlFor="username">Full Name</label>
+                                        <label htmlFor="firstname">First Name</label>
                                     </div>
+                                    <div className="input-field col s6">
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.lastname}
+                                            error={errors.lastname}
+                                            id="lastname"
+                                            type="text"
+                                        />
+                                        <label htmlFor="lastname">Last Name</label>
+                                    </div>
+                                    
                                 </div>
                                 
-                                <div className="row">
+                                <div className="row" >
                                     <div className="input-field col s5">
                                         <input
-                                            //onChange={this.onChange}
-                                            //value={this.state.username}
-                                            //error={errors.username}
+                                            onChange={this.onChange}
+                                            value={this.state.email}
+                                            error={errors.email}
                                             id="email"
-                                            type="text"
+                                            type="email"
                                         />
-                                        <label htmlFor="username">Email</label>
+                                        <label htmlFor="email">Email</label>
                                         </div>
                                         <div className="input-field col s5">
                                         <input
-                                            /* onChange={this.onChange}
-                                            value={this.state.username}
-                                            error={errors.username} */
+                                            onChange={this.onChange}
+                                            value={this.state.telno}
+                                            error={errors.telno}
                                             id="telno"
+                                            type="tel"
+                                        />
+                                        <label htmlFor="telno">Telephone No</label>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="input-field col s10">
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.address}
+                                            error={errors.address}
+                                            id="address"
                                             type="text"
                                         />
-                                        <label htmlFor="username">Telephone No</label>
+                                        <label htmlFor="address">Address</label>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="input-field col s10">
-                                        <input
-                                    /*  onChange={this.onChange}
-                                        value={this.state.username}
-                                        error={errors.username} */
-                                        id="address"
-                                        type="text"
-                                        />
-                                        <label htmlFor="username">Address</label>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="input-field col s10">
-                                        <input
-                                        onChange={this.onChange}
-                                        value={this.state.password}
-                                        error={errors.password}
-                                        id="password"
-                                        type="password"
-                                        />
-                                        <label htmlFor="password">Password</label>
-                                    </div>
-                                </div>
-                                <div className="row" >                                    
+                                
+                                <div className="row" >  
+                                    <div className="input-field col s10">                                  
                                     <button
                                         style={{
                                         width: "100%",
@@ -137,6 +197,7 @@ class UpdateProfile extends Component{
                                         >
                                         Update
                                     </button>
+                                    </div>
                                    
                                 </div>
                             </form>

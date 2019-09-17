@@ -1,16 +1,4 @@
-.container{
-    
-    color: rgba(0, 0, 0, 0.87);
-    background-color: rgb(255, 255, 255);
-    width: 600px;
-    height: 700px;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-    padding:10px;
-    align-content: center;
-    
-    }
-.logo{
+.logo1{
     margin: -50px auto 0;
     overflow: hidden;
     max-width: 150px;
@@ -18,12 +6,12 @@
     max-height: 150px;
     border-radius: 50%;
 }
-#logoimg{
+#logoimg1{
     width: 100%;
     height: auto;
 }
 
-.userlogin{
+.userlogin1{
     text-align: center;
     color: #2bbbad;    
     
