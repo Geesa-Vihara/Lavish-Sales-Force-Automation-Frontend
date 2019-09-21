@@ -5,8 +5,6 @@ import Footer from "components/Footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios"
 
-//import "../../components/Helpers/AuthHelper";
-
 class Login extends Component{
 
     constructor() {
@@ -29,7 +27,7 @@ class Login extends Component{
         };
         
         axios.post('/login',userData).then(res => { 
-            sessionStorage.setItem('UserName', this.state.username);
+            localStorage.setItem('UserName', this.state.username);
             if(res.status===200){             
                 this.props.history.push({
                     pathname: '/admin/dashboard'

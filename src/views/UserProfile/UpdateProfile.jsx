@@ -8,7 +8,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from "react-router-dom";
 
-
 class UpdateProfile extends Component{
 
     constructor() {
@@ -82,7 +81,7 @@ class UpdateProfile extends Component{
                         <h6 className="userlogin1"><b>Update Profile</b></h6>
                         <div className="col s10 offset-s2 " >                
                         <div className="row">
-                        <Link to="/" className="btn-flat waves-effect">
+                        <Link to="/admin/dashboard" className="btn-flat waves-effect">
                             <i className="material-icons left">keyboard_backspace</i><b style={{color: "#2bbbad" }}> Back to Dashboard</b>
                         </Link> 
                         </div>  
@@ -215,6 +214,7 @@ class UpdateProfile extends Component{
                 <div className="bottom">
                     <Footer />
                 </div>
+                 
             </div>
          
         )
