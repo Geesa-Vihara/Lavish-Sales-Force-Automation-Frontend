@@ -27,18 +27,20 @@ class Login extends Component{
             username: this.state.username,
             password: this.state.password
         };
-        console.log(userData);
-        axios.post('/login',userData).then(res => {            
+        
+        axios.post('/login',userData).then(res => { 
+            sessionStorage.setItem('UserName', this.state.username);
+            if(res.status===200){             
+                this.props.history.push({
+                    pathname: '/admin/dashboard'
+                  })                         
+                }else{
+                    console.log(res)
+                }          
             
-            if(res.status===200){                                
-                this.props.history.push("/admin/dashboard");
-            } else {
-                console.log("goose"); 
-                                
-            }
         })
-        .catch(err => {            
-           this.setState({errors:err.response.data})            
+        .catch(err => {          
+           this.setState({errors:err.response.data}) ;                   
           
         }); 
         

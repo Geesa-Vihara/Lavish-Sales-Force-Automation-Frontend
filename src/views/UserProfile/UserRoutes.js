@@ -6,7 +6,7 @@ import UpdateProfile from "./UpdateProfile";
 
 const userRoutes = (    
     //<Route path="admin" component={Admin}>
-      <Route path="/updateprofile/username" component={UpdateProfile} />  
+      <Route path="/updateprofile/:username" component={UpdateProfile} />  
     //</Route>  
   )
    
