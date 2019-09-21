@@ -8,9 +8,13 @@ class SMNavBar extends Component{
         state = {
             anchorEl: null,
             openNotification:false,
-            openProfile:false
+            openProfile:false,
+            username:""
         };
     
+    componentDidMount=()=>{
+        this.setState({username:sessionStorage.getItem('UserName')}); 
+    }
    
     profileClick=(event)=> {
         this.setState({ openProfile: true });
@@ -34,11 +38,16 @@ class SMNavBar extends Component{
         this.setState({ anchorEl: null });
     
     }
+    logout=()=>{
+        this.setState({ openProfile: false });
+        this.setState({ anchorEl: null });           
+        sessionStorage.removeItem('UserName');
+    }
     render(){
        
        const {anchorEl,openNotification,openProfile}=this.state;
        const opennoti = openNotification;
-       const openprof = openProfile;
+       const openprof = openProfile;              
         return(
             
             <div>                
@@ -100,6 +109,7 @@ class SMNavBar extends Component{
                     >
                     <i className="material-icons">person</i>               
                 </button>
+                <label>{this.state.username}</label>
                 
                 <Menu
                     id="menu"
@@ -109,11 +119,10 @@ class SMNavBar extends Component{
                     onClose={this.profileClose}
                     getContentAnchorEl={null}
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                    transformOrigin={{ vertical: "top", horizontal: "center" }}
-                                   
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}                                  
                 >
-                    <MenuItem onClick={this.profileClose}><Link to="/updateprofile/username"> Profile</Link></MenuItem>                    
-                    <MenuItem onClick={this.profileClose}>Logout</MenuItem>
+                    <MenuItem onClick={this.profileClose}><Link to={`/updateprofile/${this.state.username}`}> Profile</Link></MenuItem>                    
+                    <MenuItem onClick={this.logout}><Link to="/login">Logout</Link></MenuItem>
                 </Menu>               
                 
             </div>
@@ -121,4 +130,4 @@ class SMNavBar extends Component{
     }
 }
 
-export default (SMNavBar);
+export default SMNavBar;
