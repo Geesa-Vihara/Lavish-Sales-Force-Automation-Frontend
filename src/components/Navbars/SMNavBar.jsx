@@ -47,7 +47,7 @@ class SMNavBar extends Component{
                         marginRight:"10px"             
                                                         
                     }}                    
-                    className="btn-floating green"                    
+                    className="btn-floating transparent"                    
                     >
                     <Link to="/dashboard"> <i className="material-icons">dashboard</i></Link>           
                 </button>
@@ -62,7 +62,7 @@ class SMNavBar extends Component{
                 >
                 <button
                                      
-                    className="btn-floating green"
+                    className="btn-floating transparent"
                     aria-owns={opennoti ? "notifications" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.notiClick}
@@ -93,7 +93,7 @@ class SMNavBar extends Component{
                         marginRight:"10px"             
                                                         
                     }}                    
-                    className="btn-floating green"
+                    className="btn-floating transparent"
                     aria-owns={openprof ? "menu" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.profileClick}
@@ -112,7 +112,7 @@ class SMNavBar extends Component{
                     transformOrigin={{ vertical: "top", horizontal: "center" }}
                                    
                 >
-                    <MenuItem onClick={this.profileClose}><Link to="/updateprofile"> Profile</Link></MenuItem>                    
+                    <MenuItem onClick={this.profileClose}><Link to="/updateprofile/username"> Profile</Link></MenuItem>                    
                     <MenuItem onClick={this.profileClose}>Logout</MenuItem>
                 </Menu>               
                 
