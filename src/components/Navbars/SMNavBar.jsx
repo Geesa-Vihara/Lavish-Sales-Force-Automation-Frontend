@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Badge from '@material-ui/core/Badge';
+
 class SMNavBar extends Component{
     
         state = {
@@ -13,7 +14,7 @@ class SMNavBar extends Component{
         };
     
     componentDidMount=()=>{
-        this.setState({username:sessionStorage.getItem('UserName')}); 
+        this.setState({username:localStorage.getItem('UserName')}); 
     }
    
     profileClick=(event)=> {
@@ -41,7 +42,7 @@ class SMNavBar extends Component{
     logout=()=>{
         this.setState({ openProfile: false });
         this.setState({ anchorEl: null });           
-        sessionStorage.removeItem('UserName');
+        localStorage.removeItem('UserName');
     }
     render(){
        
@@ -123,8 +124,7 @@ class SMNavBar extends Component{
                 >
                     <MenuItem onClick={this.profileClose}><Link to={`/updateprofile/${this.state.username}`}> Profile</Link></MenuItem>                    
                     <MenuItem onClick={this.logout}><Link to="/login">Logout</Link></MenuItem>
-                </Menu>               
-                
+                </Menu>                    
             </div>
         )
     }
