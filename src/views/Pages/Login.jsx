@@ -33,7 +33,8 @@ class Login extends Component{
                     pathname: '/admin/dashboard'
                   })                         
                 }else{
-                    console.log(res)
+                    const error = new Error(res.error);
+                    throw error;
                 }          
             
         })
