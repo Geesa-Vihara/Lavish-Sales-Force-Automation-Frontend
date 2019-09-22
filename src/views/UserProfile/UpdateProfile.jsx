@@ -2,47 +2,54 @@ import React, {Component} from "react";
 import avatar from "assets/img/faces/marc.jpg";
 import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
-import axios from "axios"
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import IconButton from '@material-ui/core/IconButton';
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 class UpdateProfile extends Component{
 
     constructor() {
         super();
-        this.state = {
-          showPassword: false,
-          username: "",
-          password: "",
+        this.state = {        
+          username:localStorage.getItem('UserName'),
           firstname:"",
           lastname:"",
           nic:"",
           email:"",
           telno:"",
           address:"",
-          errors: {}
+          errors: {},
+         
         };        
       }
-     handleClickShowPassword = () => {
-        this.setState({ showPassword: !this.state.showPassword });
-        
-      };
-    
-     handleMouseDownPassword = event => {
-        event.preventDefault();
-      };
-    
+      componentDidMount() {
+        axios.get('/retrieve', {
+            params: {
+                username: this.state.username
+          }}
+          )
+            .then(response => {
+                this.setState({                     
+                    firstname:response.data.firstname,
+                    lastname:response.data.lastname,
+                    nic:response.data.nic,
+                    email:response.data.email,
+                    telno:response.data.telno,
+                    address:response.data.address,
+                 });
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+    }
+         
     onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
+        this.setState({ [e.target.id]: e.target.value });
     };
 
     onSubmit = e => {
         e.preventDefault();
-        const userData = {
-            username: this.state.username,
-            password: this.state.password,
+        const userData = {  
+            username:this.state.username,          
             firstname:this.state.firstname,
             lastname:this.state.lastname,
             nic:this.state.nic,
@@ -50,8 +57,8 @@ class UpdateProfile extends Component{
             telno:this.state.telno,
             address:this.state.address
         };
-        console.log(userData);
-        axios.post('/update',userData).then(res => {
+        
+        axios.put('/update',userData).then(res => {
             if(res.status===200){                                
                 this.props.history.push("/admin/dashboard");
             } else {
@@ -60,7 +67,7 @@ class UpdateProfile extends Component{
             }
         })
         .catch(err => {
-            console.error(err);
+            this.setState({errors:err.response.data}) ; 
             
         }); 
               
@@ -84,55 +91,15 @@ class UpdateProfile extends Component{
                         <Link to="/admin/dashboard" className="btn-flat waves-effect">
                             <i className="material-icons left">keyboard_backspace</i><b style={{color: "#2bbbad" }}> Back to Dashboard</b>
                         </Link> 
-                        </div>  
+                        </div> 
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="row" >
-                                    <div className="input-field col s3">
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.username}
-                                            error={errors.username}
-                                            id="username"
-                                            type="text"
-                                        />
-                                        <label htmlFor="username">Userame</label>
-                                    </div>                                    
-                                    
-                                        <div className="input-field col s3">
-                                            <input
-                                                onChange={this.onChange}
-                                                value={this.state.password}
-                                                error={errors.password}
-                                                id="password"                                                
-                                                type={this.state.showPassword ? 'text' : 'password'}     
-                                            />
-                                            <label htmlFor="password">Password</label>
-                                        </div>
-                                       
-                                        <div className="col s1">
-                                            <IconButton                                                
-                                                aria-label="toggle password visibility"
-                                                onClick={this.handleClickShowPassword}
-                                                onMouseDown={this.handleMouseDownPassword}
-                                                >
-                                                {this.state.showPassword ? (<Visibility /> ): <VisibilityOff />}
-                                                
-                                            </IconButton>
-                                        </div>
-                                        <div className="input-field col s3">
-                                            <input
-                                                onChange={this.onChange}
-                                                value={this.state.nic}
-                                                error={errors.nic}
-                                                id="nic"
-                                                type="text"
-                                            />
-                                            <label htmlFor="nic">NIC</label>
-                                        </div>
-                                        
                                 </div>
                                 <div className="row" >
                                     <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="firstname">First Name</label>
+                                        </div>
                                         <input
                                             onChange={this.onChange}
                                             value={this.state.firstname}
@@ -140,9 +107,14 @@ class UpdateProfile extends Component{
                                             id="firstname"
                                             type="text"
                                         />
-                                        <label htmlFor="firstname">First Name</label>
+                                        <span className="red-text">
+                                            {errors.firstname}                                        
+                                        </span>
                                     </div>
                                     <div className="input-field col s6">
+                                        <div>
+                                            <label htmlFor="lastname">Last Name</label>
+                                        </div>
                                         <input
                                             onChange={this.onChange}
                                             value={this.state.lastname}
@@ -150,13 +122,17 @@ class UpdateProfile extends Component{
                                             id="lastname"
                                             type="text"
                                         />
-                                        <label htmlFor="lastname">Last Name</label>
+                                        <span className="red-text">
+                                            {errors.lastname}                                        
+                                        </span>
                                     </div>
                                     
-                                </div>
-                                
+                                </div>                                
                                 <div className="row" >
-                                    <div className="input-field col s5">
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="email">Email</label>
+                                        </div>
                                         <input
                                             onChange={this.onChange}
                                             value={this.state.email}
@@ -164,21 +140,46 @@ class UpdateProfile extends Component{
                                             id="email"
                                             type="email"
                                         />
-                                        <label htmlFor="email">Email</label>
-                                        </div>
-                                        <div className="input-field col s5">
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.telno}
-                                            error={errors.telno}
-                                            id="telno"
-                                            type="tel"
-                                        />
-                                        <label htmlFor="telno">Telephone No</label>
+                                        <span className="red-text">
+                                            {errors.email}                                        
+                                        </span>
                                     </div>
+                                        <div className="input-field col s3">
+                                            <div>
+                                                <label htmlFor="telno">Telephone No</label>
+                                            </div>
+                                            <input
+                                                onChange={this.onChange}
+                                                value={this.state.telno}
+                                                error={errors.telno}
+                                                id="telno"
+                                                type="tel"
+                                            />
+                                            <span className="red-text">
+                                                {errors.telno}                                        
+                                            </span>
+                                        </div>
+                                        <div className="input-field col s3">
+                                            <div>
+                                                <label htmlFor="nic">NIC</label>
+                                            </div>
+                                            <input
+                                                onChange={this.onChange}
+                                                value={this.state.nic}
+                                                error={errors.nic}
+                                                id="nic"
+                                                type="text"
+                                            />  
+                                            <span className="red-text">
+                                                {errors.nic}                                        
+                                            </span>                                              
+                                        </div>
                                 </div>
                                 <div className="row">
                                     <div className="input-field col s10">
+                                        <div>
+                                            <label htmlFor="address">Address</label>
+                                        </div>
                                         <input
                                             onChange={this.onChange}
                                             value={this.state.address}
@@ -186,10 +187,11 @@ class UpdateProfile extends Component{
                                             id="address"
                                             type="text"
                                         />
-                                        <label htmlFor="address">Address</label>
+                                        <span className="red-text">
+                                            {errors.address}                                        
+                                        </span>
                                     </div>
-                                </div>
-                                
+                                </div>                                
                                 <div className="row" >  
                                     <div className="input-field col s10">                                  
                                     <button

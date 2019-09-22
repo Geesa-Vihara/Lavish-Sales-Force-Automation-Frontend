@@ -122,7 +122,7 @@ class SMNavBar extends Component{
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }}                                  
                 >
-                    <MenuItem onClick={this.profileClose}><Link to={`/updateprofile/${this.state.username}`}> Profile</Link></MenuItem>                    
+                    <MenuItem onClick={this.profileClose}><Link to={`/updateprofile/${this.state.username}`}>Edit profile</Link></MenuItem>                    
                     <MenuItem onClick={this.logout}><Link to="/login">Logout</Link></MenuItem>
                 </Menu>                    
             </div>
