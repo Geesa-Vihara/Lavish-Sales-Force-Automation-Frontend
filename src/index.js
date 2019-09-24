@@ -33,7 +33,7 @@ ReactDOM.render(
       <Route path="/login"component= {Login} />} />
       <Route path="/forgotpassword" component={ForgotPassword} /> 
       <PrivateRoute path="/admin" component={Admin} />
-      <PrivateRoute exact path="/updateprofile/:username" component={UpdateProfile} /> 
+      <PrivateRoute exact path="/account/:username" component={UpdateProfile} /> 
       <Redirect from="/" to="/admin/dashboard" />          
             
     </Switch>
