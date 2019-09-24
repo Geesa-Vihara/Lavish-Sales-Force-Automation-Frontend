@@ -155,7 +155,7 @@ class UpdateProfile extends Component{
             }
         })
         .catch(err => {
-            this.setState({newpassworderrors:err.response.data}) ; 
+            this.setState({passworderrors:err.response.data}) ; 
             
         }); 
               
