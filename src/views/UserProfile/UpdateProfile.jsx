@@ -12,6 +12,11 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = theme => ({
     root: {
@@ -45,7 +50,8 @@ class UpdateProfile extends Component{
           newusername:"",
           currentpassword:"",
           newpassword:"",
-          confirmpassword:""
+          confirmpassword:"",
+          open:false
          
         };        
       }
@@ -170,7 +176,7 @@ class UpdateProfile extends Component{
         axios.put('/updatepicture',userData).then(res => {
             
             if(res.status===200){                                
-               //window.location.reload();
+               window.location.reload();
             } else {                
                 const error = new Error(res.error);
                 throw error;
@@ -182,9 +188,39 @@ class UpdateProfile extends Component{
         }); 
               
     };
-   
+    deleteaccount = e => {
+        e.preventDefault(); 
+        this.setState({open:false});
+        axios.delete('/deleteaccount',{
+            params: {
+                username: this.state.username
+          }}).then(res => {
+            
+            if(res.status===200){                                                
+                this.props.history.push({
+                    pathname: '/login'
+                  })    
+            } else {                
+                const error = new Error(res.error);
+                throw error;
+            }
+        })
+        .catch(err => {
+            alert(err); 
+            
+        }); 
+              
+    };
+    handleClose = () => {
+        this.setState({open:false});
+        
+      };
+    handleClickOpen = () => {
+        this.setState({open:true});
+        
+      };
     render(){
-        const { errors,newusernameerrors,userprofile,passworderrors } = this.state;                
+        const { errors,newusernameerrors,userprofile,passworderrors,open} = this.state;                
         const { classes } = this.props;
         return(
             <div style={{ marginTop: "5rem" }}>
@@ -498,7 +534,111 @@ class UpdateProfile extends Component{
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                
+                <ExpansionPanel className={classes.root}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        <Typography className={classes.heading}>Add new user</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails style={{backgroundColor:"white"}}>
+                        <div className="row">
+                            <form noValidate onSubmit={this.uploadpicture}>                                                                                  
+                            <div className="file-field input-field">
+                                <div className="btn  teal lighten-3">                                    
+                                    <i className="material-icons">file_upload</i>Browse...
+                                    <input type="file" multiple/>
+                                </div>
+                            <div className="file-path-wrapper">
+                                <input className="file-path validate" type="text" placeholder="Upload a picture"/>
+                            </div>
+                            </div>
+                                <button style={{
+                                        width: "100%",
+                                        borderRadius: "3px",
+                                        letterSpacing: "1.5px",
+                                        marginTop: "1rem"                                        
+                                        }}
+                                        type="submit"
+                                        className="btn btn-large waves-effect waves-light hoverable info accent-3">
+                                        Upload
+                                </button>
+                            </form>
+                        </div>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel className={classes.root}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        
+                        <Typography className={classes.heading}>Delete my account</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails style={{backgroundColor:"white"}}>
+                        <div className="row">
+                                                                                                           
+                                <button style={{
+                                        width: "100%",
+                                        borderRadius: "3px",
+                                        letterSpacing: "1.5px",
+                                        marginTop: "1rem"                                        
+                                        }}
+                                        type="submit"
+                                        className="btn btn-large waves-effect waves-light hoverable red"
+                                        onClick={this.handleClickOpen}
+                                        >
+                                        <i className="material-icons">delete_forever</i>
+                                        Delete Account
+                                </button>
+                            
+                            <Dialog
+                                open={open}
+                                onClose={this.handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title " style={{color:"red"}}>{"Are you sure you want to delete your account?"}</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText id="alert-dialog-description" >
+                                    Deleting your account is permanent and will remove all 
+                                    content including comments, avatars and profile settings. 
+                                    Are you really sure you want to delete your account?
+                                </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                <button 
+                                    style={{
+                                        width: "100%",
+                                        borderRadius: "3px",
+                                        letterSpacing: "1.5px",
+                                        marginTop: "1rem"                                        
+                                        }}
+                                        type="submit"
+                                        className="btn btn-large waves-effect waves-light hoverable green"
+                                        onClick={this.handleClose}>
+                                    Disagree
+                                </button>
+                                <button 
+                                style={{
+                                    width: "100%",
+                                    borderRadius: "3px",
+                                    letterSpacing: "1.5px",
+                                    marginTop: "1rem"                                        
+                                    }}
+                                    type="submit"
+                                    className="btn btn-large waves-effect waves-light hoverable red"
+                                    onClick={this.deleteaccount}
+                                    autoFocus>
+                                    Agree
+                                </button>
+                                </DialogActions>
+                            </Dialog>
+                        </div>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
                 <div className="bottom">
                     <Footer />
                 </div>
