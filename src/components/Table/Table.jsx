@@ -10,6 +10,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Paper from '@material-ui/core/Paper';
 //icons
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -25,6 +26,7 @@ const useStyles = makeStyles(theme => ({              //styles for add button
   fab: {
     margin: theme.spacing(1),
     backgroundColor: "#018786"
+    
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
@@ -57,9 +59,9 @@ function CustomTable({ ...props }) {
   return (
     <div> 
       <Paper>   
-      <Fab aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps*/}
+      <Fab  aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add  */  }
         <AddIcon />
-      </Fab>                                        {/*className={classes.tableResponsive}*/}
+      </Fab>                                       {/*className={classes.tableResponsive}   TODO component that should render */}
       <Table className={classes.table}>                                       {/* className={classes.table}*/}
         {tableHead !== undefined ? (
           <TableHead >                               {/* className={classes[tableHeaderColor + "TableHeader"]}*/}
