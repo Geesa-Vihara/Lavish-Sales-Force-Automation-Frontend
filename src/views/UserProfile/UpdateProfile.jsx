@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import avatar from "assets/img/faces/marc.jpg";
 import avatar1 from "assets/img/faces/lavish.jpg";
+import newuser from "assets/img/faces/newuser.png";
 import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
 import axios from "axios";
@@ -22,13 +23,14 @@ const useStyles = theme => ({
     root: {
       width: '100%',
       marginTop:'1%',
-      
+            
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
       color:" #2bbbad"
     },
+    
   });
  
 class UpdateProfile extends Component{
@@ -51,7 +53,17 @@ class UpdateProfile extends Component{
           currentpassword:"",
           newpassword:"",
           confirmpassword:"",
-          open:false
+          open:false,
+          newuserusername:"",
+          newuserfirstname:"",
+          newuserlastname:"",
+          newusernic:"",
+          newuseremail:"",
+          newusertelno:"",
+          newuseraddress:"",
+          newuserpassword:"",
+          newuserpassword2:"",
+          registererrors:{}
          
         };        
       }
@@ -188,6 +200,34 @@ class UpdateProfile extends Component{
         }); 
               
     };
+    newusersubmit = e => {
+        e.preventDefault();
+        const userData = {  
+            username:this.state.newuserusername,          
+            firstname:this.state.newuserfirstname,
+            lastname:this.state.newuserlastname,
+            nic:this.state.newusernic,
+            email:this.state.newuseremail,
+            telno:this.state.newusertelno,
+            address:this.state.newuseraddress,
+            password:this.state.newuserpassword,
+            password2:this.state.newuserpassword2,
+        };
+        
+        axios.post('/register',userData).then(res => {
+            if(res.status===200){                                
+                window.location.reload();
+            } else {
+                const error = new Error(res.error);
+                throw error;
+            }
+        })
+        .catch(err => {
+            this.setState({registererrors:err.response.data}) ; 
+            
+        }); 
+              
+    };
     deleteaccount = e => {
         e.preventDefault(); 
         this.setState({open:false});
@@ -220,7 +260,7 @@ class UpdateProfile extends Component{
         
       };
     render(){
-        const { errors,newusernameerrors,userprofile,passworderrors,open} = this.state;                
+        const { errors,newusernameerrors,userprofile,passworderrors,open,registererrors} = this.state;                
         const { classes } = this.props;
         return(
             <div style={{ marginTop: "5rem" }}>
@@ -245,6 +285,7 @@ class UpdateProfile extends Component{
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
+                        <i className="material-icons" >edit</i>
                         <Typography className={classes.heading}>User Profile</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>                        
@@ -383,6 +424,7 @@ class UpdateProfile extends Component{
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
+                        <i className="material-icons" >person</i>
                         <Typography className={classes.heading}>Change Username</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
@@ -432,6 +474,7 @@ class UpdateProfile extends Component{
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
+                        <i className="material-icons" >visibility_off</i>
                         <Typography className={classes.heading}>Change Password</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
@@ -446,7 +489,7 @@ class UpdateProfile extends Component{
                                         value={this.state.currentpassword}
                                         error={passworderrors.currentpassword}
                                         id="currentpassword"
-                                        type="text"
+                                        type="password"
                                     />
                                     <span className="red-text">
                                         {passworderrors.currentpassword}                                        
@@ -461,7 +504,7 @@ class UpdateProfile extends Component{
                                         value={this.state.newpassword}
                                         error={passworderrors.newpassword}
                                         id="newpassword"
-                                        type="text"
+                                        type="password"
                                     />
                                     <span className="red-text">
                                         {passworderrors.newpassword}                                        
@@ -476,7 +519,7 @@ class UpdateProfile extends Component{
                                         value={this.state.confirmpassword}
                                         error={passworderrors.confirmpassword}
                                         id="confirmpassword"
-                                        type="text"
+                                        type="password"
                                     />
                                     <span className="red-text">
                                         {passworderrors.confirmpassword}                                        
@@ -506,6 +549,7 @@ class UpdateProfile extends Component{
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
+                        <i className="material-icons" >add_photo_alternate</i>
                         <Typography className={classes.heading}>Change Profile Picture</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
@@ -540,31 +584,186 @@ class UpdateProfile extends Component{
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
+                        <i className="material-icons" >people</i>
                         <Typography className={classes.heading}>Add new user</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                        <div className="row">
-                            <form noValidate onSubmit={this.uploadpicture}>                                                                                  
-                            <div className="file-field input-field">
-                                <div className="btn  teal lighten-3">                                    
-                                    <i className="material-icons">file_upload</i>Browse...
-                                    <input type="file" multiple/>
+                        <div className="row"style={{marginTop:"3%"}}>
+                            <form noValidate onSubmit={this.newusersubmit}> 
+                                <div className="row">
+                                    <div className="col s12" > 
+                                        <div className="logo2">                    
+                                            <img id="logoimg1" src={newuser} alt="img" />                                                       
+                                        </div>
+                                    </div>
+                                    <div className="col s12"> 
+                                        <div className="col s6 offset-s6 " >
+                                            <div >  
+                                                <input type="file" multiple/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div className="row" >
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newusername">Username</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuserusername}
+                                            error={registererrors.username}
+                                            id="newuserusername"
+                                            type="text"
+                                        />
+                                        {<small className="red-text">
+                                            {registererrors.username}                                        
+                                        </small>}
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newuserpassword">Password</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuserpassword}
+                                            error={registererrors.password}
+                                            id="newuserpassword"
+                                            type="password"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.password}                                        
+                                        </small>
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newuserpassword2">Confirm Password</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuserpassword2}
+                                            error={registererrors.password2}
+                                            id="newuserpassword2"
+                                            type="password"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.password2}                                        
+                                        </small>
+                                    </div>
                                 </div>
-                            <div className="file-path-wrapper">
-                                <input className="file-path validate" type="text" placeholder="Upload a picture"/>
-                            </div>
-                            </div>
-                                <button style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
-                                        type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable info accent-3">
-                                        Upload
-                                </button>
-                            </form>
+                                <div className="row">
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newuserfirstname">First Name</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuserfirstname}
+                                            error={registererrors.firstname}
+                                            id="newuserfirstname"
+                                            type="text"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.firstname}                                        
+                                        </small>
+                                    </div>
+                                    <div className="input-field col s8">
+                                        <div>
+                                            <label htmlFor="newuserlastname">Last Name</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuserlastname}
+                                            error={registererrors.lastname}
+                                            id="newuserlastname"
+                                            type="text"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.lastname}                                        
+                                        </small>
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newuseremail">Email</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuseremail}
+                                            error={registererrors.email}
+                                            id="newuseremail"
+                                            type="email"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.email}                                        
+                                        </small>
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newusertelno">Telephone No</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newusertelno}
+                                            error={registererrors.telno}
+                                            id="newusertelno"
+                                            type="tel"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.telno}                                        
+                                        </small>
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <div>
+                                            <label htmlFor="newusernic">NIC</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newusernic}
+                                            error={registererrors.nic}
+                                            id="newusernic"
+                                            type="text"
+                                        />  
+                                        <small className="red-text">
+                                            {registererrors.nic}                                        
+                                        </small>                                              
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="input-field col s12">
+                                        <div>
+                                            <label htmlFor="newuseraddress">Address</label>
+                                        </div>
+                                        <input
+                                            onChange={this.onChange}
+                                            value={this.state.newuseraddress}
+                                            error={registererrors.address}
+                                            id="newuseraddress"
+                                            type="text"
+                                        />
+                                        <small className="red-text">
+                                            {registererrors.address}                                        
+                                        </small>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="input-field col s12">                                  
+                                        <button
+                                            style={{
+                                            width: "100%",
+                                            borderRadius: "3px",
+                                            letterSpacing: "1.5px",
+                                            marginTop: "1rem"                                        
+                                            }}
+                                            type="submit"
+                                            className="btn btn-large waves-effect waves-light hoverable info accent-3"
+                                            >
+                                            Update
+                                        </button>
+                                    </div> 
+                                </div>
+                            </form> 
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -574,7 +773,7 @@ class UpdateProfile extends Component{
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
-                        
+                        <i className="material-icons" >delete_forever</i>
                         <Typography className={classes.heading}>Delete my account</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
