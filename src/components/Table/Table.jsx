@@ -1,5 +1,7 @@
 
 import React from "react";
+import {  Route, Link } from 'react-router-dom';
+import Add from "../SalesRep/Add"
 //import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,6 +26,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({              //styles for add button
   fab: {
+    variant:'fab',
     margin: theme.spacing(1),
     backgroundColor: "#018786"
     
@@ -59,9 +62,12 @@ function CustomTable({ ...props }) {
   return (
     <div> 
       <Paper>   
-      <Fab  aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add  */  }
+      <Link  to='/salesreps/add'>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add  */  }
+      <Fab  aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add} */  }
         <AddIcon />
-      </Fab>                                       {/*className={classes.tableResponsive}   TODO component that should render */}
+      </Fab>  
+      </Link>
+      <Route exact path="salesreps/add" component={Add}/>                                  {/*className={classes.tableResponsive}   TODO component that should render */}
       <Table className={classes.table}>                                       {/* className={classes.table}*/}
         {tableHead !== undefined ? (
           <TableHead >                               {/* className={classes[tableHeaderColor + "TableHeader"]}*/}
