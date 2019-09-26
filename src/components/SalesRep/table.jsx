@@ -1,9 +1,14 @@
 //geting data
 //update,delete,view,add button work 
 import React from "react";
+import ReactDoM from "react-dom";
+import { Link } from 'react-router-dom';
+//import axios from 'axios';
+import Add from "./Add"
 
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
+//import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -20,9 +25,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import ViewIcon from "@material-ui/icons/Visibility";
 import AddIcon from '@material-ui/icons/Add';
 
+
  
 
-const useStyles = makeStyles(theme => ({     
+const useStyles =theme => ({     
 
   fab: {
     margin: theme.spacing(1),
@@ -48,17 +54,38 @@ const useStyles = makeStyles(theme => ({
   
   },
 
-}));
+ 
+});
 
-function CustomTable({ ...props }) {
+class  Table extends React.Component{
 
-  const { tableHead, tableData } = props;    //classes,tableHeadColor
-  
-  const classes = useStyles();
+  constructor (props){
+    super(props);
+    this.state={
+      salesRep:[
+        userName='',
+        fullName='',
+        area='',
+        address='',
+        phoneNo='',
+        nic='',
+        email='',
+        password='',
+        confirmPassword=''
+      ]
+    };
+  }
 
+  //TODO componentDidMount
+  //TODO getData from database using axios
+
+  render(){
+    const { tableHead,tableData,classes } = this.props;
+    //const classes = useStyles();
   return (
     <div> 
-      <Paper>                                                                    
+      <Paper>    
+       <Add/>                                                                
       <Fab  aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add} */  }
         <AddIcon />
       </Fab>                                                                              {/*className={classes.tableResponsive} TODO component that should render  */}
@@ -110,7 +137,9 @@ function CustomTable({ ...props }) {
       </Paper>
     </div>
   );
+        }
+        
 }
 
 
-export default CustomTable; 
+export default withStyles(useStyles)(Table); 

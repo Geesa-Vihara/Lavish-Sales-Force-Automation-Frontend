@@ -1,27 +1,59 @@
 import React from 'react';
+
 //import Modal from 'react-modal';
+import { Card ,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
-const useStyles = makeStyles(theme => ({
 
+const useStyles =theme => ({
+    
+    fab: {
+        margin: theme.spacing(1),
+        backgroundColor: "#018786"
+    },
     textField: {
-        marginLeft:theme.spacing(1)
+        marginLeft:theme.spacing(1),
+      //  variant="outlined",
+       // margin="normal",
+        
     },
     button:{
-        margin:theme.spacing(1)
-    }
+        margin:theme.spacing(1),
+        
+    },
+     //modal
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalCard: {
+        width: '90%',
+        maxWidth: 500,
+    },
+    modalCardContent: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    marginTop: {
+        marginTop: 2 * theme.spacing.unit,
+    },
 
-}));
+
+});
 
 class Add extends React.Component{
 
     
-    constructor(){
+    constructor(props){
 
-        super();
+        super(props);
         this.state = {
             userName:'',
             fullName:'',
@@ -31,9 +63,15 @@ class Add extends React.Component{
             nic:'',
             email:'',
             password:'',
-            confirmPassword:''
+            confirmPassword:'',
+            modalOpen:'false'
 
         };
+        
+        this.onChange =this.onChange.bind(this);
+        this.onSubmit =this.onSubmit.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     onChange = (e) => {         // TODO manage all satates using one function 
@@ -50,14 +88,54 @@ class Add extends React.Component{
         console.log(userName);
         console.log(fullName);
         console.log(area);
+        console.log(address);
+
+        this.setState=({
+            userName:'',
+            fullName:'',
+            area:'',
+            address:'',
+            phoneNo:'',
+            nic:'',
+            email:'',
+            password:'',
+            confirmPassword:'',
+            modalOpen:'false'
+
+        })
+    }
+    /*
+    onClick = (e) =>{
+        this.insertNewSalesRep(this);
+    }
+    insertNewSalesRep = (e) =>{
+        TODO axios
+    }
+    */
+    openModal =(e) =>{
+        this.setState({modalOpen:true});
+
+    }
+    closeModal = (e) =>{
+        this.setState({modalOpen:false});
     }
 
     render(){
-        const classes = useStyles();
+        const { classes }= this.props;
         const {userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword} = this.state;
         return(
-
-            <form>
+            <div>
+                <Fab  aria-label="add"  className={classes.fab} onClick={this.openModal}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add} */  }
+                    <AddIcon />
+                </Fab> 
+            <Modal 
+                className={classes.modal}
+                onClose={this.closeModal}
+                open={this.openModal}
+            >
+        <Card className={classes.modalCard}>
+            <form onSubmit={this.onSubmit}>
+                <CardContent className={classes.modalCardContent}>
                 <TextField
                     id="userName"
                     label="User Name"
@@ -135,6 +213,7 @@ class Add extends React.Component{
                     className={classes.textField}
                     variant="outlined"
                     margin="normal"
+                    type="password"
                 
                 />
                 <TextField
@@ -145,17 +224,33 @@ class Add extends React.Component{
                     className={classes.textField}
                     variant="outlined"
                     margin="normal"
+                    type="password"
                 
                 />
+                
+                <CardActions>
                 <Button
                     type="submit"
                     variant="outlined"
                     color="primary"
                     className={classes.button}  
                 >
-                Submit
+                Save
                 </Button>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}  
+                    onClick={this.closeModal}
+                >
+                Close
+                </Button>
+                </CardActions>
+                </CardContent>
             </form>
+            </Card>
+            </Modal>
+            </div>
                 
         );
     }          // TODO add form using madao or otherwise
@@ -163,4 +258,5 @@ class Add extends React.Component{
 
     
 }
-export default Add;
+//export default Add;
+export default withStyles(useStyles)(Add);
