@@ -17,10 +17,11 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
 import SalesRepTableList from "views/TableList/SalesRepTableList.jsx";
-import DistributorTableList from "views/TableList/DistributorTableList.jsx";
+import DistributorTableList from "views/TableList/DistributorTableList.jsx"
 import CustomerTableList from "views/TableList/CustomerTableList.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
+import Add from "components/SalesRep/Add";
 // core components/views for RTL layout
 
 
@@ -71,11 +72,11 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/customers",
+    path: "/add",
     name: "Customers",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
-    component: CustomerTableList,
+    component: Add,
     layout: "/admin"
   },
 
