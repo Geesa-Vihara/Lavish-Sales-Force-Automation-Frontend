@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import avatar from "assets/img/faces/marc.jpg";
 import avatar1 from "assets/img/faces/lavish.jpg";
 import newuser from "assets/img/faces/newuser.png";
 import "css/UpdateProfile.css";
@@ -63,8 +62,10 @@ class UpdateProfile extends Component{
           newuseraddress:"",
           newuserpassword:"",
           newuserpassword2:"",
-          registererrors:{}
-         
+          registererrors:{},
+          picerrors:{},          
+          profilepicname:null,
+                   
         };        
       }
       
@@ -85,15 +86,14 @@ class UpdateProfile extends Component{
                     telno:response.data.telno,
                     address:response.data.address,
                     userprofile:response.data,
-                    
                  });
-                 
-                
                  
             })
             .catch(function (error){
                 console.log(error);
             })
+            
+            
     }
          
     onChange = e => {
@@ -179,13 +179,17 @@ class UpdateProfile extends Component{
               
     };
 
-    uploadpicture = e => {
-        e.preventDefault();
-        const userData = {  
-            newusername:this.state.newusername,  
-
-             };                    
-        axios.put('/updatepicture',userData).then(res => {
+    storeimage = e => {
+        e.preventDefault();    
+        const data = new FormData();
+        data.append('username',this.state.username)
+        data.append('myImage', this.state.profilepicname);
+        
+        const config = { 
+            headers: {
+             'content-type': 'multipart/form-data' } 
+            };       
+        axios.post('/storeimage',data,config).then(res => {
             
             if(res.status===200){                                
                window.location.reload();
@@ -195,7 +199,7 @@ class UpdateProfile extends Component{
             }
         })
         .catch(err => {
-            this.setState({newusernameerrors:err.response.data}) ; 
+            this.setState({picerrors:err.response.data}); 
             
         }); 
               
@@ -226,6 +230,8 @@ class UpdateProfile extends Component{
             this.setState({registererrors:err.response.data}) ; 
             
         }); 
+        
+        
               
     };
     deleteaccount = e => {
@@ -259,8 +265,16 @@ class UpdateProfile extends Component{
         this.setState({open:true});
         
       };
+    
+    changeprofilepic = e => {
+        e.preventDefault();
+        this.setState({
+            profilepicname:e.target.files[0],
+            
+        });
+    }
     render(){
-        const { errors,newusernameerrors,userprofile,passworderrors,open,registererrors} = this.state;                
+        const { errors,newusernameerrors,userprofile,passworderrors,open,registererrors,picerrors} = this.state;                
         const { classes } = this.props;
         return(
             <div style={{ marginTop: "5rem" }}>
@@ -400,7 +414,8 @@ class UpdateProfile extends Component{
                             </div>
                                 <div className="col s4 offset s2" style={{marginTop:"3%"}}>
                                     <div className="logo1">                    
-                                        <img id="logoimg1" src={avatar} alt="img" />                                                       
+                                        <img id="logoimg1" src={`/getimage/${this.state.username}`}alt="img"/> 
+                                                                                              
                                     </div> 
                                     <h6 className="userlogin1"><b>User Profile</b></h6>
                                     <div style={{textAlign:"center"}}>
@@ -554,16 +569,15 @@ class UpdateProfile extends Component{
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
                         <div className="row">
-                            <form noValidate onSubmit={this.uploadpicture}>                                                                                  
-                            <div className="file-field input-field">
-                                <div className="btn  teal lighten-3">                                    
-                                    <i className="material-icons">file_upload</i>Browse...
-                                    <input type="file" multiple/>
+                            <form noValidate onSubmit={this.storeimage}>                                                                                  
+                                <div>
+                                    <div>    
+                                        <input type="file" onChange={this.changeprofilepic} error={picerrors.picupdate} />
+                                    </div>
+                                    <span className="red-text">
+                                            {picerrors.picupdate}                                        
+                                    </span>
                                 </div>
-                            <div className="file-path-wrapper">
-                                <input className="file-path validate" type="text" placeholder="Upload a picture"/>
-                            </div>
-                            </div>
                                 <button style={{
                                         width: "100%",
                                         borderRadius: "3px",
@@ -592,17 +606,10 @@ class UpdateProfile extends Component{
                             <form noValidate onSubmit={this.newusersubmit}> 
                                 <div className="row">
                                     <div className="col s12" > 
-                                        <div className="logo2">                    
-                                            <img id="logoimg1" src={newuser} alt="img" />                                                       
+                                        <div className="logo1">                    
+                                            <img id="logoimg1" src={newuser} alt="img"  />                                                       
                                         </div>
-                                    </div>
-                                    <div className="col s12"> 
-                                        <div className="col s6 offset-s6 " >
-                                            <div >  
-                                                <input type="file" multiple/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                 </div>    
                                 <div className="row" >
                                     <div className="input-field col s4">
