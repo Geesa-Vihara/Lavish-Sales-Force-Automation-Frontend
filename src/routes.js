@@ -16,13 +16,12 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
-import SalesRepTableList from "views/TableList/SalesRepTableList.jsx";
 import DistributorTableList from "views/TableList/DistributorTableList.jsx"
 import CustomerTableList from "views/TableList/CustomerTableList.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
-import Add from "components/SalesRep/Add";
-// core components/views for RTL layout
+import SalesRepTable from "components/SalesRep/SalesRepTable";
+
 
 
 const dashboardRoutes = [
@@ -67,16 +66,16 @@ const dashboardRoutes = [
     name: "Sales Representatives",
  //   rtlName: "قائمة الجدول",
     icon: People,
-    component: SalesRepTableList,
+    component: SalesRepTable,
     layout: "/admin"
   },
 
   {
-    path: "/add",
+    path: "/customers",
     name: "Customers",
   //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
-    component: Add,
+    component: CustomerTableList,
     layout: "/admin"
   },
 
