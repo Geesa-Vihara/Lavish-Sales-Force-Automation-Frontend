@@ -10,8 +10,9 @@ import "assets/css/material-dashboard-react.css?v=1.7.0";
 import ForgotPassword from "views/Pages/ForgotPassword";
 import UpdateProfile from "views/UserProfile/UpdateProfile";
 
-import Table from "components/Table/Table.jsx";
+
 import Update from "components/SalesRep/Update";
+import SalesRepTable from "components/SalesRep/SalesRepTable";
 import View from "components/SalesRep/View";
 import Add from "components/SalesRep/Add";
 import Delete from "components/SalesRep/Delete";
@@ -41,11 +42,11 @@ ReactDOM.render(
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute exact path="/account/:username" component={UpdateProfile} />        
       
-      <PrivateRoute   path="/salesreps/add" component={Add}/>
-      <PrivateRoute path="/update/:id" component={Update}/>
-      <PrivateRoute path="/delete/:id" component={Delete}/>
-      <PrivateRoute path="/view/:id" component={View}/>
-      <PrivateRoute  path="/salesreps" component={Table}/>
+      <PrivateRoute path = "/salesrep/add" component = {Add}/>
+      <PrivateRoute path = "/edit/:_id"  component = {Update}/>
+      <PrivateRoute path = "/delete/:_id"  component = {Delete}/>
+      <PrivateRoute path = "/view/:_id"    component = {View}/>
+      <PrivateRoute path = "/salesreps"    component = {SalesRepTable}/>
       <Redirect from="/" to="/admin/dashboard" /> 
 
     </Switch>
