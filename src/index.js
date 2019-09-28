@@ -41,17 +41,15 @@ ReactDOM.render(
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute exact path="/account/:username" component={UpdateProfile} /> 
       <Redirect from="/" to="/admin/dashboard" />          
-            
-    </Switch>
-    <Switch>
-      <Route  exact path="/salesreps/add" component={Add}/>
-      <Route path="/update/:id" component={Update}/>
-      <Route path="/delete/:id" component={Delete}/>
-      <Route path="view/:id" component={View}/>
-      <Route  path="/salesReps" component={Table}/>
+      
+      <PrivateRoute   path="/salesreps/add" component={Add}/>
+      <PrivateRoute path="/update/:id" component={Update}/>
+      <PrivateRoute path="/delete/:id" component={Delete}/>
+      <PrivateRoute path="/view/:id" component={View}/>
+      <PrivateRoute  path="/salesreps" component={Table}/>
 
     </Switch>
-
   </Router>,
+
   document.getElementById("root")
 );
