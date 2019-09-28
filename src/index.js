@@ -39,14 +39,14 @@ ReactDOM.render(
       <Route path="/login"component= {Login} />
       <Route path="/forgotpassword" component={ForgotPassword} /> 
       <PrivateRoute path="/admin" component={Admin} />
-      <PrivateRoute exact path="/account/:username" component={UpdateProfile} /> 
-      <Redirect from="/" to="/admin/dashboard" />          
+      <PrivateRoute exact path="/account/:username" component={UpdateProfile} />        
       
       <PrivateRoute   path="/salesreps/add" component={Add}/>
       <PrivateRoute path="/update/:id" component={Update}/>
       <PrivateRoute path="/delete/:id" component={Delete}/>
       <PrivateRoute path="/view/:id" component={View}/>
       <PrivateRoute  path="/salesreps" component={Table}/>
+      <Redirect from="/" to="/admin/dashboard" /> 
 
     </Switch>
   </Router>,
