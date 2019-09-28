@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class Delete extends Component {
+ class Delete extends React.Component {
     render() {
         return (
             <div>
-                <p>Welcome to Edit Component!!</p>
+                <p>Welcome to Delete Component!!</p>
             </div>
         )
     }
 }
+export default Delete;

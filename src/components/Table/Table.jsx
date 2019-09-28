@@ -1,9 +1,11 @@
+{/*
 
 import React from "react";
-import {  Route, Link } from 'react-router-dom';
+import {  Link  } from 'react-router-dom';
 import Add from "../SalesRep/Add"
-//import PropTypes from "prop-types";
+
 // @material-ui/core components
+
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -28,7 +30,8 @@ const useStyles = makeStyles(theme => ({              //styles for add button
   fab: {
     variant:'fab',
     margin: theme.spacing(1),
-    backgroundColor: "#018786"
+    backgroundColor: "#018786",
+    
     
   },
   extendedIcon: {
@@ -62,19 +65,19 @@ function CustomTable({ ...props }) {
   return (
     <div> 
       <Paper>   
-      <Link  to='/salesreps/add'>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add  */  }
-      <Fab  aria-label="add"  className={classes.fab}>         { /*Add button to add salesreps  //TODO use react-dom-router link for /salesRep/add} */  }
+      <Link  to='/salesreps/add'>                                                                  //Add button to add salesreps   
+      <Fab  component={Link} to="salesrep/add" aria-label="add"  className={classes.fab}>         //Add button to add salesreps  /
         <AddIcon />
       </Fab>  
       </Link>
-      <Route exact path="salesreps/add" component={Add}/>                                  {/*className={classes.tableResponsive}   TODO component that should render */}
-      <Table className={classes.table}>                                       {/* className={classes.table}*/}
+                                                                             //className={classes.tableResponsive}   TODO component that should render 
+      <Table className={classes.table}>                                       // className={classes.table}
         {tableHead !== undefined ? (
-          <TableHead >                               {/* className={classes[tableHeaderColor + "TableHeader"]}*/}
-            <TableRow >                              {/* className={classes.tableHeadRow}*/}
+          <TableHead >                                                           // className={classes[tableHeaderColor + "TableHeader"]}
+            <TableRow >                                                           // className={classes.tableHeadRow}
               {tableHead.map((prop, key) => {
                 return (
-                  <TableCell key={key} className={classes.tableHeadCell}>              {/* className={classes.tableCell + " " + classes.tableHeadCell} */}
+                  <TableCell key={key} className={classes.tableHeadCell}>              // className={classes.tableCell + " " + classes.tableHeadCell} 
                     {prop}
                   </TableCell>
                 );
@@ -85,16 +88,16 @@ function CustomTable({ ...props }) {
         <TableBody>
           {tableData.map((prop, key) => {
             return (
-              <TableRow key={key} >                   {/*className={classes.tableBodyRow}*/}
+              <TableRow key={key} >                                   //className={classes.tableBodyRow}
                 {prop.map((prop, key) => {
                   return (
-                  <TableCell  key={key}>              {/*className={classes.tableCell}*/ }
+                  <TableCell  key={key}>                              //className={classes.tableCell}
                       {prop}
                     </TableCell>
                   );
                 })}
                 <TableCell>  
-                    <IconButton  aria-label="view" >
+                    <IconButton  aria-label="view" component={Link} to="/view" >
                         <ViewIcon className={classes.icon}/>
                     </IconButton>       
                     <IconButton  aria-label="edit" >
@@ -109,7 +112,7 @@ function CustomTable({ ...props }) {
           })}
         </TableBody>
       </Table>
-      <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>         { /*Add button to add salesreps*/}
+      <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>         //Add button to add salesreps
         <GetAppIcon className={classes.extendedIcon}/>
         Export
       </Fab>  
@@ -135,8 +138,9 @@ CustomTable.propTypes = {
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
   tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-};*/
+};
 
 export default CustomTable; 
 
-/*{withStyles(tableStyle)(CustomTable);}*/
+/*{withStyles(tableStyle)(CustomTable);  
+*/}
