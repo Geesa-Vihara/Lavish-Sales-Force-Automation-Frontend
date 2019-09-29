@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import avatar1 from "assets/img/faces/lavish.jpg";
 import newuser from "assets/img/faces/newuser.png";
-import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -401,9 +400,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.firstname}                                        
-                                            </span>
+                                            </small>
                                         </div>
                                     </Grid>
                                     <Grid item xs={8}>
@@ -417,9 +416,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.lastname}                                        
-                                            </span>
+                                            </small>
                                         </div>
                                     </Grid>
                                     <Grid item xs={4} > 
@@ -433,9 +432,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.email}                                        
-                                            </span>
+                                            </small>
                                         </div>
                                     </Grid>
                                     <Grid item xs={4}  >
@@ -449,9 +448,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.telno}                                        
-                                            </span>
+                                            </small>
                                         </div>
                                     </Grid>
                                     <Grid item xs={4}>
@@ -465,9 +464,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />  
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.nic}                                        
-                                            </span> 
+                                            </small> 
                                         </div> 
                                     </Grid>
                                     <Grid item xs={12}> 
@@ -481,9 +480,9 @@ class UpdateProfile extends Component{
                                                 className={classes.textField}
                                                 margin="normal"
                                             />
-                                            <span className={classes.textfielderror}>
+                                            <small className={classes.textfielderror}>
                                                 {errors.address}                                        
-                                            </span>
+                                            </small>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12}>                                      
@@ -501,8 +500,8 @@ class UpdateProfile extends Component{
                                 </form>
                             </Grid>
                             <Grid item xs={4} style={{marginTop:"45px"}}> 
-                                <div className="logo1">                    
-                                    <img id="logoimg1" src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
+                                <div className={classes.logo}>                    
+                                    <img className={classes.logoimg} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
                                 </div> 
                                 <div style={{textAlign:"center"}}>
                                     <p className={classes.userlogin}><b>USER PROFILE</b></p>
@@ -528,39 +527,39 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>Change Username</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                         <div className="row">                                                                      
-                            <form noValidate onSubmit={this.usernamesubmit}>                             
-                               
-                                    <div>
-                                        <label htmlFor="newusername">Username</label>
-                                    </div>
-                                    <TextField
-                                        onChange={this.onChange}
-                                        value={this.state.newusername}
-                                        error={newusernameerrors.newusername}
-                                        id="newusername"
-                                        type="text"
-                                    />
-                                    <span className="red-text">
-                                        {newusernameerrors.newusername}                                        
-                                    </span>
-                                
-                                                              
-                                    <ThemeProvider theme={theme}>                           
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            type="submit"
-                                            className={classes.button}
-                                            >
-                                            UPDATE
-                                        </Button>
-                                    </ThemeProvider>
-                               
-                               
-                            </form>
-                            
-                         </div> 
+                        <Grid container style={{justifyContent:"center",marginLeft:"40%",marginRight:"40%"}}>  
+                            <Grid item xs={12}>                                               
+                                <form noValidate onSubmit={this.usernamesubmit} className={classes.container}> 
+                                    <Grid item xs={12}>   
+                                        <div className={classes.textcontainer}>                                    
+                                            <TextField
+                                                label="Username"
+                                                onChange={this.onChange}
+                                                value={this.state.newusername}
+                                                id="newusername"
+                                                type="text"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {newusernameerrors.newusername}                                        
+                                            </small>
+                                        </div>
+                                    </Grid>  
+                                    <Grid item xs={12}>                            
+                                        <ThemeProvider theme={theme}>                           
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.button}
+                                                >
+                                                UPDATE
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Grid>
+                                </form>
+                            </Grid>
+                         </Grid>  
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel className={classes.root}>
@@ -573,64 +572,69 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>Change Password</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                        <div className="row">
-                            <form noValidate onSubmit={this.passwordsubmit}>
-                               
-                                    <div>
-                                        <label htmlFor="currentpassword">Current Password</label>
-                                    </div>
-                                    <TextField
-                                        onChange={this.onChange}
-                                        value={this.state.currentpassword}
-                                        error={passworderrors.currentpassword}
-                                        id="currentpassword"
-                                        type="password"
-                                    />
-                                    <span className="red-text">
-                                        {passworderrors.currentpassword}                                        
-                                    </span>
-                                                         
-                                    <div>
-                                        <label htmlFor="newpassword">New Password</label>
-                                    </div>
-                                    <TextField
-                                        onChange={this.onChange}
-                                        value={this.state.newpassword}
-                                        error={passworderrors.newpassword}
-                                        id="newpassword"
-                                        type="password"
-                                    />
-                                    <span className="red-text">
-                                        {passworderrors.newpassword}                                        
-                                    </span>
-                               
-                                    <div>
-                                        <label htmlFor="confirmpassword">Confirm Password</label>
-                                    </div>
-                                    <TextField
-                                        onChange={this.onChange}
-                                        value={this.state.confirmpassword}
-                                        error={passworderrors.confirmpassword}
-                                        id="confirmpassword"
-                                        type="password"
-                                    />
-                                    <span className="red-text">
-                                        {passworderrors.confirmpassword}                                        
-                                    </span>
-                                                      
-                                    <ThemeProvider theme={theme}>                           
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            type="submit"
-                                            className={classes.button}
-                                            >
-                                            UPDATE
-                                        </Button>
-                                    </ThemeProvider>
-                               
-                            </form>  
-                        </div>
+                        <Grid container style={{justifyContent:"center",marginLeft:"25%",marginRight:"25%"}}>
+                            <Grid item xs={12}>
+                                <form noValidate onSubmit={this.passwordsubmit} className={classes.container}>
+                                    <Grid item xs={3}>
+                                        <div className={classes.textcontainer}>  
+                                        <TextField
+                                            label="Current Password"
+                                            onChange={this.onChange}
+                                            value={this.state.currentpassword}
+                                            id="currentpassword"
+                                            type="password"
+                                            className={classes.textField}
+                                        />
+                                        <small className={classes.textfielderror}>
+                                            {passworderrors.currentpassword}                                        
+                                        </small>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={3}>    
+                                        <div className={classes.textcontainer}>   
+                                        <TextField
+                                            label="New Password"
+                                            onChange={this.onChange}
+                                            value={this.state.newpassword}
+                                            id="newpassword"
+                                            type="password"
+                                            className={classes.textField}
+                                        />
+                                        <small className={classes.textfielderror}>
+                                            {passworderrors.newpassword}                                        
+                                        </small>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={3}> 
+                                        <div className={classes.textcontainer}>  
+                                        <TextField
+                                            label="Confirm Password"
+                                            onChange={this.onChange}
+                                            value={this.state.confirmpassword}
+                                            id="confirmpassword"
+                                            type="password"
+                                            className={classes.textField}
+                                        />
+                                        <small className={classes.textfielderror}>
+                                            {passworderrors.confirmpassword}                                        
+                                        </small>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={3}>                  
+                                        <ThemeProvider theme={theme}>                           
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.button}
+                                                >
+                                                UPDATE
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Grid>
+                                </form> 
+                            </Grid>
+                        </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel className={classes.root}>
@@ -643,28 +647,32 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>Change Profile Picture</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                        <div className="row">
-                            <form noValidate onSubmit={this.storeimage}>                                                                                  
-                                <div>
-                                    <div>    
-                                        <input type="file" onChange={this.changeprofilepic} error={picerrors.picupdate} />
-                                    </div>
-                                    <span className="red-text">
-                                            {picerrors.picupdate}                                        
-                                    </span>
-                                </div>
-                                <ThemeProvider theme={theme}>                           
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            type="submit"
-                                            className={classes.button}
-                                            >
-                                            UPDATE
-                                        </Button>
-                                    </ThemeProvider>
-                            </form>
-                        </div>
+                        <Grid container style={{justifyContent:"center",marginLeft:"40%",marginRight:"40%"}}>
+                            <Grid item xs={12} >
+                                <form noValidate onSubmit={this.storeimage} className={classes.container}>
+                                    <Grid item xs={12}>  
+                                        <div className={classes.textcontainer}> 
+                                                <input type="file" onChange={this.changeprofilepic} />
+                                            <small className={classes.textfielderror}>
+                                                {picerrors.picupdate}                                        
+                                            </small>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <ThemeProvider theme={theme}>                           
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.button}
+                                                >
+                                                UPDATE
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Grid>
+                                </form>
+                            </Grid>
+                        </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel className={classes.root}>
@@ -677,169 +685,183 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>Add new user</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                        <div className="row"style={{marginTop:"3%"}}>
-                            <form noValidate onSubmit={this.newusersubmit}> 
-                                <div className="row">
-                                    <div className="col s12" > 
-                                        <div className="logo1">                    
-                                            <img id="logoimg1" src={newuser} alt="img"  />                                                       
+                        <Grid container style={{justifyContent:"center",marginTop:"3%",marginLeft:"25%",marginRight:"25%"}}>
+                            <Grid item xs={12}>
+                                <form noValidate onSubmit={this.newusersubmit} className={classes.container}> 
+                                    <Grid item xs={12} style={{marginBottom:"3%",textAlign:"center"}}>
+                                        <div className={classes.logo}>                    
+                                            <img className={classes.logoimg} src={newuser} alt="img"  />  
+                                        </div>  
+                                        <p className={classes.userlogin}><b>REGISTER USER</b></p>
+                                    </Grid>  
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newusername">Username</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuserusername}
+                                                id="newuserusername"
+                                                type="text"
+                                                className={classes.textField}
+                                            />
+                                            {<small className={classes.textfielderror}>
+                                                {registererrors.username}                                        
+                                            </small>}
                                         </div>
-                                    </div>                                    
-                                </div>    
-                                <div className="row" >
-                                   
-                                        <div>
-                                            <label htmlFor="newusername">Username</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newuserpassword">Password</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuserpassword}
+                                                id="newuserpassword"
+                                                type="password"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.password}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuserusername}
-                                            error={registererrors.username}
-                                            id="newuserusername"
-                                            type="text"
-                                        />
-                                        {<small className="red-text">
-                                            {registererrors.username}                                        
-                                        </small>}
-                                   
-                                        <div>
-                                            <label htmlFor="newuserpassword">Password</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newuserpassword2">Confirm Password</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuserpassword2}
+                                                id="newuserpassword2"
+                                                type="password"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.password2}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuserpassword}
-                                            error={registererrors.password}
-                                            id="newuserpassword"
-                                            type="password"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.password}                                        
-                                        </small>
-                                    
-                                        <div>
-                                            <label htmlFor="newuserpassword2">Confirm Password</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newuserfirstname">First Name</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuserfirstname}
+                                                id="newuserfirstname"
+                                                type="text"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.firstname}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuserpassword2}
-                                            error={registererrors.password2}
-                                            id="newuserpassword2"
-                                            type="password"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.password2}                                        
-                                        </small>
-                                    </div>
-                               
-                                <div className="row">
-                                   
-                                        <div>
-                                            <label htmlFor="newuserfirstname">First Name</label>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newuserlastname">Last Name</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuserlastname}
+                                                id="newuserlastname"
+                                                type="text"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.lastname}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuserfirstname}
-                                            error={registererrors.firstname}
-                                            id="newuserfirstname"
-                                            type="text"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.firstname}                                        
-                                        </small>
-                                    
-                                        <div>
-                                            <label htmlFor="newuserlastname">Last Name</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>                                     
+                                            <div>
+                                                <label htmlFor="newuseremail">Email</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuseremail}
+                                                id="newuseremail"
+                                                type="email"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.email}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuserlastname}
-                                            error={registererrors.lastname}
-                                            id="newuserlastname"
-                                            type="text"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.lastname}                                        
-                                        </small>
-                                    </div>
-                                
-                                <div className="row">
-                                   
-                                        <div>
-                                            <label htmlFor="newuseremail">Email</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newusertelno">Telephone No</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newusertelno}
+                                                id="newusertelno"
+                                                type="tel"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.telno}                                        
+                                            </small>
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuseremail}
-                                            error={registererrors.email}
-                                            id="newuseremail"
-                                            type="email"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.email}                                        
-                                        </small>
-                                    
-                                   
-                                        <div>
-                                            <label htmlFor="newusertelno">Telephone No</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newusernic">NIC</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newusernic}
+                                                id="newusernic"
+                                                type="text"
+                                                className={classes.textField}
+                                            />  
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.nic}                                        
+                                            </small> 
                                         </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newusertelno}
-                                            error={registererrors.telno}
-                                            id="newusertelno"
-                                            type="tel"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.telno}                                        
-                                        </small>
-                                    
-                                        <div>
-                                            <label htmlFor="newusernic">NIC</label>
-                                        </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newusernic}
-                                            error={registererrors.nic}
-                                            id="newusernic"
-                                            type="text"
-                                        />  
-                                        <small className="red-text">
-                                            {registererrors.nic}                                        
-                                        </small>                                              
-                                    
-                                </div>
-                                <div className="row">
-                                    
-                                        <div>
-                                            <label htmlFor="newuseraddress">Address</label>
-                                        </div>
-                                        <TextField
-                                            onChange={this.onChange}
-                                            value={this.state.newuseraddress}
-                                            error={registererrors.address}
-                                            id="newuseraddress"
-                                            type="text"
-                                        />
-                                        <small className="red-text">
-                                            {registererrors.address}                                        
-                                        </small>
-                                    </div>
-                                
-                                <div className="row">
-                                <ThemeProvider theme={theme}>                           
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            type="submit"
-                                            className={classes.button}
-                                            >
-                                            SUBMIT
-                                        </Button>
-                                    </ThemeProvider>
-                                    </div> 
-                               
-                            </form> 
-                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div className={classes.textcontainer}>  
+                                            <div>
+                                                <label htmlFor="newuseraddress">Address</label>
+                                            </div>
+                                            <TextField
+                                                onChange={this.onChange}
+                                                value={this.state.newuseraddress}
+                                                id="newuseraddress"
+                                                type="text"
+                                                className={classes.textField}
+                                            />
+                                            <small className={classes.textfielderror}>
+                                                {registererrors.address}                                        
+                                            </small>
+                                            </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <ThemeProvider theme={theme}>                           
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.button}
+                                                >
+                                                SUBMIT
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Grid>
+                                </form> 
+                            </Grid>
+                        </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel className={classes.root}>
@@ -852,7 +874,8 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>Delete my account</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
-                        <div className="row">
+                        <Grid container style={{justifyContent:"center",marginLeft:"25%",marginRight:"25%"}}>
+                            <Grid item xs={3}>
                                 <ThemeProvider theme={theme}>                           
                                     <Button
                                         variant="contained"
@@ -884,7 +907,7 @@ class UpdateProfile extends Component{
                                 <ThemeProvider theme={theme}>                           
                                     <Button
                                         variant="contained"
-                                        color="secondary"
+                                        color="primary"
                                         type="submit"
                                         className={classes.button}
                                         onClick={this.handleClose}
@@ -907,7 +930,8 @@ class UpdateProfile extends Component{
                                 
                                 </DialogActions>
                             </Dialog>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <div className="bottom">
