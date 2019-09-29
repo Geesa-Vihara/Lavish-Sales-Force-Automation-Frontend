@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Badge from '@material-ui/core/Badge';
+import jwt_decode from "jwt-decode";
 
 class SMNavBar extends Component{
     
@@ -10,13 +11,16 @@ class SMNavBar extends Component{
             anchorEl: null,
             openNotification:false,
             openProfile:false,
-            username:""
+            username:"",
         };
     
     componentDidMount=()=>{
-        this.setState({username:localStorage.getItem('UserName')}); 
+        const token=localStorage.getItem("jwtToken");
+        const decoded=jwt_decode(token);
+        this.setState({username:decoded.name}); 
+        
     }
-   
+  
     profileClick=(event)=> {
         this.setState({ openProfile: true });
         this.setState({ anchorEl: event.currentTarget });
@@ -42,11 +46,11 @@ class SMNavBar extends Component{
     logout=()=>{
         this.setState({ openProfile: false });
         this.setState({ anchorEl: null });           
-        localStorage.removeItem('UserName');
+        localStorage.removeItem('jwtToken');
     }
     render(){
        
-       const {anchorEl,openNotification,openProfile}=this.state;
+       const {anchorEl,openNotification,openProfile,username}=this.state;
        const opennoti = openNotification;
        const openprof = openProfile;              
         return(
@@ -110,7 +114,7 @@ class SMNavBar extends Component{
                     >
                     <i className="material-icons">person</i>               
                 </button>
-                <label>{this.state.username}</label>
+                <label>{username}</label>
                 
                 <Menu
                     id="menu"
@@ -122,7 +126,7 @@ class SMNavBar extends Component{
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }}                                  
                 >
-                    <MenuItem onClick={this.profileClose}><Link to={`/account/${this.state.username}`}>Account</Link></MenuItem>                    
+                    <MenuItem onClick={this.profileClose}><Link to={`/account/${username}`}>Account</Link></MenuItem>                    
                     <MenuItem onClick={this.logout}><Link to="/login">Logout</Link></MenuItem>
                 </Menu>                    
             </div>

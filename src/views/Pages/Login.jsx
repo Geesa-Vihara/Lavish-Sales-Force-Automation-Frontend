@@ -27,11 +27,13 @@ class Login extends Component{
         };
         
         axios.post('/login',userData).then(res => { 
-            localStorage.setItem('UserName', this.state.username);
-            if(res.status===200){             
+            
+            if(res.status===200){
+                const {token}=res.data;
+                localStorage.setItem("jwtToken",token);                
                 this.props.history.push({
                     pathname: '/admin/dashboard'
-                  })                         
+                  })                          
                 }else{
                     const error = new Error(res.error);
                     throw error;

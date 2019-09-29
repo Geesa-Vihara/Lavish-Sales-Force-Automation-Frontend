@@ -37,7 +37,6 @@ class UpdateProfile extends Component{
     constructor() {
         super();
         this.state = {        
-          username:localStorage.getItem('UserName'),
           firstname:"",
           lastname:"",
           nic:"",
@@ -64,21 +63,21 @@ class UpdateProfile extends Component{
           newuserpassword2:"",
           registererrors:{},
           picerrors:{},          
-          profilepicname:null,
+          newprofilepic:null,
                    
         };        
       }
       
       componentDidMount() {
-        
+        var token=localStorage.getItem("jwtToken");
         axios.get('/retrieve', {
-            params: {
-                username: this.state.username
-          }}
+          headers:{
+            "Authorization": token 
+          }
+        }
           )
             .then(response => {
                 this.setState({  
-                    username:response.data.username,                   
                     firstname:response.data.firstname,
                     lastname:response.data.lastname,
                     nic:response.data.nic,
@@ -89,8 +88,8 @@ class UpdateProfile extends Component{
                  });
                  
             })
-            .catch(function (error){
-                console.log(error);
+            .catch(err=>{
+                console.log(err);
             })
             
             
@@ -102,8 +101,8 @@ class UpdateProfile extends Component{
 
     profilesubmit = e => {
         e.preventDefault();
+        var token=localStorage.getItem("jwtToken");
         const userData = {  
-            username:this.state.username,          
             firstname:this.state.firstname,
             lastname:this.state.lastname,
             nic:this.state.nic,
@@ -112,7 +111,11 @@ class UpdateProfile extends Component{
             address:this.state.address
         };
         
-        axios.put('/update',userData).then(res => {
+        axios.put('/update',userData,{
+            headers:{
+                "Authorization": token 
+              }
+        }).then(res => {
             if(res.status===200){                                
                 window.location.reload();
             } else {
@@ -129,14 +132,19 @@ class UpdateProfile extends Component{
 
     usernamesubmit = e => {
         e.preventDefault();
-        const userData = {  
-            username:this.state.username,
+        var token=localStorage.getItem("jwtToken");
+        const userData = {              
             newusername:this.state.newusername,  
 
              };                    
-        axios.put('/updateusername',userData).then(res => {
+        axios.put('/updateusername',userData,{
+            headers:{
+                "Authorization": token 
+              }
+        }).then(res => {
             
-            if(res.status===200){                                
+            if(res.status===200){   
+                localStorage.removeItem('jwtToken');                             
                 this.props.history.push({
                     pathname: '/login'
                   })           
@@ -145,7 +153,7 @@ class UpdateProfile extends Component{
                 throw error;
             }
         })
-        .catch(err => {
+        .catch(err => {            
             this.setState({newusernameerrors:err.response.data}) ; 
             
         }); 
@@ -154,16 +162,21 @@ class UpdateProfile extends Component{
 
     passwordsubmit = e => {
         e.preventDefault();
+        var token=localStorage.getItem("jwtToken");
         const userData = {  
-            username:this.state.username,  
             currentpassword:this.state.currentpassword,
             newpassword:this.state.newpassword,
             confirmpassword:this.state.confirmpassword
 
              };                    
-        axios.put('/updatepassword',userData).then(res => {
+        axios.put('/updatepassword',userData,{
+            headers:{
+                "Authorization": token 
+              }
+        }).then(res => {
             
-            if(res.status===200){                                
+            if(res.status===200){    
+                localStorage.removeItem('jwtToken');                            
                 this.props.history.push({
                     pathname: '/login'
                   })    
@@ -180,14 +193,17 @@ class UpdateProfile extends Component{
     };
 
     storeimage = e => {
-        e.preventDefault();    
+        e.preventDefault();  
+        var token=localStorage.getItem("jwtToken");  
         const data = new FormData();
-        data.append('username',this.state.username)
-        data.append('myImage', this.state.profilepicname);
+        data.append('myImage', this.state.newprofilepic);
         
         const config = { 
             headers: {
-             'content-type': 'multipart/form-data' } 
+             'content-type': 'multipart/form-data' ,
+             'Authorization':token
+            
+            } 
             };       
         axios.post('/storeimage',data,config).then(res => {
             
@@ -206,8 +222,9 @@ class UpdateProfile extends Component{
     };
     newusersubmit = e => {
         e.preventDefault();
+        var token=localStorage.getItem("jwtToken");
         const userData = {  
-            username:this.state.newuserusername,          
+            username:this.state.newuserusername,
             firstname:this.state.newuserfirstname,
             lastname:this.state.newuserlastname,
             nic:this.state.newusernic,
@@ -218,7 +235,11 @@ class UpdateProfile extends Component{
             password2:this.state.newuserpassword2,
         };
         
-        axios.post('/register',userData).then(res => {
+        axios.post('/register',userData,{
+            headers:{
+                "Authorization": token 
+              }
+        }).then(res => {
             if(res.status===200){                                
                 window.location.reload();
             } else {
@@ -236,11 +257,14 @@ class UpdateProfile extends Component{
     };
     deleteaccount = e => {
         e.preventDefault(); 
+        var token=localStorage.getItem("jwtToken");
         this.setState({open:false});
         axios.delete('/deleteaccount',{
-            params: {
-                username: this.state.username
-          }}).then(res => {
+            headers:{
+                "Authorization": token 
+              }
+        
+        }).then(res => {
             
             if(res.status===200){                                                
                 this.props.history.push({
@@ -269,10 +293,11 @@ class UpdateProfile extends Component{
     changeprofilepic = e => {
         e.preventDefault();
         this.setState({
-            profilepicname:e.target.files[0],
+            newprofilepic:e.target.files[0],
             
         });
     }
+    
     render(){
         const { errors,newusernameerrors,userprofile,passworderrors,open,registererrors,picerrors} = this.state;                
         const { classes } = this.props;
@@ -414,7 +439,7 @@ class UpdateProfile extends Component{
                             </div>
                                 <div className="col s4 offset s2" style={{marginTop:"3%"}}>
                                     <div className="logo1">                    
-                                        <img id="logoimg1" src={`/getimage/${this.state.username}`}alt="img"/> 
+                                        <img id="logoimg1" src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
                                                                                               
                                     </div> 
                                     <h6 className="userlogin1"><b>User Profile</b></h6>

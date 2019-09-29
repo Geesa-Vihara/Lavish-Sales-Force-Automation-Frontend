@@ -24,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...props }) => {
     <Route
       {...props}
       render={innerProps =>
-        localStorage.getItem('UserName')!==null ? 
+        localStorage.getItem('jwtToken')!==null ? 
             <Component {...innerProps} />
             :
             <Redirect to="/login" />
