@@ -12,6 +12,7 @@
     "classnames": "2.2.6",
     "history": "4.9.0",
     "js-cookie": "^2.2.1",
+    "jwt-decode": "^2.2.0",
     "perfect-scrollbar": "1.4.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
