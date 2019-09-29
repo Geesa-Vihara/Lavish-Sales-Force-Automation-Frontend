@@ -15,9 +15,7 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import UserProfile from "views/UserProfile/UserProfile.jsx";
-import TableList from "views/TableList/TableList.jsx";
-import DistributorTableList from "views/TableList/DistributorTableList.jsx"
-import CustomerTableList from "views/TableList/CustomerTableList.jsx";
+
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
@@ -28,7 +26,6 @@ const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    //rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
@@ -37,16 +34,14 @@ const dashboardRoutes = [
   {
     path: "/stock",
     name: "Stock ",
-  //  rtlName: "خرائط",
     icon: Storage,
-    component: TableList,
+    component:NotificationsPage,
     layout: "/admin"
   },
 
   {
     path: "/reports",
     name: "Reports",
-   // rtlName: "إخطارات",
     icon: Description,
     component: NotificationsPage,
     layout: "/admin"
@@ -55,7 +50,6 @@ const dashboardRoutes = [
   {
     path: "/track",
     name: "Tracking",
-    //rtlName: "خرائط",
     icon: LocationOn,
     component: Maps,
     layout: "/admin"
@@ -64,7 +58,6 @@ const dashboardRoutes = [
   {
     path: "/salesreps",
     name: "Sales Representatives",
- //   rtlName: "قائمة الجدول",
     icon: People,
     component: SalesRepTable,
     layout: "/admin"
@@ -73,34 +66,30 @@ const dashboardRoutes = [
   {
     path: "/customers",
     name: "Customers",
-  //  rtlName: "ملف تعريفي للمستخدم",
     icon: Store,
-    component: CustomerTableList,
+    component: NotificationsPage,
     layout: "/admin"
   },
 
   {
     path: "/distributors",
     name: "Distributors",
-  //  rtlName: "ملف تعريفي للمستخدم",
     icon: People,
-    component: DistributorTableList,
+    component: NotificationsPage,
     layout: "/admin"
   },
   
   {
     path: "/invoices",
     name: "Sales Invoices",
-    //rtlName: "قائمة الجدول",
     icon: AttachMoney,
-    component: TableList,
+    component: NotificationsPage,
     layout: "/admin"
   },
   
   {
     path: "/analytics",
     name: "Analytics",
-    //rtlName: "لوحة القيادة",
     icon: Timeline,
     component: DashboardPage,
     layout: "/admin"
