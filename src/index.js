@@ -42,7 +42,7 @@ ReactDOM.render(
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute exact path="/account/:username" component={UpdateProfile} />        
       
-      <PrivateRoute path = "/salesrep/add" component = {Add}/>
+      <PrivateRoute path = "/salesreps/add" component = {Add}/>
       <PrivateRoute path = "/edit/:_id"  component = {Update}/>
       <PrivateRoute path = "/delete/:_id"  component = {Delete}/>
       <PrivateRoute path = "/view/:_id"    component = {View}/>

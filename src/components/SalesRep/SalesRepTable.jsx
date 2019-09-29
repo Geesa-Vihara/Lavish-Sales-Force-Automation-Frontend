@@ -65,7 +65,7 @@ class  SalesRepTable extends React.Component{
   componentDidMount(){
 
     Axios
-      .get('http://localhost:8000/salesreps')
+      .get('http://localhost:8000/salesReps')
       .then(res => {
         this.setState({
           salesReps : res.data
@@ -84,7 +84,7 @@ class  SalesRepTable extends React.Component{
     return(
       <div>
           <Paper>
-            <Link  to='/salesrep/add'>         
+            <Link  to='/salesreps/add'>         
               <Fab  aria-label="add"  className={classes.fab}>      
                 <AddIcon />
               </Fab>  
