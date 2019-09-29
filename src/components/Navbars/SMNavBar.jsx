@@ -1,19 +1,32 @@
 import React, {Component} from "react";
-import { Link } from "react-router-dom";
+import { Link,withRouter } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Badge from '@material-ui/core/Badge';
 import jwt_decode from "jwt-decode";
+import Button from '@material-ui/core/Button';
+import Person from '@material-ui/icons/Person';
+import Dashboard from '@material-ui/icons/Dashboard';
+import AddAlert from '@material-ui/icons/AddAlert';
+
+const useStyles = theme => ({
+    margin: {
+        margin: theme.spacing(2),        
+      },
+      icon:{
+          color:"white"
+      }
+    
+  });
 
 class SMNavBar extends Component{
-    
-        state = {
-            anchorEl: null,
-            openNotification:false,
-            openProfile:false,
-            username:"",
-        };
-    
+            state = {
+                anchorEl: null,
+                openNotification:false,
+                openProfile:false,
+                username:"",
+            };
     componentDidMount=()=>{
         const token=localStorage.getItem("jwtToken");
         const decoded=jwt_decode(token);
@@ -48,43 +61,35 @@ class SMNavBar extends Component{
         this.setState({ anchorEl: null });           
         localStorage.removeItem('jwtToken');
     }
+    dashboard=()=>{
+        this.props.history.push('/admin/dashboard')
+    }
     render(){
-       
+        const { classes } = this.props;
        const {anchorEl,openNotification,openProfile,username}=this.state;
        const opennoti = openNotification;
        const openprof = openProfile;              
         return(
             
             <div>                
-                <button
-                    style={{                        
-                        marginRight:"10px"             
-                                                        
-                    }}                    
-                    className="btn-floating transparent"                    
-                    >
-                    <Link to="/dashboard"> <i className="material-icons">dashboard</i></Link>           
-                </button>
-                
-                
-                <Badge 
-                    color="secondary" 
-                    badgeContent={5}                    
-                    style={{
-                        marginRight:"10px"
-                    }}      
-                >
-                <button
-                                     
-                    className="btn-floating transparent"
+                <Button
+                     onClick={this.dashboard}  
+                    > 
+                     <Dashboard className={classes.icon}/>        
+                </Button>
+                <Button
                     aria-owns={opennoti ? "notifications" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.notiClick}
-                    
-                    >
-                     <i className="material-icons">add_alert</i>                      
-                </button>
-                </Badge>
+                >
+                     <Badge 
+                        color="secondary" 
+                        badgeContent={5} 
+                        className={classes.margin}     
+                    >    
+                        <AddAlert className={classes.icon} />              
+                    </Badge>                   
+                 </Button> 
                 <Menu
                     id="notifications"
                     anchorEl={anchorEl}
@@ -102,20 +107,14 @@ class SMNavBar extends Component{
                     <MenuItem onClick={this.notiClose}>Another Notification</MenuItem>  
                     <MenuItem onClick={this.notiClose}>Another One</MenuItem> 
                 </Menu>       
-                <button
-                    style={{                   
-                        marginRight:"10px"             
-                                                        
-                    }}                    
-                    className="btn-floating transparent"
+                 <Button
                     aria-owns={openprof ? "menu" : null}                    
                     aria-haspopup="true"                     
                     onClick={this.profileClick}
-                    >
-                    <i className="material-icons">person</i>               
-                </button>
+                    > 
+                    <Person className={classes.icon} />               
+                </Button> 
                 <label>{username}</label>
-                
                 <Menu
                     id="menu"
                     anchorEl={anchorEl}
@@ -134,4 +133,4 @@ class SMNavBar extends Component{
     }
 }
 
-export default SMNavBar;
+export default withRouter(withStyles(useStyles)(SMNavBar));
