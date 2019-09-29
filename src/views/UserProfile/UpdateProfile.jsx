@@ -5,7 +5,7 @@ import "css/UpdateProfile.css";
 import Footer from "components/Footer/Footer";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles,createMuiTheme } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -17,6 +17,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import TextField from '@material-ui/core/TextField';
+import { ThemeProvider } from '@material-ui/styles';
+import { teal} from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = theme => ({
     root: {
@@ -24,14 +30,69 @@ const useStyles = theme => ({
       marginTop:'1%',
             
     },
+    container:{
+        display: 'flex',
+        flexWrap: 'wrap',
+       
+    },
+    textcontainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginBottom:30
+      },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),        
+        width: "99%",
+    },
+    textfielderror: {
+        marginLeft: theme.spacing(1),        
+        color:"red"
+      },
+    logo:{
+        margin: "-50px auto 0",
+        overflow: "hidden",
+        maxWidth: "180px",
+        boxShadow: "0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+        maxHeight: "180px",
+        borderRadius: "50%"
+    },
+    logoimg:{
+        width: "100%",
+        height: "100%"
+    },
     heading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
       color:" #2bbbad"
     },
+    accountheading:{
+        textAlign:"center",
+        marginBottom:10
+      },
+    userlogin:{
+        fontSize:17,
+        color: "#2bbbad"
+    },
+    icon:{
+        color:"black",
+    },
+    button:{
+        width: "100%",
+        height:45,
+        borderRadius: "3px",
+        letterSpacing: "1.5px",
+        marginTop: "1rem"     
+      },
     
   });
- 
+
+const theme = createMuiTheme({
+palette: {
+    primary: teal,
+},
+});
+
 class UpdateProfile extends Component{
 
     constructor() {
@@ -303,21 +364,19 @@ class UpdateProfile extends Component{
         const { classes } = this.props;
         return(
             <div style={{ marginTop: "5rem" }}>
-                <div className="logo1">                    
-                    <img id="logoimg1" src={avatar1} alt="img" />                                                       
+                <div className={classes.logo}>                    
+                    <img className={classes.logoimg} src={avatar1} alt="img" />                                                       
                 </div> 
-                <div className="col s12" style={{ textAlign: "center" ,marginTop:"10px"}}>
-                    <label >Welcome to Lavish Tea Pvt LTD<br />
-                        <small >Sales Force Automation System</small><br/>
-                    </label>  
-                    <h6 style={{color: "#2bbbad"}}><b>Account Settings</b></h6>              
-                </div>
-                <div className="row">
-                    <Link to="/admin/dashboard" className="btn-flat waves-effect">
-                        <i className="material-icons left">keyboard_backspace</i><b style={{color: "#2bbbad" }}> Back to Dashboard</b>
-                    </Link> 
-                </div>  
-                               
+                <div className={classes.accountheading}>             
+                        <p className={classes.userlogin}><b>ACCOUNT SETTINGS</b></p>
+                        <label >Welcome to Lavish Tea Pvt LTD<br />
+                            <small >Sales Force Automation System</small>
+                        </label>  
+                </div> 
+                <Link to="/admin/dashboard">
+                    <ArrowBack className={classes.icon}/>
+                    <b style={{color: "#2bbbad" }}> Back to Dashboard</b>
+                </Link>        
                 <ExpansionPanel className={classes.root}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -328,134 +387,135 @@ class UpdateProfile extends Component{
                         <Typography className={classes.heading}>User Profile</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>                        
-                      <div className="row" >       
-                            <div className="col s8">
-                                <form noValidate onSubmit={this.profilesubmit}>
-                                    <div className="input-field col s4">
-                                        <div>
-                                            <label htmlFor="firstname">First Name</label>
+                        <Grid container >
+                            <Grid item xs={8} > 
+                                <form noValidate onSubmit={this.profilesubmit} className={classes.container}> 
+                                    <Grid item xs={4} > 
+                                        <div className={classes.textcontainer}>    
+                                            <TextField
+                                                label="Firstname"
+                                                onChange={this.onChange}
+                                                value={this.state.firstname}                                            
+                                                id="firstname"
+                                                type="text"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />
+                                            <span className={classes.textfielderror}>
+                                                {errors.firstname}                                        
+                                            </span>
                                         </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.firstname}
-                                            error={errors.firstname}
-                                            id="firstname"
-                                            type="text"
-                                        />
-                                        <span className="red-text">
-                                            {errors.firstname}                                        
-                                        </span>
-                                    </div>
-                                    <div className="input-field col s8">
-                                        <div>
-                                            <label htmlFor="lastname">Last Name</label>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <div className={classes.textcontainer}>  
+                                            <TextField
+                                                label="Lastname"
+                                                onChange={this.onChange}
+                                                value={this.state.lastname}
+                                                id="lastname"
+                                                type="text"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />
+                                            <span className={classes.textfielderror}>
+                                                {errors.lastname}                                        
+                                            </span>
                                         </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.lastname}
-                                            error={errors.lastname}
-                                            id="lastname"
-                                            type="text"
-                                        />
-                                        <span className="red-text">
-                                            {errors.lastname}                                        
-                                        </span>
-                                    </div>  
-                                    <div className="input-field col s4">
-                                        <div>
-                                            <label htmlFor="email">Email</label>
+                                    </Grid>
+                                    <Grid item xs={4} > 
+                                        <div className={classes.textcontainer}> 
+                                            <TextField
+                                                label="Email"
+                                                onChange={this.onChange}
+                                                value={this.state.email}
+                                                id="email"
+                                                type="email"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />
+                                            <span className={classes.textfielderror}>
+                                                {errors.email}                                        
+                                            </span>
                                         </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.email}
-                                            error={errors.email}
-                                            id="email"
-                                            type="email"
-                                        />
-                                        <span className="red-text">
-                                            {errors.email}                                        
-                                        </span>
-                                    </div>
-                                    <div className="input-field col s4">
-                                        <div>
-                                            <label htmlFor="telno">Telephone No</label>
+                                    </Grid>
+                                    <Grid item xs={4}  >
+                                        <div className={classes.textcontainer}>  
+                                            <TextField
+                                                label="Telephone No"
+                                                onChange={this.onChange}
+                                                value={this.state.telno}
+                                                id="telno"
+                                                type="tel"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />
+                                            <span className={classes.textfielderror}>
+                                                {errors.telno}                                        
+                                            </span>
                                         </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.telno}
-                                            error={errors.telno}
-                                            id="telno"
-                                            type="tel"
-                                        />
-                                        <span className="red-text">
-                                            {errors.telno}                                        
-                                        </span>
-                                    </div>
-                                    <div className="input-field col s4">
-                                        <div>
-                                            <label htmlFor="nic">NIC</label>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div className={classes.textcontainer}>  
+                                            <TextField
+                                                label="NIC"
+                                                onChange={this.onChange}
+                                                value={this.state.nic}
+                                                id="nic"
+                                                type="text"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />  
+                                            <span className={classes.textfielderror}>
+                                                {errors.nic}                                        
+                                            </span> 
+                                        </div> 
+                                    </Grid>
+                                    <Grid item xs={12}> 
+                                        <div className={classes.textcontainer}>
+                                            <TextField
+                                                label="Address"
+                                                onChange={this.onChange}
+                                                value={this.state.address}
+                                                id="address"
+                                                type="text"
+                                                className={classes.textField}
+                                                margin="normal"
+                                            />
+                                            <span className={classes.textfielderror}>
+                                                {errors.address}                                        
+                                            </span>
                                         </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.nic}
-                                            error={errors.nic}
-                                            id="nic"
-                                            type="text"
-                                        />  
-                                        <span className="red-text">
-                                            {errors.nic}                                        
-                                        </span>                                              
-                                    </div>
-                                    <div className="input-field col s12">
-                                        <div>
-                                            <label htmlFor="address">Address</label>
-                                        </div>
-                                        <input
-                                            onChange={this.onChange}
-                                            value={this.state.address}
-                                            error={errors.address}
-                                            id="address"
-                                            type="text"
-                                        />
-                                        <span className="red-text">
-                                            {errors.address}                                        
-                                        </span>
-                                    </div> 
-                                    <div className="input-field col s12">                                  
-                                    <button
-                                        style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
-                                        type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable info accent-3"
-                                        >
-                                        Update
-                                    </button>
-                                    </div>                                    
+                                    </Grid>
+                                    <Grid item xs={12}>                                      
+                                        <ThemeProvider theme={theme}>                           
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.button}
+                                                >
+                                                UPDATE
+                                            </Button>
+                                        </ThemeProvider> 
+                                    </Grid>      
                                 </form>
-                            </div>
-                                <div className="col s4 offset s2" style={{marginTop:"3%"}}>
-                                    <div className="logo1">                    
-                                        <img id="logoimg1" src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
-                                                                                              
-                                    </div> 
-                                    <h6 className="userlogin1"><b>User Profile</b></h6>
-                                    <div style={{textAlign:"center"}}>
-                                        <Typography ><b>Username:</b><label>{userprofile.username}</label></Typography >
-                                        <Typography ><b>First Name:</b><label>{userprofile.firstname}</label></Typography >
-                                        <Typography ><b>Last Name:</b><label>{userprofile.lastname}</label></Typography >
-                                        <Typography ><b>Email:</b><label>{userprofile.email}</label></Typography >
-                                        <Typography ><b>Telephone no:</b><label>{userprofile.telno}</label></Typography >
-                                        <Typography ><b>NIC:</b><label>{userprofile.nic}</label></Typography >
-                                        <Typography ><b>Address:</b><label>{userprofile.address}</label></Typography >
-                                        
-                                    </div>
+                            </Grid>
+                            <Grid item xs={4} style={{marginTop:"45px"}}> 
+                                <div className="logo1">                    
+                                    <img id="logoimg1" src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
+                                </div> 
+                                <div style={{textAlign:"center"}}>
+                                    <p className={classes.userlogin}><b>USER PROFILE</b></p>
+                                    <Typography ><b>Username:</b><label>{userprofile.username}</label></Typography >
+                                    <Typography ><b>First Name:</b><label>{userprofile.firstname}</label></Typography >
+                                    <Typography ><b>Last Name:</b><label>{userprofile.lastname}</label></Typography >
+                                    <Typography ><b>Email:</b><label>{userprofile.email}</label></Typography >
+                                    <Typography ><b>Telephone no:</b><label>{userprofile.telno}</label></Typography >
+                                    <Typography ><b>NIC:</b><label>{userprofile.nic}</label></Typography >
+                                    <Typography ><b>Address:</b><label>{userprofile.address}</label></Typography >
                                 </div>
-                            </div>
-               
+                            </Grid>
+                        </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>               
                 <ExpansionPanel className={classes.root}>
@@ -470,11 +530,11 @@ class UpdateProfile extends Component{
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
                          <div className="row">                                                                      
                             <form noValidate onSubmit={this.usernamesubmit}>                             
-                                <div className="input-field col s7 ">
+                               
                                     <div>
                                         <label htmlFor="newusername">Username</label>
                                     </div>
-                                    <input
+                                    <TextField
                                         onChange={this.onChange}
                                         value={this.state.newusername}
                                         error={newusernameerrors.newusername}
@@ -484,24 +544,19 @@ class UpdateProfile extends Component{
                                     <span className="red-text">
                                         {newusernameerrors.newusername}                                        
                                     </span>
-                                </div>
                                 
-                                
-                                <div className="input-field col s5 ">                                  
-                                    <button
-                                        style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem",                                        
-                                        }}
-                                        type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable info accent-3"
-                                        
-                                        >
-                                        Update
-                                    </button>
-                                </div>
+                                                              
+                                    <ThemeProvider theme={theme}>                           
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            type="submit"
+                                            className={classes.button}
+                                            >
+                                            UPDATE
+                                        </Button>
+                                    </ThemeProvider>
+                               
                                
                             </form>
                             
@@ -520,11 +575,11 @@ class UpdateProfile extends Component{
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
                         <div className="row">
                             <form noValidate onSubmit={this.passwordsubmit}>
-                                <div className="input-field col s3 ">
+                               
                                     <div>
                                         <label htmlFor="currentpassword">Current Password</label>
                                     </div>
-                                    <input
+                                    <TextField
                                         onChange={this.onChange}
                                         value={this.state.currentpassword}
                                         error={passworderrors.currentpassword}
@@ -534,12 +589,11 @@ class UpdateProfile extends Component{
                                     <span className="red-text">
                                         {passworderrors.currentpassword}                                        
                                     </span>
-                                </div>
-                                <div className="input-field col s3">                            
+                                                         
                                     <div>
                                         <label htmlFor="newpassword">New Password</label>
                                     </div>
-                                    <input
+                                    <TextField
                                         onChange={this.onChange}
                                         value={this.state.newpassword}
                                         error={passworderrors.newpassword}
@@ -549,12 +603,11 @@ class UpdateProfile extends Component{
                                     <span className="red-text">
                                         {passworderrors.newpassword}                                        
                                     </span>
-                                </div>
-                                <div className="input-field col s3">
+                               
                                     <div>
                                         <label htmlFor="confirmpassword">Confirm Password</label>
                                     </div>
-                                    <input
+                                    <TextField
                                         onChange={this.onChange}
                                         value={this.state.confirmpassword}
                                         error={passworderrors.confirmpassword}
@@ -564,21 +617,18 @@ class UpdateProfile extends Component{
                                     <span className="red-text">
                                         {passworderrors.confirmpassword}                                        
                                     </span>
-                                </div>
-                                <div className="input-field col s3">                                  
-                                    <button
-                                        style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
-                                        type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable info accent-3"
-                                        >
-                                        Update
-                                    </button>
-                                </div>
+                                                      
+                                    <ThemeProvider theme={theme}>                           
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            type="submit"
+                                            className={classes.button}
+                                            >
+                                            UPDATE
+                                        </Button>
+                                    </ThemeProvider>
+                               
                             </form>  
                         </div>
                     </ExpansionPanelDetails>
@@ -603,16 +653,16 @@ class UpdateProfile extends Component{
                                             {picerrors.picupdate}                                        
                                     </span>
                                 </div>
-                                <button style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
-                                        type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable info accent-3">
-                                        Upload
-                                </button>
+                                <ThemeProvider theme={theme}>                           
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            type="submit"
+                                            className={classes.button}
+                                            >
+                                            UPDATE
+                                        </Button>
+                                    </ThemeProvider>
                             </form>
                         </div>
                     </ExpansionPanelDetails>
@@ -637,11 +687,11 @@ class UpdateProfile extends Component{
                                     </div>                                    
                                 </div>    
                                 <div className="row" >
-                                    <div className="input-field col s4">
+                                   
                                         <div>
                                             <label htmlFor="newusername">Username</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuserusername}
                                             error={registererrors.username}
@@ -651,12 +701,11 @@ class UpdateProfile extends Component{
                                         {<small className="red-text">
                                             {registererrors.username}                                        
                                         </small>}
-                                    </div>
-                                    <div className="input-field col s4">
+                                   
                                         <div>
                                             <label htmlFor="newuserpassword">Password</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuserpassword}
                                             error={registererrors.password}
@@ -666,12 +715,11 @@ class UpdateProfile extends Component{
                                         <small className="red-text">
                                             {registererrors.password}                                        
                                         </small>
-                                    </div>
-                                    <div className="input-field col s4">
+                                    
                                         <div>
                                             <label htmlFor="newuserpassword2">Confirm Password</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuserpassword2}
                                             error={registererrors.password2}
@@ -682,13 +730,13 @@ class UpdateProfile extends Component{
                                             {registererrors.password2}                                        
                                         </small>
                                     </div>
-                                </div>
+                               
                                 <div className="row">
-                                    <div className="input-field col s4">
+                                   
                                         <div>
                                             <label htmlFor="newuserfirstname">First Name</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuserfirstname}
                                             error={registererrors.firstname}
@@ -698,12 +746,11 @@ class UpdateProfile extends Component{
                                         <small className="red-text">
                                             {registererrors.firstname}                                        
                                         </small>
-                                    </div>
-                                    <div className="input-field col s8">
+                                    
                                         <div>
                                             <label htmlFor="newuserlastname">Last Name</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuserlastname}
                                             error={registererrors.lastname}
@@ -714,13 +761,13 @@ class UpdateProfile extends Component{
                                             {registererrors.lastname}                                        
                                         </small>
                                     </div>
-                                </div> 
+                                
                                 <div className="row">
-                                    <div className="input-field col s4">
+                                   
                                         <div>
                                             <label htmlFor="newuseremail">Email</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuseremail}
                                             error={registererrors.email}
@@ -730,12 +777,12 @@ class UpdateProfile extends Component{
                                         <small className="red-text">
                                             {registererrors.email}                                        
                                         </small>
-                                    </div>
-                                    <div className="input-field col s4">
+                                    
+                                   
                                         <div>
                                             <label htmlFor="newusertelno">Telephone No</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newusertelno}
                                             error={registererrors.telno}
@@ -745,12 +792,11 @@ class UpdateProfile extends Component{
                                         <small className="red-text">
                                             {registererrors.telno}                                        
                                         </small>
-                                    </div>
-                                    <div className="input-field col s4">
+                                    
                                         <div>
                                             <label htmlFor="newusernic">NIC</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newusernic}
                                             error={registererrors.nic}
@@ -760,14 +806,14 @@ class UpdateProfile extends Component{
                                         <small className="red-text">
                                             {registererrors.nic}                                        
                                         </small>                                              
-                                    </div>
+                                    
                                 </div>
                                 <div className="row">
-                                    <div className="input-field col s12">
+                                    
                                         <div>
                                             <label htmlFor="newuseraddress">Address</label>
                                         </div>
-                                        <input
+                                        <TextField
                                             onChange={this.onChange}
                                             value={this.state.newuseraddress}
                                             error={registererrors.address}
@@ -778,23 +824,20 @@ class UpdateProfile extends Component{
                                             {registererrors.address}                                        
                                         </small>
                                     </div>
-                                </div>
+                                
                                 <div className="row">
-                                    <div className="input-field col s12">                                  
-                                        <button
-                                            style={{
-                                            width: "100%",
-                                            borderRadius: "3px",
-                                            letterSpacing: "1.5px",
-                                            marginTop: "1rem"                                        
-                                            }}
+                                <ThemeProvider theme={theme}>                           
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
                                             type="submit"
-                                            className="btn btn-large waves-effect waves-light hoverable info accent-3"
+                                            className={classes.button}
                                             >
-                                            Update
-                                        </button>
+                                            SUBMIT
+                                        </Button>
+                                    </ThemeProvider>
                                     </div> 
-                                </div>
+                               
                             </form> 
                         </div>
                     </ExpansionPanelDetails>
@@ -810,21 +853,19 @@ class UpdateProfile extends Component{
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails style={{backgroundColor:"white"}}>
                         <div className="row">
-                                                                                                           
-                                <button style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
+                                <ThemeProvider theme={theme}>                           
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
                                         type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable red"
+                                        className={classes.button}
                                         onClick={this.handleClickOpen}
                                         >
                                         <i className="material-icons">delete_forever</i>
                                         Delete Account
-                                </button>
-                            
+                                    </Button>
+                                </ThemeProvider>                                                                          
+                                                           
                             <Dialog
                                 open={open}
                                 onClose={this.handleClose}
@@ -840,31 +881,30 @@ class UpdateProfile extends Component{
                                 </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                <button 
-                                    style={{
-                                        width: "100%",
-                                        borderRadius: "3px",
-                                        letterSpacing: "1.5px",
-                                        marginTop: "1rem"                                        
-                                        }}
+                                <ThemeProvider theme={theme}>                           
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
                                         type="submit"
-                                        className="btn btn-large waves-effect waves-light hoverable green"
-                                        onClick={this.handleClose}>
-                                    Disagree
-                                </button>
-                                <button 
-                                style={{
-                                    width: "100%",
-                                    borderRadius: "3px",
-                                    letterSpacing: "1.5px",
-                                    marginTop: "1rem"                                        
-                                    }}
-                                    type="submit"
-                                    className="btn btn-large waves-effect waves-light hoverable red"
-                                    onClick={this.deleteaccount}
-                                    autoFocus>
-                                    Agree
-                                </button>
+                                        className={classes.button}
+                                        onClick={this.handleClose}
+                                        >
+                                        Disagree
+                                    </Button>
+                                </ThemeProvider> 
+                                <ThemeProvider theme={theme}>                           
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        type="submit"
+                                        className={classes.button}
+                                        onClick={this.deleteaccount}
+                                        autoFocus
+                                        >
+                                        Agree
+                                    </Button>
+                                </ThemeProvider> 
+                                
                                 </DialogActions>
                             </Dialog>
                         </div>
