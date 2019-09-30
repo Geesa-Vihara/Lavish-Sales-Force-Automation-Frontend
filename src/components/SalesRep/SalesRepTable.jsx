@@ -1,5 +1,5 @@
 import React from "react";
-import  { Link }  from 'react-router-dom';
+import  { Link,Route}  from 'react-router-dom';
 //import Link from "@material-ui/core/Link";
 
 import Axios from 'axios';
@@ -23,6 +23,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ViewIcon from "@material-ui/icons/Visibility";
 import AddIcon from '@material-ui/icons/Add';
+import Add from "components/SalesRep/Add";
 
 
 const useStyles =theme => ({     
@@ -61,11 +62,24 @@ class  SalesRepTable extends React.Component{
       
     };
   }
-
-  componentDidMount(){
-
+  componentWillReceiveProps(){
+    
     Axios
-      .get('http://localhost:8000/salesReps')
+      .get('/salesReps')
+      .then(res => {
+        this.setState({
+          salesReps : res.data
+        });
+        console.log(this.state.salesReps);
+      })
+      .catch(err => {
+        console.log("Error loading salesReps data");
+      })
+  }
+  componentDidMount(){
+    
+    Axios
+      .get('/salesReps')
       .then(res => {
         this.setState({
           salesReps : res.data
@@ -83,12 +97,14 @@ class  SalesRepTable extends React.Component{
    // const salesReps = this.state.salesReps;
     return(
       <div>
+        
           <Paper>
-            <Link  to='/salesreps/add'>         
-              <Fab  aria-label="add"  className={classes.fab}>      
+            <Link to='/admin/salesreps/add'>         
+              <Fab aria-label="add" className={classes.fab}>      
                 <AddIcon />
               </Fab>  
             </Link>
+            <Route exact path="/admin/salesreps/add" component={Add} />
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -113,8 +129,8 @@ class  SalesRepTable extends React.Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.salesReps.map(salesrep => 
-                  <TableRow>
+                {this.state.salesReps.map((salesrep,i) => 
+                  <TableRow key={i}>
                     <TableCell>{salesrep.userName}</TableCell>
                     <TableCell>{salesrep.fullName}</TableCell>
                     <TableCell>{salesrep.area}</TableCell>

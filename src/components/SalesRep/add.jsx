@@ -40,7 +40,7 @@ const useStyles = theme => ({
         flexDirection: 'column',
     },
     marginTop: {
-        marginTop: 2 * theme.spacing.unit,
+        marginTop: theme.spacing(2),
     },
 
 
@@ -61,7 +61,7 @@ class Add extends React.Component{
             email:'',
             password:'',
             confirmPassword:'',
-            open:'false'
+            open:true
 
         };
         
@@ -89,14 +89,13 @@ class Add extends React.Component{
             email    : this.state.email,
             password : this.state.password,
             confirmPassword : this.state.confirmPassword
-        };
-
+        };        
         Axios
-            .post('http://localhost:8000/salesReps/add',salesrep)
+            .post('/salesReps/add',salesrep)
             .then(res => {
                 console.log(res.data);
-                this.setState({open:'false'});
-                this.props.history.push("/");
+                this.setState({open:false});
+                this.props.history.push("/admin/salesreps");
         
              })
             .catch(err => {
@@ -110,7 +109,7 @@ class Add extends React.Component{
 
     closeModal = () =>{
         this.setState({open:false});
-        this.props.history.push("/");
+        this.props.history.push("/admin/salesreps");
     }
 
     render(){
@@ -128,7 +127,7 @@ class Add extends React.Component{
             >
                 <Card className={classes.modalCard}>
                     <CardHeader>Add Salesresp</CardHeader>
-                    <form >
+                    <form onSubmit={this.onSubmit} >
                         <CardContent className={classes.modalCardContent}>
                             <TextField
                                 required
@@ -234,7 +233,7 @@ class Add extends React.Component{
                                     type="submit"
                                     variant="outlined"
                                     className={classes.button} 
-                                    onSubmit={this.onSubmit} 
+                                    
                                    // onClick={this.closeModal}
                                 >
                                 Save
