@@ -1,29 +1,26 @@
 import React from 'react';
 import Axios from 'axios';
 //material ui
-import { Card,CardContent,CardActions,CardHeader } from '@material-ui/core';
+import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
 
-
-
-
 const useStyles = theme => ({
     
     
-    textField: {
-        marginLeft:theme.spacing(1),
-      //  width:'50%',
-       // alignItems: 'center',
-        //justifyContent: 'center'
-        
+    textField: { 
+        marginLeft:theme.spacing(8),
+       // marginRight:theme.spacing(1),
+       width:'80%',
     },
     button:{
-        margin:theme.spacing(1),
-        color: "#018786"
-        
+        marginTop:theme.spacing(1),
+        marginLeft:theme.spacing(8),
+        marginRight:theme.spacing(8),
+        backgroundColor: "#018786",
+        width:'100%'
     },
      //modal styles
     modal: {
@@ -42,7 +39,6 @@ const useStyles = theme => ({
     marginTop: {
         marginTop: theme.spacing(2),
     },
-
 
 });
 
@@ -117,16 +113,13 @@ class Add extends React.Component{
         const { classes } = this.props;
         const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open } = this.state;
         return (
-            <div>
             
             <Modal 
                 className={classes.modal}
                 onClose={this.closeModal}
-                open={open}  
-                    
+                open={open}           
             >
                 <Card className={classes.modalCard}>
-                    <CardHeader>Add Salesresp</CardHeader>
                     <form onSubmit={this.onSubmit} >
                         <CardContent className={classes.modalCardContent}>
                             <TextField
@@ -233,14 +226,11 @@ class Add extends React.Component{
                                     type="submit"
                                     variant="outlined"
                                     className={classes.button} 
-                                    
-                                   // onClick={this.closeModal}
                                 >
                                 Save
                                 </Button>
                                 <Button
                                     variant="outlined"
-                                    //color="primary"
                                     className={classes.button}  
                                     onClick={this.closeModal}
                                 >
@@ -250,14 +240,8 @@ class Add extends React.Component{
                         </CardContent>
                     </form>
                 </Card>
-            </Modal>
-        </div>
-                
+            </Modal>     
         );
     }          
-
-
-    
 }
-//export default Add;
 export default withStyles(useStyles)(Add);
