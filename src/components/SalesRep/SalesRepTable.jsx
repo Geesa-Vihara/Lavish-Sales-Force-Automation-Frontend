@@ -1,18 +1,12 @@
 import React from "react";
 import  { Link,Route}  from 'react-router-dom';
-//import Link from "@material-ui/core/Link";
-
+import { CSVLink } from 'react-csv';
 import Axios from 'axios';
-//import Add from "./Add"
+import Add from "components/SalesRep/Add";
 
 // @material-ui/core components
 import { withStyles } from '@material-ui/core/styles';
-//import { makeStyles } from "@material-ui/core/styles";
 import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
-//import TableHead from "@material-ui/core/TableHead";
-//import TableRow from "@material-ui/core/TableRow";
-//import TableBody from "@material-ui/core/TableBody";
-//import TableCell from "@material-ui/core/TableCell";
 import Paper from '@material-ui/core/Paper';
 //buttons
 import Fab from '@material-ui/core/Fab';
@@ -23,8 +17,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ViewIcon from "@material-ui/icons/Visibility";
 import AddIcon from '@material-ui/icons/Add';
-import Add from "components/SalesRep/Add";
-
 
 const useStyles =theme => ({     
 
@@ -59,9 +51,11 @@ class  SalesRepTable extends React.Component{
     super(props);
     this.state={
       salesReps:[],
+      date: new Date().toLocaleDateString()
       
     };
   }
+
   componentWillReceiveProps(){
     
     Axios
@@ -76,6 +70,7 @@ class  SalesRepTable extends React.Component{
         console.log("Error loading salesReps data");
       })
   }
+
   componentDidMount(){
     
     Axios
@@ -90,11 +85,13 @@ class  SalesRepTable extends React.Component{
         console.log("Error loading salesReps data");
       })
   }
+    getFileName(){
+      return 'salesreps '+ this.state.date ;
+    }
 
   render(){
 
     const { classes } = this.props;
-   // const salesReps = this.state.salesReps;
     return(
       <div>
         
@@ -157,10 +154,12 @@ class  SalesRepTable extends React.Component{
               )}
               </TableBody>
           </Table>
-          <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>         { /*Add button to add salesreps*/}
+          <CSVLink data={this.state.salesReps} filename={this.getFileName()}>
+          <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>       
             <GetAppIcon className={classes.extendedIcon}/>
             Export
           </Fab> 
+          </CSVLink>
         </Paper>
       </div>
     );
