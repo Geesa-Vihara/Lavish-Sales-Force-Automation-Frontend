@@ -14,7 +14,6 @@ import UpdateProfile from "views/UserProfile/UpdateProfile";
 import Update from "components/SalesRep/Update";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 import View from "components/SalesRep/View";
-import Add from "components/SalesRep/Add";
 import Delete from "components/SalesRep/Delete";
 
 const hist = createBrowserHistory();
@@ -40,9 +39,8 @@ ReactDOM.render(
       <Route path="/login"component= {Login} />
       <Route path="/forgotpassword" component={ForgotPassword} /> 
       <PrivateRoute path="/admin" component={Admin} />
-      <PrivateRoute exact path="/account/:username" component={UpdateProfile} />        
-      
-      <PrivateRoute path = "/salesreps/add" component = {Add}/>
+      <PrivateRoute exact path="/account/:username" component={UpdateProfile} />  
+
       <PrivateRoute path = "/edit/:_id"  component = {Update}/>
       <PrivateRoute path = "/delete/:_id"  component = {Delete}/>
       <PrivateRoute path = "/view/:_id"    component = {View}/>
