@@ -34,44 +34,48 @@ const useStyles = theme => ({
     textcontainer: {
         display: 'flex',
         flexWrap: 'wrap',
-        marginBottom:10
+        marginBottom:30
       },
-      textField: {
+    textField: {
         marginLeft: theme.spacing(10),        
         width: 300,     
-      },
-      textfielderror: {
+    },
+    textfielderror: {
         marginLeft: theme.spacing(10),        
         color:"red"
-      },
-      heading:{
+    },
+    heading:{
         textAlign:"center",
         marginBottom:20
-      },
-      headingsuccess:{
-        fontSize:17,
+    },
+    headingsuccess:{
         textAlign:"center",
         marginBottom:10,
-        color:"green",
-    },
-      userlogin:{
+        color:"green"
+},
+    headingerror:{
+        textAlign:"center",
+        marginBottom:10,
+        color:"red"
+},
+    userlogin:{
         fontSize:17,
         color: "#2bbbad"
-      },
-      button:{
+    },
+    button:{
         marginLeft: theme.spacing(10),
         width: 300,
         height:45,
         borderRadius: "3px",
         letterSpacing: "1.5px",
         marginTop: "1rem"     
-      },
-      forgot:{
+    },
+    forgot:{
         textAlign: "center",
         marginLeft: theme.spacing(10),
         marginRight: theme.spacing(10),
         marginBottom:theme.spacing(3)
-      }, 
+    }, 
          
   });
   const theme = createMuiTheme({
@@ -80,12 +84,12 @@ const useStyles = theme => ({
     },
   });
 
-class ForgotPassword extends Component{
+class ResetPassword extends Component{
 
     constructor() {
         super();
         this.state = {
-          email: "",          
+          password: "",          
           errors: {},
           success:{}
         };        
@@ -97,14 +101,14 @@ class ForgotPassword extends Component{
     onSubmit = e => {
         e.preventDefault();
         const userData = {
-            email: this.state.email,           
+            password: this.state.password, 
+            token: this.props.match.params.token          
         };
         
-        axios.post('/forgotpassword',userData).then(res => { 
+        axios.post('/resetpassword',userData).then(res => { 
             
-            if(res.status===200){
-                
-                 this.setState({success:res.data})                       
+            if(res.status===200){                                             
+                this.setState({success:res.data})                        
                 }else{
                     const error = new Error(res.error);
                     throw error;
@@ -128,33 +132,36 @@ class ForgotPassword extends Component{
                         <img className={classes.logoimg} src={avatar} alt="img" />                    
                     </div> 
                     <div className={classes.heading}>             
-                        <p className={classes.userlogin}><b>FORGOT PASSWORD?</b></p>
+                        <p className={classes.userlogin}><b>RESET YOUR PASSWORD</b></p>
                         <label >Welcome to Lavish Tea Pvt LTD<br />
-                            <small >Sales Force Automation System</small>
-                        </label>  
+                            <small >Sales Force Automation System</small><br/>
+                        </label> 
                     </div> 
                     <form noValidate onSubmit={this.onSubmit}>
-                    
                         <div className={classes.headingsuccess}> 
                             <span>
                               <b>  {success.correct}</b>                                     
                             </span>
                         </div>
-                        <div className={classes.heading}>       
-                        
+                        <div className={classes.headingerror}> 
+                            <span>
+                                {errors.incorrect}                                     
+                            </span>
+                        </div>
+                        <div className={classes.heading}>    
                         </div>
                         <div className={classes.textcontainer}>     
-                        < b className={classes.forgot}>Enter your email address and we will send you a link to reset your password.</b>                    
+                            <b className={classes.forgot}>Enter new password before the link recieved expires.</b>                    
                             <TextField
-                                id="email"
-                                label="Email"
+                                id="password"
+                                label="Change Password"
                                 onChange={this.onChange}
-                                value={this.state.email}                              
-                                type="text"
+                                value={this.state.password}                              
+                                type="password"
                                 className={classes.textField}                                
                             />
                             <span className={classes.textfielderror}>
-                                {errors.email}                                        
+                                {errors.password}                                        
                             </span> 
                         </div>
                         <ThemeProvider theme={theme}>                           
@@ -164,12 +171,12 @@ class ForgotPassword extends Component{
                                 type="submit"
                                 className={classes.button}
                                 >
-                                SEND PASSWORD RESET EMAIL
+                                CHANGE PASSWORD
                             </Button>
                         </ThemeProvider>
                         <div className={classes.forgot}>
-                          <Link to="/login"><small><i className="material-icons" >keyboard_backspace</i><b>Back to Login</b></small> </Link>                    
-                        </div>
+                            <Link to="/login"><small><i className="material-icons" >keyboard_backspace</i><b>Back to Login</b></small> </Link>                    
+                        </div> 
                     </form>
                 </div>
                 <div>
@@ -178,8 +185,11 @@ class ForgotPassword extends Component{
             </div>
          
         )
+        
+            
+        
     }
 
 }
 
-export default withStyles(useStyles)(ForgotPassword);
+export default withStyles(useStyles)(ResetPassword);
