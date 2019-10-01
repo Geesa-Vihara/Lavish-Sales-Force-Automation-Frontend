@@ -57,7 +57,8 @@ class Add extends React.Component{
             email:'',
             password:'',
             confirmPassword:'',
-            open:true
+            open:true,
+            isExpire:false
 
         };
         
@@ -74,6 +75,7 @@ class Add extends React.Component{
     onSubmit =(e) => {
 
         e.preventDefault();
+        var token = localStorage.getItem('jwtToken')
         const salesrep = {
 
             userName : this.state.userName,
@@ -87,7 +89,11 @@ class Add extends React.Component{
             confirmPassword : this.state.confirmPassword
         };        
         Axios
-            .post('/salesReps/add',salesrep)
+            .post('/salesReps/add',salesrep,{
+                headers:{
+                    'Authorization':token
+                }
+            })
             .then(res => {
                 console.log(res.data);
                 this.setState({open:false});
@@ -95,7 +101,10 @@ class Add extends React.Component{
         
              })
             .catch(err => {
-                console.log("Error when submiting data");
+                if(err.message){
+                    console.log(err.message);
+                    this.setState({isExpire:true}) ; 
+                }
              })
     }
 
@@ -224,13 +233,13 @@ class Add extends React.Component{
                             <CardActions>
                                 <Button
                                     type="submit"
-                                    variant="outlined"
+                                    variant="contained"
                                     className={classes.button} 
                                 >
                                 Save
                                 </Button>
                                 <Button
-                                    variant="outlined"
+                                    variant="contained"
                                     className={classes.button}  
                                     onClick={this.closeModal}
                                 >
