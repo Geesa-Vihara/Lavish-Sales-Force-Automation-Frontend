@@ -9,7 +9,7 @@ import Login from "views/Pages/Login.jsx";
 import "assets/css/material-dashboard-react.css?v=1.7.0";
 import ForgotPassword from "views/Pages/ForgotPassword";
 import UpdateProfile from "views/UserProfile/UpdateProfile";
-
+import ResetPassword from "views/Pages/ResetPassword";
 
 import Update from "components/SalesRep/Update";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
@@ -38,6 +38,7 @@ ReactDOM.render(
       
       <Route path="/login"component= {Login} />
       <Route path="/forgotpassword" component={ForgotPassword} /> 
+      <Route exact path="/resetpassword/:token" component={ResetPassword} />
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute exact path="/account/:username" component={UpdateProfile} />  
 
