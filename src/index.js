@@ -15,6 +15,7 @@ import Update from "components/SalesRep/Update";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 import View from "components/SalesRep/View";
 import Delete from "components/SalesRep/Delete";
+import CheckExp from "components/Auth/CheckExp";
 
 const hist = createBrowserHistory();
 
@@ -23,10 +24,15 @@ const PrivateRoute = ({ component: Component, ...props }) => {
     <Route
       {...props}
       render={innerProps =>
-        localStorage.getItem('jwtToken')!==null ? 
+            CheckExp()===false && localStorage.getItem("jwtToken")!==null?
             <Component {...innerProps} />
-            :
-            <Redirect to="/login" />
+            :            
+            <Redirect to={{
+              pathname:"/login",
+              state:{expire:"Session expired please login again"}
+              }}/>
+                
+            
       }
     />
   );

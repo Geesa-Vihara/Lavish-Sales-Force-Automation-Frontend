@@ -8,6 +8,7 @@ import { withStyles,createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { ThemeProvider } from '@material-ui/styles';
 import { teal} from '@material-ui/core/colors';
+import CheckExp from "components/Auth/CheckExp";
 
 const useStyles = theme => ({
     container:{
@@ -83,13 +84,19 @@ class Login extends Component{
         this.state = {
           username: "",
           password: "",
-          errors: {}
+          errors: {},
+          expire:""
         };        
       }
     onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
     };
-
+    componentDidMount(){
+        if(CheckExp()===true){
+            this.setState({expire:this.props.location.state.expire});
+            localStorage.removeItem("jwtToken")
+        }
+    }
     onSubmit = e => {
         e.preventDefault();
         const userData = {
@@ -101,7 +108,7 @@ class Login extends Component{
             
             if(res.status===200){
                 const {token}=res.data;
-                localStorage.setItem("jwtToken",token);                
+                localStorage.setItem("jwtToken",token);              
                 this.props.history.push({
                     pathname: '/admin/dashboard'
                   })                          
@@ -119,8 +126,8 @@ class Login extends Component{
     };
 
     render(){
-        const { errors } = this.state;
-        const { classes } = this.props;
+        const { errors,expire } = this.state;
+        const { classes } = this.props;        
         return(
             <div style={{ marginTop: "8rem"}}>
                 <div className={classes.container}>
@@ -137,6 +144,11 @@ class Login extends Component{
                         <div className={classes.headingerror}> 
                             <span>
                                 {errors.incorrect}                                     
+                            </span>
+                        </div>
+                        <div className={classes.headingerror}> 
+                            <span>
+                                {expire}                                     
                             </span>
                         </div>
                         <div className={classes.textcontainer}>                                
