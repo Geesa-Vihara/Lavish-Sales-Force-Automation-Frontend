@@ -3,7 +3,8 @@ import  { Link,Route}  from 'react-router-dom';
 import { CSVLink } from 'react-csv';
 import Axios from 'axios';
 import Add from "components/SalesRep/Add";
-
+import Delete from "components/SalesRep/Delete";
+import Update from "components/SalesRep/Update";
 // @material-ui/core components
 import { withStyles } from '@material-ui/core/styles';
 import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
@@ -51,7 +52,8 @@ class  SalesRepTable extends React.Component{
     super(props);
     this.state={
       salesReps:[],
-      date: new Date().toLocaleDateString()
+      date: new Date().toLocaleDateString(),
+      isExpire:false
       
     };
   }
@@ -72,9 +74,14 @@ class  SalesRepTable extends React.Component{
   }
 
   componentDidMount(){
-    
+
+    var token = localStorage.getItem('jwtToken');
     Axios
-      .get('/salesReps')
+      .get('/salesReps',{
+        headers:{
+          'Authorization':token
+        }
+      })
       .then(res => {
         this.setState({
           salesReps : res.data
@@ -82,12 +89,16 @@ class  SalesRepTable extends React.Component{
         console.log(this.state.salesReps);
       })
       .catch(err => {
-        console.log("Error loading salesReps data");
+        if(err.message){
+          console.log(err.message);
+          this.setState({isExpire:true});
+        }
       })
   }
-    getFileName(){
-      return 'salesreps '+ this.state.date ;
-    }
+
+  getFileName(){
+    return 'salesreps '+ this.state.date ;
+  }
 
   render(){
 
@@ -134,21 +145,23 @@ class  SalesRepTable extends React.Component{
                     <TableCell>{salesrep.address}</TableCell>
                     <TableCell>{salesrep.phoneNo}</TableCell>
                     <TableCell>
-                      <Link to={`/view/{salesrep._id}`}>  
+                      <Link to={`/admin/salesreps/view/${salesrep.userName}`}>  
                         <IconButton  aria-label="view"  >
                             <ViewIcon className={classes.icon}/>
                         </IconButton> 
                       </Link>
-                      <Link to={`/edit/{salesrep._id}`}>      
+                      <Link to={`/admin/salesreps/edit/${salesrep.userName}`}>      
                         <IconButton  aria-label="edit" >
                             <EditIcon className={classes.icon} />
                         </IconButton>
                       </Link>
-                      <Link to={`/delete/{salesrep._id}`}>
+                       <Route exact path='/admin/salesreps/edit/:userName' component={Update} />
+                      <Link to={`/admin/salesreps/delete/${salesrep._id}`}>
                         <IconButton  aria-label="delete">
                             <DeleteIcon className={classes.icon}/>
                         </IconButton>
                       </Link>
+                      <Route exact path='/admin/salesreps/delete/:id' component={Delete} />
                   </TableCell>
                 </TableRow>
               )}
