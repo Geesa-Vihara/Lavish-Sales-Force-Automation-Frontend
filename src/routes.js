@@ -19,7 +19,7 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
-
+import AnalyticsPage from "views/Analytics/Analytics.jsx";
 
 
 const dashboardRoutes = [
@@ -91,7 +91,7 @@ const dashboardRoutes = [
     path: "/analytics",
     name: "Analytics",
     icon: Timeline,
-    component: DashboardPage,
+    component: AnalyticsPage,
     layout: "/admin"
   }
 ];
