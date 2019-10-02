@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode";
 import Button from '@material-ui/core/Button';
 import Person from '@material-ui/icons/Person';
 import Dashboard from '@material-ui/icons/Dashboard';
-import AddAlert from '@material-ui/icons/AddAlert';
+import Notification from '@material-ui/icons/Notifications';
 
 const useStyles = theme => ({
     margin: {
@@ -87,7 +87,7 @@ class SMNavBar extends Component{
                         badgeContent={5} 
                         className={classes.margin}     
                     >    
-                        <AddAlert className={classes.icon} />              
+                        <Notification className={classes.icon} />              
                     </Badge>                   
                  </Button> 
                 <Menu
