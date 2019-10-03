@@ -1,10 +1,11 @@
 import React from "react";
-import  { Link,Route}  from 'react-router-dom';
+import  { Link,Route,Redirect}  from 'react-router-dom';
 import { CSVLink } from 'react-csv';
 import Axios from 'axios';
 import Add from "components/SalesRep/Add";
 import Delete from "components/SalesRep/Delete";
 import Update from "components/SalesRep/Update";
+// import View from "components/SalesRep/View";
 // @material-ui/core components
 import { withStyles } from '@material-ui/core/styles';
 import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
@@ -59,17 +60,25 @@ class  SalesRepTable extends React.Component{
   }
 
   componentWillReceiveProps(){
-    
+
+    var token = localStorage.getItem('jwtToken');
     Axios
-      .get('/salesReps')
+      .get('/salesReps',{
+        headers:{
+          'Authorization':token
+        }
+      })
       .then(res => {
         this.setState({
           salesReps : res.data
         });
-        console.log(this.state.salesReps);
+       // console.log(this.state.salesReps);
       })
       .catch(err => {
-        console.log("Error loading salesReps data");
+        if(err.message){
+          console.log(err.message);
+          this.setState({isExpire:true});
+        }
       })
   }
 
@@ -103,9 +112,9 @@ class  SalesRepTable extends React.Component{
   render(){
 
     const { classes } = this.props;
+    if(!this.state.isExpire){
     return(
       <div>
-        
           <Paper>
             <Link to='/admin/salesreps/add'>         
               <Fab aria-label="add" className={classes.fab}>      
@@ -145,17 +154,18 @@ class  SalesRepTable extends React.Component{
                     <TableCell>{salesrep.address}</TableCell>
                     <TableCell>{salesrep.phoneNo}</TableCell>
                     <TableCell>
-                      <Link to={`/admin/salesreps/view/${salesrep.userName}`}>  
+                      <Link to={`/admin/salesreps/view/${salesrep._id}`}>  
                         <IconButton  aria-label="view"  >
                             <ViewIcon className={classes.icon}/>
                         </IconButton> 
                       </Link>
-                      <Link to={`/admin/salesreps/edit/${salesrep.userName}`}>      
+                      {/* <Route exact path='/admin/salesreps/view/:userName' component={View} /> */}
+                      <Link to={`/admin/salesreps/edit/${salesrep._id}`}>      
                         <IconButton  aria-label="edit" >
                             <EditIcon className={classes.icon} />
                         </IconButton>
                       </Link>
-                       <Route exact path='/admin/salesreps/edit/:userName' component={Update} />
+                       <Route exact path='/admin/salesreps/edit/:id' component={Update} />
                       <Link to={`/admin/salesreps/delete/${salesrep._id}`}>
                         <IconButton  aria-label="delete">
                             <DeleteIcon className={classes.icon}/>
@@ -176,6 +186,18 @@ class  SalesRepTable extends React.Component{
         </Paper>
       </div>
     );
+    }
+    else{
+      return(
+        <div>                
+            <Redirect to={{
+                pathname:"/login",
+                state:{expire:"Session expired please login again"}
+                }}/>
+            
+        </div>
+    )
+    }
   }
 }
 

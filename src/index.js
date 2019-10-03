@@ -12,8 +12,8 @@ import UpdateProfile from "views/UserProfile/UpdateProfile";
 import ResetPassword from "views/Pages/ResetPassword";
 
 //import Update from "components/SalesRep/Update";
-//import SalesRepTable from "components/SalesRep/SalesRepTable";
-//import View from "components/SalesRep/View";
+import SalesRepTable from "components/SalesRep/SalesRepTable";
+import View from "components/SalesRep/View";
 //import Delete from "components/SalesRep/Delete";
 import CheckExp from "components/Auth/CheckExp";
 
@@ -50,8 +50,8 @@ ReactDOM.render(
 
       {/* <PrivateRoute path = "/edit/:userName"  component = {Update}/> */}
       {/* <PrivateRoute path = "/delete/:userName"  component = {Delete}/> */}
-      {/* <PrivateRoute path = "/view/userName"    component = {View}/> */}
-      {/* <PrivateRoute path = "/admin/salesreps"    component = {SalesRepTable}/> */}
+      <PrivateRoute path = "/admin/salesreps/view/:id" component = {View}/>
+      <PrivateRoute path = "/admin/salesreps" component = {SalesRepTable}/>
       <Redirect from="/" to="/admin/dashboard" /> 
 
     </Switch>
