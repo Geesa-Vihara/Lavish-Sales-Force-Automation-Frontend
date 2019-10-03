@@ -26,12 +26,24 @@ const useStyles = theme => ({
     color:"black"
   },  
   icon:{
-     fontSize:100
+     fontSize:100,
+     
    },
   iconimage:{
-    color:"#dce775",
+    color:"white",
+    borderRadius: "20px",
+    backgroundColor:"#dce775",
+    width:100,
     height:100,
-    width:100
+    textAlign:"center",
+    
+  },
+  iconstore:{
+    fontSize:130,
+    backgroundColor:"#dce775",
+    color:"white",
+    borderRadius: "20px",
+    float:"left",
   },
   container:{
     width:"100%"
@@ -73,15 +85,15 @@ class Dashboard extends React.Component {
         <Grid container style={{marginTop:"2%"}}>
           <Grid item xs={6} >
             <Grid container >
-              <Grid item xs={4} style={{height:300}}>
-                <Card style={{marginRight:10,marginBottom:10,height:"100%"}}>
+              <Grid item xs={6} style={{height:300}}>
+                <Card style={{marginRight:10,height:"100%"}}>
                   <CardHeader
                     avatar={
                       <Avatar aria-label="recipe" className={classes.avatar}>
-                        <Icon style={{color:"black"}}>attach_money</Icon>
+                        <Icon style={{color:"black"}}>money</Icon>
                       </Avatar>
                     }
-                    title="Daily sales"
+                    title="Daily sales revenue"
                     subheader={date}
                     />
                     <Divider/>
@@ -90,7 +102,7 @@ class Dashboard extends React.Component {
                         <Icon  className={classes.icon} >attach_money</Icon>
                       </div>
                       <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                        <Typography component="h4" variant="h4">
                           <b>Rs 20,000</b>
                         </Typography>
                       </CardContent>
@@ -98,7 +110,7 @@ class Dashboard extends React.Component {
                 </Card>
               </Grid>
 
-              <Grid item xs={4} style={{height:300}}>
+              <Grid item xs={6} style={{height:300}}>
                 <Card style={{marginRight:10,height:"100%"}}>
                   <CardHeader
                     avatar={
@@ -110,12 +122,12 @@ class Dashboard extends React.Component {
                     subheader={date}
                     />
                     <Divider/>
-                    <CardContent style={{textAlign:"center"}}>
+                    <CardContent>
                       <div className={classes.iconimage}>                            
                         <Icon  className={classes.icon} >trending_up</Icon>
                       </div>
                       <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                        <Typography component="h4" variant="h4">
                           <b>Tea Pouch</b>
                         </Typography>
                       </CardContent>
@@ -123,8 +135,8 @@ class Dashboard extends React.Component {
                   </Card>
                 </Grid>
 
-                <Grid item xs={4} style={{height:300}}>
-                  <Card style={{marginRight:10,height:"100%"}}>
+                <Grid item xs={12} style={{height:250}}>
+                  <Card style={{marginRight:10,marginTop:10,height:"100%"}}>
                     <CardHeader
                       avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}  >
@@ -136,11 +148,9 @@ class Dashboard extends React.Component {
                       />
                     <Divider/>
                     <CardContent >
-                      <div className={classes.iconimage}>
-                        <Icon className={classes.icon} >storefront</Icon>
-                      </div>
-                      <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                      <CardContent className={classes.content}>  
+                      <Icon className={classes.iconstore} >storefront</Icon>                      
+                        <Typography component="h3" variant="h3" style={{marginTop:20}}>                          
                           <b> Cargills Colombo</b>
                         </Typography>
                       </CardContent>
@@ -148,8 +158,8 @@ class Dashboard extends React.Component {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} style={{height:750}}>
-                  <Card style={{height:"100%",marginRight:10,marginTop:10}}>
+                <Grid item xs={12} style={{height:590}}>
+                  <Card style={{marginTop:20,height:"100%",marginRight:10}}>
                     <CardHeader
                       avatar={
                         <Avatar aria-label="recipe" className={classes.avatar} >
@@ -162,7 +172,7 @@ class Dashboard extends React.Component {
                     <Divider/>
                     <CardContent >
                       <GridList style={{marginLeft:10,marginRight:10}}>  
-                        <List style={{width:"100%",height:630}}>
+                        <List style={{width:"100%",height:490}}>
                           <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                               <Avatar alt="Remy Sharp" src={salesrep} />
@@ -415,7 +425,7 @@ class Dashboard extends React.Component {
             <Grid item xs={6} >
               <Grid container  >
                 <Grid item xs={12}>
-                  <Card  style={{height:500,marginRight:10}} >
+                  <Card style={{height:500,marginRight:10}} >
                     <CardHeader
                       avatar={
                         <Avatar aria-label="recipe" className={classes.avatar} >
@@ -427,19 +437,18 @@ class Dashboard extends React.Component {
                       />
                     <Divider/>
                     <CardContent>
-                      <ReactFusioncharts
-                          renderAt= "chartContainer"
-                          type="doughnut2d"
-                          width="100%"
-                          height="50%"
-                          dataFormat="JSON"
-                          dataSource={dailyproducts}
-                      />
+                        <ReactFusioncharts
+                            type="doughnut2d"
+                            width="100%"
+                            height="400"
+                            dataFormat="JSON"
+                            dataSource={dailyproducts}
+                        />
                     </CardContent>
                   </Card>
                 </Grid>
               
-                <Grid item xs={12} style={{height:550}} >
+                <Grid item xs={12} style={{height:650}} >
                   <Card style={{marginTop:10,marginRight:10,height:"100%"}}>
                     <CardHeader
                       avatar={
@@ -453,10 +462,9 @@ class Dashboard extends React.Component {
                     <Divider/>
                     <CardContent >
                       <ReactFusioncharts
-                        backgroundColor="green"
                         type="bar2d"
                         width="100%"
-                        height="55%"
+                        height="550"
                         dataFormat="JSON"
                         dataSource={dailysales}
                       />
