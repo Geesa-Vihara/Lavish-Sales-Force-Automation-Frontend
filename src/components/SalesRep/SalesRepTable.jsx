@@ -1,5 +1,5 @@
 import React from "react";
-import  { Link,Route}  from 'react-router-dom';
+import  { Link,Route,Redirect}  from 'react-router-dom';
 import { CSVLink } from 'react-csv';
 import Axios from 'axios';
 import Add from "components/SalesRep/Add";
@@ -60,9 +60,14 @@ class  SalesRepTable extends React.Component{
   }
 
   componentWillReceiveProps(){
-    
+
+    var token = localStorage.getItem('jwtToken');
     Axios
-      .get('/salesReps')
+      .get('/salesReps',{
+        headers:{
+          'Authorization':token
+        }
+      })
       .then(res => {
         this.setState({
           salesReps : res.data
@@ -70,7 +75,10 @@ class  SalesRepTable extends React.Component{
        // console.log(this.state.salesReps);
       })
       .catch(err => {
-        console.log(err.message);
+        if(err.message){
+          console.log(err.message);
+          this.setState({isExpire:true});
+        }
       })
   }
 
@@ -104,9 +112,9 @@ class  SalesRepTable extends React.Component{
   render(){
 
     const { classes } = this.props;
+    if(!this.state.isExpire){
     return(
       <div>
-        
           <Paper>
             <Link to='/admin/salesreps/add'>         
               <Fab aria-label="add" className={classes.fab}>      
@@ -178,6 +186,18 @@ class  SalesRepTable extends React.Component{
         </Paper>
       </div>
     );
+    }
+    else{
+      return(
+        <div>                
+            <Redirect to={{
+                pathname:"/login",
+                state:{expire:"Session expired please login again"}
+                }}/>
+            
+        </div>
+    )
+    }
   }
 }
 
