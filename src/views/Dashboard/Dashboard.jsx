@@ -83,7 +83,7 @@ class Dashboard extends React.Component {
 
       <div> 
         <Grid container style={{marginTop:"2%"}}>
-          <Grid item xs={6} >
+          <Grid item xs={7} >
             <Grid container >
               <Grid item xs={6} style={{height:300}}>
                 <Card style={{marginRight:10,height:"100%"}}>
@@ -422,7 +422,7 @@ class Dashboard extends React.Component {
               </Grid>
             </Grid>
 
-            <Grid item xs={6} >
+            <Grid item xs={5} >
               <Grid container  >
                 <Grid item xs={12}>
                   <Card style={{height:500,marginRight:10}} >

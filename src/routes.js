@@ -16,11 +16,11 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import UserProfile from "views/UserProfile/UserProfile.jsx";
 
-import Maps from "views/Maps/Maps.jsx";
+//import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 import AnalyticsPage from "views/Analytics/Analytics.jsx";
-
+import Tracking from "views/Tracking/Tracking.jsx";
 
 const dashboardRoutes = [
   {
@@ -51,7 +51,7 @@ const dashboardRoutes = [
     path: "/track",
     name: "Tracking",
     icon: LocationOn,
-    component: Maps,
+    component: Tracking,
     layout: "/admin"
   },
   
