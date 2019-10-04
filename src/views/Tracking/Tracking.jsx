@@ -2,17 +2,6 @@ import React,{Component} from "react";
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDateTimePicker,
-  } from '@material-ui/pickers';
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow,
-} from "react-google-maps";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -23,6 +12,18 @@ import { Link,Redirect } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { ThemeProvider } from '@material-ui/styles';
 import { teal} from '@material-ui/core/colors';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDateTimePicker,
+  } from '@material-ui/pickers';
+  
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+  InfoWindow,
+} from "react-google-maps";
 
 const useStyles = theme => ({
     
