@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import { Redirect } from 'react-router-dom';
 //material ui
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
@@ -89,7 +90,7 @@ class Add extends React.Component{
             confirmPassword : this.state.confirmPassword
         };        
         Axios
-            .post('/salesReps/add',salesrep,{
+            .post('/salesreps/add',salesrep,{
                 headers:{
                     'Authorization':token
                 }
@@ -120,7 +121,8 @@ class Add extends React.Component{
     render(){
 
         const { classes } = this.props;
-        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open } = this.state;
+        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire } = this.state;
+        if(!isExpire){
         return (
             
             <Modal 
@@ -251,6 +253,18 @@ class Add extends React.Component{
                 </Card>
             </Modal>     
         );
+        }
+        else{
+            return(
+              <div>                
+                  <Redirect to={{
+                      pathname:"/login",
+                      state:{expire:"Session expired please login again"}
+                      }}/>
+                  
+              </div>
+          )
+          }
     }          
 }
 export default withStyles(useStyles)(Add);

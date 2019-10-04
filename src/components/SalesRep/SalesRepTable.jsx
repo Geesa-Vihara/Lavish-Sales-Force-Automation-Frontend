@@ -63,7 +63,7 @@ class  SalesRepTable extends React.Component{
 
     var token = localStorage.getItem('jwtToken');
     Axios
-      .get('/salesReps',{
+      .get('/salesreps',{
         headers:{
           'Authorization':token
         }
@@ -86,7 +86,7 @@ class  SalesRepTable extends React.Component{
 
     var token = localStorage.getItem('jwtToken');
     Axios
-      .get('/salesReps',{
+      .get('/salesreps',{
         headers:{
           'Authorization':token
         }
@@ -160,12 +160,12 @@ class  SalesRepTable extends React.Component{
                         </IconButton> 
                       </Link>
                       {/* <Route exact path='/admin/salesreps/view/:userName' component={View} /> */}
-                      <Link to={`/admin/salesreps/edit/${salesrep._id}`}>      
+                      <Link to={`/admin/salesreps/update/${salesrep._id}`}>      
                         <IconButton  aria-label="edit" >
                             <EditIcon className={classes.icon} />
                         </IconButton>
                       </Link>
-                       <Route exact path='/admin/salesreps/edit/:id' component={Update} />
+                       <Route exact path='/admin/salesreps/update/:id' component={Update} />
                       <Link to={`/admin/salesreps/delete/${salesrep._id}`}>
                         <IconButton  aria-label="delete">
                             <DeleteIcon className={classes.icon}/>
