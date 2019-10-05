@@ -63,10 +63,13 @@ class  SalesRepTable extends React.Component{
       salesReps:[],
       date: new Date().toLocaleDateString(),
       isExpire:false,
-      filterText:""
+      filterText:"",
+      filteredData:[]
+
       
     };
     this.onChange=this.onChange.bind(this);
+  
   }
 
   componentWillReceiveProps(){
@@ -80,7 +83,8 @@ class  SalesRepTable extends React.Component{
       })
       .then(res => {
         this.setState({
-          salesReps : res.data
+          salesReps : res.data,
+          filteredData : res.data
         });
        // console.log(this.state.salesReps);
       })
@@ -103,7 +107,8 @@ class  SalesRepTable extends React.Component{
       })
       .then(res => {
         this.setState({
-          salesReps : res.data
+          salesReps : res.data,
+          filteredData : res.data
         });
         console.log(this.state.salesReps);
       })
@@ -115,17 +120,17 @@ class  SalesRepTable extends React.Component{
       })
   }
   onChange = (e) => {
-
-    if(e.target.value){
-    this.setState({filterText:e.target.value});
-    }
-    else{
-      this.setState({filterText:''});
-    }
+    const filterText=e.target.value;
+    this.setState(prevState => {
+      const filteredData = prevState.salesReps.filter(e => {
+        return e.userName.toLowerCase().includes(filterText.toLowerCase());
+      });
+      return {
+        filterText,
+        filteredData
+      };
+    });
   }
-  // search = () => {
-    
-  // }
 
   getFileName(){
     return 'salesreps '+ this.state.date ;
@@ -162,10 +167,8 @@ class  SalesRepTable extends React.Component{
                     </InputAdornment>
                   ),
                 }}
-            
               />
             </div>
-      
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -190,7 +193,7 @@ class  SalesRepTable extends React.Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.salesReps.map((salesrep,i) => {
+                {this.state.filteredData.map((salesrep,i) => {
                   return(
                   <TableRow key={i} hover>
                     <TableCell>{salesrep.userName}</TableCell>
