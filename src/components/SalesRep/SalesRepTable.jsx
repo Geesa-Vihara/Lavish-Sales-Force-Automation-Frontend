@@ -8,8 +8,9 @@ import Update from "components/SalesRep/Update";
 // import View from "components/SalesRep/View";
 // @material-ui/core components
 import { withStyles } from '@material-ui/core/styles';
-import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
+import { Table,TableBody,TableCell,TableHead,TableRow,TextField }  from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
+import InputAdornment from "@material-ui/core/InputAdornment";
 //buttons
 import Fab from '@material-ui/core/Fab';
 import IconButton from "@material-ui/core/IconButton";
@@ -19,15 +20,19 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ViewIcon from "@material-ui/icons/Visibility";
 import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
 
-const useStyles =theme => ({     
-
+const useStyles =theme => ({   
+  paper:{
+    marginTop:theme.spacing(-1),
+    width:'100%',
+  }  ,
   fab: {
-    margin: theme.spacing(1),
-    backgroundColor: "#018786"
+    margin: theme.spacing(2),
+    backgroundColor: "#018786",
   },
   extendedIcon: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2),
   },
   icon:{
     color:"#018786"
@@ -36,14 +41,17 @@ const useStyles =theme => ({
     marginBottom: "0",
     width: "100%",
     maxWidth: "100%",
-    backgroundColor: "transparent",
-    borderSpacing: "0",
     borderCollapse: "collapse"
   },
   tableHeadCell: {
    color: "inherit",
    fontSize: "1.1em"
-  
+  },
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
   },
 });
 
@@ -54,9 +62,11 @@ class  SalesRepTable extends React.Component{
     this.state={
       salesReps:[],
       date: new Date().toLocaleDateString(),
-      isExpire:false
+      isExpire:false,
+      filterText:""
       
     };
+    this.onChange=this.onChange.bind(this);
   }
 
   componentWillReceiveProps(){
@@ -104,6 +114,18 @@ class  SalesRepTable extends React.Component{
         }
       })
   }
+  onChange = (e) => {
+
+    if(e.target.value){
+    this.setState({filterText:e.target.value});
+    }
+    else{
+      this.setState({filterText:''});
+    }
+  }
+  // search = () => {
+    
+  // }
 
   getFileName(){
     return 'salesreps '+ this.state.date ;
@@ -115,13 +137,35 @@ class  SalesRepTable extends React.Component{
     if(!this.state.isExpire){
     return(
       <div>
-          <Paper>
-            <Link to='/admin/salesreps/add'>         
-              <Fab aria-label="add" className={classes.fab}>      
-                <AddIcon />
-              </Fab>  
-            </Link>
-            <Route exact path="/admin/salesreps/add" component={Add} />
+          <Paper className={classes.paper}>
+            <div className={classes.root} >
+              <Link to='/admin/salesreps/add'>         
+                <Fab aria-label="add" className={classes.fab}>      
+                  <AddIcon />
+                </Fab>  
+              </Link>
+              <Route exact path="/admin/salesreps/add" component={Add} />
+              <TextField
+                style={{left:'100%'}}
+                autoFocus
+                id='filter'
+                type='text'
+                placeholder='Search Salesreps'
+                value={this.state.filterText}
+                onChange={this.onChange}
+                margin='normal'
+                className={classes.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon className={classes.icon} />
+                    </InputAdornment>
+                  ),
+                }}
+            
+              />
+            </div>
+      
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -146,8 +190,9 @@ class  SalesRepTable extends React.Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.salesReps.map((salesrep,i) => 
-                  <TableRow key={i}>
+                {this.state.salesReps.map((salesrep,i) => {
+                  return(
+                  <TableRow key={i} hover>
                     <TableCell>{salesrep.userName}</TableCell>
                     <TableCell>{salesrep.fullName}</TableCell>
                     <TableCell>{salesrep.area}</TableCell>
@@ -173,8 +218,8 @@ class  SalesRepTable extends React.Component{
                       </Link>
                       <Route exact path='/admin/salesreps/delete/:id' component={Delete} />
                   </TableCell>
-                </TableRow>
-              )}
+                </TableRow>);
+              })}
               </TableBody>
           </Table>
           <CSVLink data={this.state.salesReps} filename={this.getFileName()}>
