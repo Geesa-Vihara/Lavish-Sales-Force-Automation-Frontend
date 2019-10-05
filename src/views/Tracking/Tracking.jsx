@@ -57,18 +57,19 @@ class Tracking extends Component {
     constructor (props){
         super(props);
         this.state={
-        selectedDateFrom:Date.now(),
-        selectedDateTo:Date.now()+1000*60*60*24,
+        selectedDateFrom:Date.now()-1000*60*60*24,
+        selectedDateTo:Date.now(),
         salesreps:[],
         orders:[
-            {lat:9.116668,lng:80.443327,fullName:"Kasun Perera",customer:"Cargills",OrderId:"42108"},
-            {lat:7.068086,lng:79.988533,fullName:"Saman Perera",customer:"Family Super",OrderId:"50101"},
-            {lat:6.422624,lng:80.668498,fullName:"Nimantha Silva",customer:"Keells",OrderId:"60181"},
-            {lat:7.365355,lng:80.702229,fullName:"Chamara Sampath",customer:"Food City",OrderId:"70131"},
-            {lat:7.645163,lng:81.501627,fullName:"Nuwan Madushka",customer:"City Center ",OrderId:"99101"},
+            {lat:9.116668,lng:80.443327,fullName:"Kasun Perera",customer:"Cargills",OrderId:"42108",date:"10-02-2019",time:"02:34 PM"},
+            {lat:7.068086,lng:79.988533,fullName:"Saman Perera",customer:"Family Super",OrderId:"50101",date:"10-02-2019",time:"02:34 PM"},
+            {lat:6.422624,lng:80.668498,fullName:"Nimantha Silva",customer:"Keells",OrderId:"60181",date:"10-02-2019",time:"02:34 PM"},
+            {lat:7.365355,lng:80.702229,fullName:"Chamara Sampath",customer:"Food City",OrderId:"70131",date:"10-02-2019",time:"02:34 PM"},
+            {lat:7.645163,lng:81.501627,fullName:"Nuwan Madushka",customer:"City Center ",OrderId:"99101",date:"10-02-2019",time:"02:34 PM"},
 
             ],
-        selectsalesrep:"",
+        selectsalesrep:"0",
+        YOUR_KEY:"",
         isexpire:false,
           
         };
@@ -104,7 +105,7 @@ class Tracking extends Component {
     handleChange = (e) => {
         this.setState({ selectsalesrep:e.target.value});
     };  
-    onSubmit=e=>{
+    onSubmit= e =>{
         e.preventDefault();
         console.log("submitting!")
     }
@@ -112,7 +113,7 @@ class Tracking extends Component {
     render(){
 
     const {classes} = this.props;
-    const {selectedDateTo,selectedDateFrom,salesreps,selectsalesrep,isexpire}=this.state; 
+    const {selectedDateTo,selectedDateFrom,salesreps,selectsalesrep,isexpire,YOUR_KEY}=this.state; 
     const CustomSkinMap = withScriptjs(       
         withGoogleMap(props => (      
           <GoogleMap
@@ -185,16 +186,20 @@ class Tracking extends Component {
           >
             
             {props.myordersarray.map(order=>
-              <Marker position={{ lat: order.lat, lng: order.lng }} key={order.OrderId} >        
-              <InfoWindow>
+              <Marker position={{ lat: order.lat, lng: order.lng }} key={order.OrderId} >                   
+              {<InfoWindow>
                   <small>
                       Order-ID: <Link to="/admin/stock">{order.OrderId}</Link><br/>
+                      Date: {order.date}<br/>
+                      Time: {order.time}<br/>
                       Sales rep: {order.fullName}<br/>
                       Customer: {order.customer}<br/>
+                      
                   </small>
-              </InfoWindow>}
+            </InfoWindow>}
             </Marker>
             )}
+            
            
           </GoogleMap>
         ))
@@ -272,7 +277,7 @@ class Tracking extends Component {
                 </form>
                 
                 <CustomSkinMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsdCBtdvg-gdGIfthaeAGKBxjZonEO2O4"
+                    googleMapURL= {`https://maps.googleapis.com/maps/api/js?key=${YOUR_KEY}`}
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `100vh` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
