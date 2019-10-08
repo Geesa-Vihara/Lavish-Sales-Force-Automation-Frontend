@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
 //material ui
+import { teal} from '@material-ui/core/colors';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -19,7 +20,11 @@ const useStyles = (theme) => ({
         marginTop:theme.spacing(1),
         marginLeft:theme.spacing(8),
         marginRight:theme.spacing(8),
-        backgroundColor: "#018786",
+        color:theme.palette.common.white,
+        backgroundColor:teal[500],
+        '&:hover':{
+        backgroundColor:teal[700],
+        },
         width:'100%'
     },
      //modal styles
