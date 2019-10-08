@@ -4,7 +4,7 @@ import newuser from "assets/img/faces/newuser.png";
 import Footer from "components/Footer/Footer";
 import axios from "axios";
 import { Link,Redirect } from "react-router-dom";
-import { withStyles,createMuiTheme } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -18,8 +18,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import TextField from '@material-ui/core/TextField';
-import { ThemeProvider } from '@material-ui/styles';
-import { teal} from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -63,7 +61,7 @@ const useStyles = theme => ({
     heading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
-      color:" #2bbbad"
+      color:" #8EB69B"
     },
     accountheading:{
         textAlign:"center",
@@ -71,12 +69,17 @@ const useStyles = theme => ({
       },
     userlogin:{
         fontSize:17,
-        color: "#2bbbad"
+        color: "#1b5e20"
     },
     icon:{
         color:"black",
     },
     button:{
+        backgroundColor:"#1b5e20",
+        '&:hover':{
+        backgroundColor:"#8EB69B",
+        },
+        color:"white",
         width: "100%",
         height:45,
         borderRadius: "3px",
@@ -86,11 +89,6 @@ const useStyles = theme => ({
     
   });
 
-const theme = createMuiTheme({
-palette: {
-    primary: teal,
-},
-});
 
 class UpdateProfile extends Component{
 
@@ -151,7 +149,7 @@ class UpdateProfile extends Component{
             })
             .catch(err=>{
                 
-                if(err.message){
+                if(err.tokenmessage){
                     this.setState({isexpire:true}) ; 
                 }
             })
@@ -189,7 +187,7 @@ class UpdateProfile extends Component{
         })
         .catch(err => {
             this.setState({errors:err.response.data}) ; 
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
             
@@ -222,7 +220,7 @@ class UpdateProfile extends Component{
         })
         .catch(err => {            
             this.setState({newusernameerrors:err.response.data}) ; 
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
         }); 
@@ -256,7 +254,7 @@ class UpdateProfile extends Component{
         })
         .catch(err => {
             this.setState({passworderrors:err.response.data}) ; 
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
             
@@ -288,7 +286,7 @@ class UpdateProfile extends Component{
         })
         .catch(err => {
             this.setState({picerrors:err.response.data}); 
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
             
@@ -324,7 +322,7 @@ class UpdateProfile extends Component{
         })
         .catch(err => {
             this.setState({registererrors:err.response.data}) ; 
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
         }); 
@@ -353,7 +351,7 @@ class UpdateProfile extends Component{
             }
         })
         .catch(err => {
-            if(err.message){
+            if(err.tokenmessage){
                 this.setState({isexpire:true}) ; 
             }
             
@@ -395,7 +393,7 @@ class UpdateProfile extends Component{
                     </div> 
                     <Link to="/admin/dashboard">
                         <ArrowBack className={classes.icon}/>
-                        <b style={{color: "#2bbbad" }}> Back to Dashboard</b>
+                        <b style={{color: "#8EB69B" }}> Back to Dashboard</b>
                     </Link>        
                     <ExpansionPanel className={classes.root}>
                         <ExpansionPanelSummary
@@ -506,17 +504,14 @@ class UpdateProfile extends Component{
                                                 </small>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={12}>                                      
-                                            <ThemeProvider theme={theme}>                           
+                                        <Grid item xs={12}>                           
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
                                                     type="submit"
                                                     className={classes.button}
                                                     >
                                                     UPDATE
                                                 </Button>
-                                            </ThemeProvider> 
                                         </Grid>      
                                     </form>
                                 </Grid>
@@ -566,17 +561,14 @@ class UpdateProfile extends Component{
                                                 </small>
                                             </div>
                                         </Grid>  
-                                        <Grid item xs={12}>                            
-                                            <ThemeProvider theme={theme}>                           
+                                        <Grid item xs={12}>                          
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
                                                     type="submit"
                                                     className={classes.button}
                                                     >
                                                     UPDATE
                                                 </Button>
-                                            </ThemeProvider>
                                         </Grid>
                                     </form>
                                 </Grid>
@@ -641,17 +633,14 @@ class UpdateProfile extends Component{
                                             </small>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={3}>                  
-                                            <ThemeProvider theme={theme}>                           
+                                        <Grid item xs={3}>                         
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
                                                     type="submit"
                                                     className={classes.button}
                                                     >
                                                     UPDATE
                                                 </Button>
-                                            </ThemeProvider>
                                         </Grid>
                                     </form> 
                                 </Grid>
@@ -680,16 +669,13 @@ class UpdateProfile extends Component{
                                             </div>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ThemeProvider theme={theme}>                           
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
                                                     type="submit"
                                                     className={classes.button}
                                                     >
                                                     UPDATE
                                                 </Button>
-                                            </ThemeProvider>
                                         </Grid>
                                     </form>
                                 </Grid>
@@ -868,17 +854,14 @@ class UpdateProfile extends Component{
                                                 </small>
                                                 </div>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <ThemeProvider theme={theme}>                           
+                                        <Grid item xs={12}>                          
                                                 <Button
                                                     variant="contained"
-                                                    color="primary"
                                                     type="submit"
                                                     className={classes.button}
                                                     >
                                                     SUBMIT
                                                 </Button>
-                                            </ThemeProvider>
                                         </Grid>
                                     </form> 
                                 </Grid>
@@ -896,19 +879,16 @@ class UpdateProfile extends Component{
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails style={{backgroundColor:"white"}}>
                             <Grid container style={{justifyContent:"center",marginLeft:"25%",marginRight:"25%"}}>
-                                <Grid item xs={3}>
-                                    <ThemeProvider theme={theme}>                           
+                                <Grid item xs={3}>                         
                                         <Button
                                             variant="contained"
-                                            color="secondary"
                                             type="submit"
-                                            className={classes.button}
+                                            color="secondary"                                            
                                             onClick={this.handleClickOpen}
                                             >
                                             <i className="material-icons">delete_forever</i>
                                             Delete Account
-                                        </Button>
-                                    </ThemeProvider>                                                                          
+                                        </Button>                                                                       
                                                             
                                 <Dialog
                                     open={open}
@@ -920,34 +900,27 @@ class UpdateProfile extends Component{
                                     <DialogContent>
                                     <DialogContentText id="alert-dialog-description" >
                                         Deleting your account is permanent and will remove all 
-                                        content including comments, avatars and profile settings. 
+                                        content including avatars and profile settings. 
                                         Are you really sure you want to delete your account?
                                     </DialogContentText>
                                     </DialogContent>
-                                    <DialogActions>
-                                    <ThemeProvider theme={theme}>                           
+                                    <DialogActions>                          
                                         <Button
                                             variant="contained"
-                                            color="primary"
                                             type="submit"
-                                            className={classes.button}
                                             onClick={this.handleClose}
                                             >
                                             Disagree
-                                        </Button>
-                                    </ThemeProvider> 
-                                    <ThemeProvider theme={theme}>                           
+                                        </Button>                         
                                         <Button
                                             variant="contained"
                                             color="secondary"
                                             type="submit"
-                                            className={classes.button}
                                             onClick={this.deleteaccount}
                                             autoFocus
                                             >
                                             Agree
                                         </Button>
-                                    </ThemeProvider> 
                                     
                                     </DialogActions>
                                 </Dialog>

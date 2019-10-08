@@ -3,10 +3,8 @@ import avatar from "assets/img/faces/lavish.jpg";
 import Footer from "components/Footer/Footer";
 import axios from "axios"
 import Button from '@material-ui/core/Button';
-import { withStyles,createMuiTheme } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { ThemeProvider } from '@material-ui/styles';
-import { teal} from '@material-ui/core/colors';
 import  { Link}  from 'react-router-dom';
 
 const useStyles = theme => ({
@@ -60,9 +58,14 @@ const useStyles = theme => ({
 },
     userlogin:{
         fontSize:17,
-        color: "#2bbbad"
+        color: "#1b5e20"
     },
     button:{
+        backgroundColor:"#1b5e20",
+        '&:hover':{
+        backgroundColor:"#8EB69B",
+        },
+        color:"white",
         marginLeft: theme.spacing(10),
         width: 300,
         height:45,
@@ -78,12 +81,7 @@ const useStyles = theme => ({
     }, 
          
   });
-  const theme = createMuiTheme({
-    palette: {
-      primary: teal,
-    },
-  });
-
+ 
 class ResetPassword extends Component{
 
     constructor() {
@@ -163,19 +161,16 @@ class ResetPassword extends Component{
                             <span className={classes.textfielderror}>
                                 {errors.password}                                        
                             </span> 
-                        </div>
-                        <ThemeProvider theme={theme}>                           
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                className={classes.button}
-                                >
-                                CHANGE PASSWORD
-                            </Button>
-                        </ThemeProvider>
+                        </div>                         
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            className={classes.button}
+                            >
+                            CHANGE PASSWORD
+                        </Button>
                         <div className={classes.forgot}>
-                            <Link to="/login"><small><i className="material-icons" >keyboard_backspace</i><b>Back to Login</b></small> </Link>                    
+                            <Link to="/login" style={{color:"#8EB69B"}}><small><i className="material-icons" >keyboard_backspace</i><b>Back to Login</b></small> </Link>                    
                         </div> 
                     </form>
                 </div>
