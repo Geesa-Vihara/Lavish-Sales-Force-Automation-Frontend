@@ -5,9 +5,9 @@ import Axios from 'axios';
 import Add from "components/SalesRep/Add";
 import Delete from "components/SalesRep/Delete";
 import Update from "components/SalesRep/Update";
-// import View from "components/SalesRep/View";
 // @material-ui/core components
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
+import { teal} from '@material-ui/core/colors';
 import { Table,TableBody,TableCell,TableHead,TableRow,TextField }  from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -26,13 +26,20 @@ const useStyles =theme => ({
  
   fab: {
     margin: theme.spacing(2),
-    backgroundColor: "#018786",
+    color:theme.palette.common.white,
+    backgroundColor:teal[500],
+    '&:hover':{
+      backgroundColor:teal[700],
+    },
   },
   extendedIcon: {
     marginRight: theme.spacing(2),
   },
   icon:{
-    color:"#018786"
+    color:teal[500],
+    '&:hover':{
+      color:teal[700]
+    }                    
   },
   table: {
     marginBottom: "0",
@@ -61,12 +68,9 @@ class  SalesRepTable extends React.Component{
       date: new Date().toLocaleDateString(),
       isExpire:false,
       filterText:"",
-      filteredData:[]
-
-      
+      filteredData:[]    
     };
     this.onChange=this.onChange.bind(this);
-  
   }
 
   componentWillReceiveProps(){
@@ -116,6 +120,7 @@ class  SalesRepTable extends React.Component{
         }
       })
   }
+
   onChange = (e) => {
     const filterText=e.target.value;
     this.setState(prevState => {
@@ -160,8 +165,8 @@ class  SalesRepTable extends React.Component{
           />
         </div>
         <Paper>
-            <Link to='/admin/salesreps/add'>         
-              <Fab aria-label="add" className={classes.fab}>      
+            <Link to='/admin/salesreps/add'>
+              <Fab aria-label="add" className={classes.fab}  >      
                 <AddIcon />
               </Fab>  
             </Link>
@@ -199,12 +204,11 @@ class  SalesRepTable extends React.Component{
                     <TableCell>{salesrep.address}</TableCell>
                     <TableCell>{salesrep.phoneNo}</TableCell>
                     <TableCell>
-                      <Link to={`/admin/salesreps/view/${salesrep._id}`}>  
+                      <Link to={`/salesrep/${salesrep._id}`}>  
                         <IconButton  aria-label="view"  >
                             <ViewIcon className={classes.icon}/>
                         </IconButton> 
                       </Link>
-                      {/* <Route exact path='/admin/salesreps/view/:userName' component={View} /> */}
                       <Link to={`/admin/salesreps/update/${salesrep._id}`}>      
                         <IconButton  aria-label="edit" >
                             <EditIcon className={classes.icon} />

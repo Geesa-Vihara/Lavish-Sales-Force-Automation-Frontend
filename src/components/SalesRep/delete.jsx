@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import { teal} from '@material-ui/core/colors';
 import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from '@material-ui/core';
 
  class Delete extends React.Component {

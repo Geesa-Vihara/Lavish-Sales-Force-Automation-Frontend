@@ -50,7 +50,7 @@ ReactDOM.render(
 
       {/* <PrivateRoute path = "/edit/:userName"  component = {Update}/> */}
       {/* <PrivateRoute path = "/delete/:userName"  component = {Delete}/> */}
-      <PrivateRoute path = "/admin/salesreps/view/:id" component = {View}/>
+      <PrivateRoute path = "/salesrep/:id" component = {View}/>
       <PrivateRoute path = "/admin/salesreps" component = {SalesRepTable}/>
       <Redirect from="/" to="/admin/dashboard" /> 
 
