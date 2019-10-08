@@ -23,10 +23,7 @@ import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles =theme => ({   
-  paper:{
-    marginTop:theme.spacing(-1),
-    width:'100%',
-  }  ,
+ 
   fab: {
     margin: theme.spacing(2),
     backgroundColor: "#018786",
@@ -142,33 +139,33 @@ class  SalesRepTable extends React.Component{
     if(!this.state.isExpire){
     return(
       <div>
-          <Paper className={classes.paper}>
-            <div className={classes.root} >
-              <Link to='/admin/salesreps/add'>         
-                <Fab aria-label="add" className={classes.fab}>      
-                  <AddIcon />
-                </Fab>  
-              </Link>
-              <Route exact path="/admin/salesreps/add" component={Add} />
-              <TextField
-                style={{left:'100%'}}
-                autoFocus
-                id='filter'
-                type='text'
-                placeholder='Search Salesreps'
-                value={this.state.filterText}
-                onChange={this.onChange}
-                margin='normal'
-                className={classes.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon className={classes.icon} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </div>
+        <div className={classes.root}>
+          <TextField
+            style={{left:'140%'}}
+            autoFocus
+            id='filter'
+            type='text'
+            placeholder='Search Salesreps'
+            value={this.state.filterText}
+            onChange={this.onChange}
+            margin='normal'
+            className={classes.textField}
+            InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+               <SearchIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+            }}
+          />
+        </div>
+        <Paper>
+            <Link to='/admin/salesreps/add'>         
+              <Fab aria-label="add" className={classes.fab}>      
+                <AddIcon />
+              </Fab>  
+            </Link>
+            <Route exact path="/admin/salesreps/add" component={Add} />
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
