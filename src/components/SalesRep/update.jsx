@@ -1,8 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
-//material ui
-import { teal} from '@material-ui/core/colors';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -16,22 +14,33 @@ const useStyles = (theme) => ({
        // marginRight:theme.spacing(1),
        width:'80%',
     },
-    button:{
-        marginTop:theme.spacing(1),
-        marginLeft:theme.spacing(8),
+    actionbuttons:{
+        marginLeft:theme.spacing(7),
         marginRight:theme.spacing(8),
+    },
+    buttonsave:{
+        /* marginTop:theme.spacing(1),
+        marginLeft:theme.spacing(8),
+        marginRight:theme.spacing(8), */
         color:theme.palette.common.white,
-        backgroundColor:teal[500],
+        backgroundColor:"#8EB69B",
         '&:hover':{
-        backgroundColor:teal[700],
+        backgroundColor:"#1b5e20",
         },
+        width:'100%'
+    },
+    buttonclose:{
+        /* marginTop:theme.spacing(1),
+        marginLeft:theme.spacing(8),
+        marginRight:theme.spacing(8), */
+        
         width:'100%'
     },
      //modal styles
     modal: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center',  
     },
     modalCard: {
         width: '90%',
@@ -105,8 +114,8 @@ const useStyles = (theme) => ({
                 });
             })
             .catch(err=>{
-                if(err){
-                    console.log(err.message);
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })
@@ -159,7 +168,7 @@ const useStyles = (theme) => ({
             <Modal 
                 className={classes.modal}
                 onClose={this.closeModal}
-                open={open}           
+                open={open}       
             >
                 <Card className={classes.modalCard}>
                     <form onSubmit={this.onSubmit} >
@@ -263,17 +272,17 @@ const useStyles = (theme) => ({
                                 margin="normal"
                                 type="password"
                             /> */}
-                            <CardActions>
+                            <CardActions className={classes.actionbuttons}>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    className={classes.button} 
+                                    className={classes.buttonsave} 
                                 >
                                 Save
                                 </Button>
                                 <Button
                                     variant="contained"
-                                    className={classes.button}  
+                                    className={classes.buttonclose}  
                                     onClick={this.closeModal}
                                 >
                                 Close

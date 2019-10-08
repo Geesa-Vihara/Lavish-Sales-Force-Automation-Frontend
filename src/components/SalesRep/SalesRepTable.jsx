@@ -7,7 +7,6 @@ import Delete from "components/SalesRep/Delete";
 import Update from "components/SalesRep/Update";
 // @material-ui/core components
 import { withStyles} from '@material-ui/core/styles';
-import { teal} from '@material-ui/core/colors';
 import { Table,TableBody,TableCell,TableHead,TableRow,TextField }  from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -27,18 +26,18 @@ const useStyles =theme => ({
   fab: {
     margin: theme.spacing(2),
     color:theme.palette.common.white,
-    backgroundColor:teal[500],
+    backgroundColor:"#8EB69B",
     '&:hover':{
-      backgroundColor:teal[700],
+      backgroundColor:"#1b5e20",
     },
   },
   extendedIcon: {
     marginRight: theme.spacing(2),
   },
   icon:{
-    color:teal[500],
+    color:"#1b5e20",
     '&:hover':{
-      color:teal[700]
+      color:"#8EB69B"
     }                    
   },
   table: {
@@ -90,8 +89,8 @@ class  SalesRepTable extends React.Component{
        // console.log(this.state.salesReps);
       })
       .catch(err => {
-        if(err.message){
-          console.log(err.message);
+        if(err.tokenmessage){
+          console.log(err.tokenmessage);
           this.setState({isExpire:true});
         }
       })
@@ -114,8 +113,8 @@ class  SalesRepTable extends React.Component{
         console.log(this.state.salesReps);
       })
       .catch(err => {
-        if(err.message){
-          console.log(err.message);
+        if(err.tokenmessage){
+          console.log(err.tokenmessage);
           this.setState({isExpire:true});
         }
       })

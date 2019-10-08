@@ -2,7 +2,6 @@ import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { teal} from '@material-ui/core/colors';
 import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from '@material-ui/core';
 
  class Delete extends React.Component {
@@ -43,9 +42,9 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
                 this.props.history.push('/admin/salesreps');
             })
             .catch(err => {
-                if(err.message){
-                    console.log(err.message);
-                   // this.setState({isExpire:true}) ; 
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
+                    this.setState({isExpire:true}) ; 
                 }
             });
     }
@@ -67,7 +66,6 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
                     <DialogActions>
                         <Button 
                             onClick={this.closeDialog} 
-                            color='primary'
                             variant='contained'
                             type='submit'
                         >
