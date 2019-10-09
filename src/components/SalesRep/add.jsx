@@ -24,9 +24,9 @@ const useStyles = theme => ({
         //marginLeft:theme.spacing(8),
         //marginRight:theme.spacing(8),
         color:theme.palette.common.white,
-        backgroundColor:"#8EB69B",
-        '&:hover':{
         backgroundColor:"#1b5e20",
+        '&:hover':{
+        backgroundColor:"#8EB69B",
         },
         width:'100%'
     },

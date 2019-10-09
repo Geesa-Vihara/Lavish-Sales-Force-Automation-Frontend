@@ -77,6 +77,7 @@ const useStyles = (theme) => ({
         this.onSubmit   = this.onSubmit.bind(this);
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        // this.onUpdate = this.onUpdate.bind(this);
     }
 
     onChange = (e) => {
@@ -93,6 +94,7 @@ const useStyles = (theme) => ({
     }
 
     componentDidMount(){
+        // e.preventDefault();
         const {match:{params}} =this.props;
         var token=localStorage.getItem("jwtToken");
         Axios
@@ -152,8 +154,8 @@ const useStyles = (theme) => ({
                 }
             })
             .catch(err => {
-                if(err.message){
-                    console.log(err.message);
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })
