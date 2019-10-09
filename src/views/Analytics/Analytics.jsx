@@ -1,265 +1,821 @@
-import React from "react";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
-// @material-ui/core
-import withStyles from "@material-ui/core/styles/withStyles";
+import React from 'react';
+import { withStyles} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
-// core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-//import Table from "components/Table/Table.jsx";
-import Tasks from "components/Tasks/Tasks.jsx";
-import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
-import Danger from "components/Typography/Danger.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardIcon from "components/Card/CardIcon.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
+import CardHeader from '@material-ui/core/CardHeader';
+import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
+import {lightGreen} from '@material-ui/core/colors';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import GridList from '@material-ui/core/GridList';
+import ReactFusioncharts from "react-fusioncharts";
+import salesrep from "assets/img/faces/salesrep.png";
+import yearlysales from "variables/yearlysales.jsx";
+import yearlyproducts from "variables/yearlyproducts.jsx";
+import progressbetweenyears from "variables/progressbetweenyears.jsx";
+import salesovertheyear from "variables/salesovertheyear";
+import routecoverage from "variables/routecoverage.jsx";
+import { KeyboardDatePicker,MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 
-import { bugs, website, server } from "variables/general.jsx";
+const useStyles = theme => ({
+ 
+  content: {
+    textAlign:"right",
+    marginRight:theme.spacing(2),
+    color:"black"
+  },  
+  icon:{
+     fontSize:100,
+     
+   },
+  iconimage:{
+    color:"white",
+    borderRadius: "20px",
+    backgroundColor:"#dce775",
+    width:100,
+    height:100,
+    textAlign:"center",
+    
+  },
+  iconstore:{
+    fontSize:130,
+    backgroundColor:"#dce775",
+    color:"white",
+    borderRadius: "20px",
+    float:"left",
+  },
+  container:{
+    width:"100%"
+  },  
+  avatar: {
+    backgroundColor: lightGreen[300],
+  },
+  inline: {
+    display: 'inline',
+  },
 
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts.jsx";
-
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+})
 
 class Analytics extends React.Component {
   state = {
-    value: 0
-  };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+    showyear:(new Date()),
+    yearprogress:(new Date()).getFullYear(),
+    showcoveragedate:(new Date()),
+    showproductdatefrom:(new Date()),
+    showproductdateto:(new Date()),
+    showsalesdatefrom:(new Date()),
+    showsalesdateto:(new Date()),
+    showoutletdatefrom:(new Date()),
+    showoutletdateto:(new Date()),
 
-  handleChangeIndex = index => {
-    this.setState({ value: index });
   };
+  
+  handleYearChange=(year)=>{
+    this.setState({showyear:year})
+  }
+  handleDateChangeCoverage=(date)=>{
+    this.setState({showcoveragedate:date})
+  }
+  handleDateChangeProductfrom=(date)=>{
+    this.setState({showproductdatefrom:date})
+    this.setState({showproductdateto:date})
+  }
+  handleDateChangeProductto=(date)=>{
+    this.setState({showproductdateto:date})
+  }
+  handleDateChangeSalesfrom=(date)=>{
+    this.setState({showsalesdatefrom:date})
+    this.setState({showsalesdateto:date})
+  }
+  handleDateChangeSalesto=(date)=>{
+    this.setState({showsalesdateto:date})
+  }
+  handleDateChangeOutletfrom=(date)=>{
+    this.setState({showoutletdatefrom:date})
+    this.setState({showoutletdateto:date})
+  }
+  handleDateChangeOutletto=(date)=>{
+    this.setState({showoutletdateto:date})
+  }
   render() {
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto}=this.state;
     const { classes } = this.props;
     return (
-      <div>
-        <GridContainer>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
-                <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <Store />
-                </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="danger" stats icon>
-                <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Accessibility />
-                </CardIcon>
-                <p className={classes.cardCategory}>Sales Reps</p>
-                <h3 className={classes.cardTitle}>+24</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Update />
-                  Just Updated
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  increase in today sales.
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> updated 4 minutes ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomTabs
-              title="Tasks:"
-              headerColor="primary"
-              tabs={[
-                {
-                  tabName: "Bugs",
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                    />
-                  )
-                },
-                {
-                  tabName: "Website",
-                  tabIcon: Code,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                    />
-                  )
-                },
-                {
-                  tabName: "Server",
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                    />
-                  )
+      <div> 
+        <Grid container style={{marginTop:"2%"}}>        
+          <Grid item xs={8} >
+            <Card style={{height:400,marginRight:10}} >
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    <Icon style={{color:"black"}}>attach_money</Icon>
+                  </Avatar>
                 }
-              ]}
-            />
-          </GridItem>
-        </GridContainer>
+                title="Lavish Tea Company Sales"
+                subheader={<MuiPickersUtilsProvider utils={DateFnsUtils} > 
+                <KeyboardDatePicker
+                  style={{width:"20%"}}
+                  views={["year"]}
+                  value={showyear}
+                  onChange={this.handleYearChange}
+                /> 
+              </MuiPickersUtilsProvider>}
+                />
+                
+              <Divider/>
+              <CardContent>
+              <ReactFusioncharts
+                  type="area2d"
+                  width="100%"
+                  height="300"
+                  dataFormat="JSON"
+                  dataSource={salesovertheyear}
+                />
+              </CardContent>
+            </Card>                
+          </Grid>
+          <Grid item xs={4} >
+            <Card style={{height:400,marginRight:10}} > 
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    <Icon style={{color:"black"}}>trending_up</Icon>
+                  </Avatar>
+                }
+                title={`Progress for the year ${yearprogress}`}
+                subheader={`Compared with the year ${yearprogress-1}`}
+              />             
+              <Divider/>
+              <CardContent>
+              <ReactFusioncharts
+                type="angulargauge"
+                width="100%"
+                height="290"
+                dataFormat="JSON"
+                dataSource={progressbetweenyears}
+              />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={3} style={{height:600}} >
+            <Card style={{marginTop:10,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}  >
+                    <Icon style={{color:"black"}}>people</Icon>
+                  </Avatar>
+                }
+                title="Top 10 best perfoming sales reps"
+                
+              />
+              <Divider/>
+              <CardContent >
+              <GridList >  
+                <List style={{width:"100%",height:500}}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Remy Sharp" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Brunch this weekend?"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Ali Connors
+                          </Typography>
+                          {" — I'll be in your neighborhood doing errands this…"}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Travis Howard" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Summer BBQ"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            to Scott, Alex, Jennifer
+                          </Typography>
+                          {" — Wish I could come, but I'm out of town this…"}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>                  
+                </List>
+              </GridList>
+              </CardContent>
+            </Card>
+          </Grid>              
+          <Grid item xs={4} style={{height:600}} >
+            <Card style={{marginTop:10,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar} >
+                    <Icon style={{color:"black"}}>my_location</Icon>
+                  </Avatar>
+                }
+                title="Route coverage status"
+                subheader={<MuiPickersUtilsProvider utils={DateFnsUtils} > 
+
+                <KeyboardDatePicker
+                  style={{width:"45%"}}
+                  format="yyyy-MM-dd "
+                  value={showcoveragedate}
+                  onChange={this.handleDateChangeCoverage}
+                /> 
+              </MuiPickersUtilsProvider>}
+              />              
+              <Divider/>
+              <CardContent >
+              <ReactFusioncharts
+                type="maps/srilanka"
+                width="100%"
+                height="500"
+                dataFormat="JSON"
+                dataSource={routecoverage}
+              />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={5} style={{height:600}} >
+            <Card style={{marginTop:10,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}  >
+                    <Icon style={{color:"black"}}>stars</Icon>
+                  </Avatar>
+                }
+                title="Top performing products"
+                subheader={<MuiPickersUtilsProvider utils={DateFnsUtils} > 
+                <KeyboardDatePicker
+                  label="Date from"
+                  style={{width:"40%"}}
+                  format="yyyy-MM-dd "
+                  value={showproductdatefrom}
+                  onChange={this.handleDateChangeProductfrom}
+                /> 
+                <KeyboardDatePicker
+                  minDate={showproductdatefrom}
+                  label="Date to"
+                  style={{width:"40%",marginLeft:80}}
+                  format="yyyy-MM-dd "
+                  value={showproductdateto}
+                  onChange={this.handleDateChangeProductto}
+                /> 
+              </MuiPickersUtilsProvider>}
+              />
+              <Divider/>
+              <CardContent >
+                <ReactFusioncharts
+                  type="doughnut2d"
+                  width="100%"
+                  height="500"
+                  dataFormat="JSON"
+                  dataSource={yearlyproducts}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={3} style={{height:600}} >
+            <Card style={{marginTop:20,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}  >
+                    <Icon style={{color:"black"}}>people</Icon>
+                  </Avatar>
+                }
+                title="Top 10 least performing sales reps"
+              />
+              <Divider/>
+              <CardContent >
+              <GridList>  
+                <List style={{width:"100%",height:500}}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Remy Sharp" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Brunch this weekend?"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Ali Connors
+                          </Typography>
+                          {" — I'll be in your neighborhood doing errands this…"}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Travis Howard" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Summer BBQ"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            to Scott, Alex, Jennifer
+                          </Typography>
+                          {" — Wish I could come, but I'm out of town this…"}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Cindy Baker" src={salesrep} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Oui Oui"
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                          >
+                            Sandra Adams
+                          </Typography>
+                          {' — Do you have Paris recommendations? Have you ever…'}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>                  
+                </List>
+              </GridList>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={5} style={{height:600}} >
+            <Card style={{marginTop:20,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}  >
+                    <Icon style={{color:"black"}}>map</Icon>
+                  </Avatar>
+                }
+                title="Sales according to each area"
+                subheader={<MuiPickersUtilsProvider utils={DateFnsUtils} > 
+                <KeyboardDatePicker
+                  label="Date from"
+                  style={{width:"40%"}}
+                  format="yyyy-MM-dd "
+                  value={showsalesdatefrom}
+                  onChange={this.handleDateChangeSalesfrom}
+                /> 
+                <KeyboardDatePicker
+                  minDate={showsalesdatefrom}
+                  label="Date to"
+                  style={{width:"40%",marginLeft:40}}
+                  format="yyyy-MM-dd "
+                  value={showsalesdateto}
+                  onChange={this.handleDateChangeSalesto}
+                /> 
+              </MuiPickersUtilsProvider>}
+              />
+              <Divider/>
+              <CardContent >
+                <ReactFusioncharts
+                    type="bar2d"
+                    width="100%"
+                    height="500"
+                    dataFormat="JSON"
+                    dataSource={yearlysales}
+                  />                
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={4} style={{height:600}} >
+            <Card style={{marginTop:20,marginRight:10,height:"100%"}}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}  >
+                    <Icon style={{color:"black"}}>store</Icon>
+                  </Avatar>
+                }
+                title="Top performing outlets"
+                subheader={<MuiPickersUtilsProvider utils={DateFnsUtils} > 
+                <KeyboardDatePicker
+                  label="Date from"
+                  style={{width:"45%"}}
+                  format="yyyy-MM-dd "
+                  value={showoutletdatefrom}
+                  onChange={this.handleDateChangeOutletfrom}
+                /> 
+                <KeyboardDatePicker
+                  minDate={showoutletdatefrom}
+                  label="Date to"
+                  style={{width:"45%",marginLeft:20}}
+                  format="yyyy-MM-dd "
+                  value={showoutletdateto}
+                  onChange={this.handleDateChangeOutletto}
+                /> 
+              </MuiPickersUtilsProvider>}
+              />
+              <Divider/>
+              <CardContent >
+                <h6 style={{lineHeight:2, fontSize:9}}><b>
+                Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Wellawaya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Badulla: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Hambanthota: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Pitigala: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Matara: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Galle: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Ambalangoda: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Kaluthara: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Horana: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Diwulapitiya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Chilaw: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Puththalam: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Anuradhapura: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Polonnaruwa: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Kuliyapitiya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Kurunagala: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Mathale: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Kegalle: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Awissawella: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Rathnapura: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Negombo: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Gampaha: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                Homagama: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/></b>
+                </h6>              
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>           
       </div>
     );
   }
 }
 
-Analytics.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
-export default withStyles(dashboardStyle)(Analytics);
+
+export default withStyles(useStyles)(Analytics);
