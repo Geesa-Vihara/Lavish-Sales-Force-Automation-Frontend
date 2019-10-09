@@ -15,6 +15,7 @@
     "classnames": "2.2.6",
     "date-fns": "^2.4.1",
     "fusioncharts": "^3.14.1",
+    "fusionmaps": "^3.14.1",
     "history": "4.9.0",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
