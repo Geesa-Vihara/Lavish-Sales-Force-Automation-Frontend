@@ -14,11 +14,11 @@ import  salesrepMonthlySales from "variables/salesrepSales.jsx";
  const useStyles = theme =>({
 
     button:{
-        color:theme.palette.common.white,
-        backgroundColor:"#1b5e20",
-        '&:hover':{
-        backgroundColor:"#8EB69B",
-        },
+      //  color:theme.palette.common.white,
+        // backgroundColor:"#1b5e20",
+        // '&:hover':{
+        // backgroundColor:"#8EB69B",
+        // },
         width:'20%',
         marginRight:theme.spacing(2)
        
@@ -119,6 +119,11 @@ import  salesrepMonthlySales from "variables/salesrepSales.jsx";
                     className={classes.modal}
                     open={this.state.open}
                     onClose={this.closeModal}
+                    BackdropProps={{
+                        style: {
+                          opacity:'0.5'
+                        }
+                    }}
                 >
                     <Card className={classes.modalCard}>
                         <CardContent className={classes.modalCardContent}>

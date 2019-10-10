@@ -9,6 +9,7 @@ import Modal from "@material-ui/core/Modal";
 
 
 const useStyles = (theme) => ({
+
     textField: { 
         marginLeft:theme.spacing(8),
        // marginRight:theme.spacing(1),
@@ -19,24 +20,16 @@ const useStyles = (theme) => ({
         marginRight:theme.spacing(8),
     },
     buttonsave:{
-        /* marginTop:theme.spacing(1),
-        marginLeft:theme.spacing(8),
-        marginRight:theme.spacing(8), */
         color:theme.palette.common.white,
-        backgroundColor:"#8EB69B",
-        '&:hover':{
         backgroundColor:"#1b5e20",
+        '&:hover':{
+        backgroundColor:"#8EB69B",
         },
         width:'100%'
     },
-    buttonclose:{
-        /* marginTop:theme.spacing(1),
-        marginLeft:theme.spacing(8),
-        marginRight:theme.spacing(8), */
-        
+    buttonclose:{   
         width:'100%'
     },
-     //modal styles
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -77,24 +70,14 @@ const useStyles = (theme) => ({
         this.onSubmit   = this.onSubmit.bind(this);
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-        // this.onUpdate = this.onUpdate.bind(this);
     }
 
     onChange = (e) => {
         this.setState({[e.target.id] : e.target.value});
     }
 
-    openModal = () => {
-        this.setState({open:true});
-    }
-
-    closeModal = () => {
-        this.setState({open:false});
-        this.props.history.push("/admin/salesreps");
-    }
-
     componentDidMount(){
-        // e.preventDefault();
+        
         const {match:{params}} =this.props;
         var token=localStorage.getItem("jwtToken");
         Axios
@@ -125,10 +108,11 @@ const useStyles = (theme) => ({
 
     onSubmit = (e) => {
 
-        const {match:{params}} =this.props;
         e.preventDefault();
+        const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken')
         const salesrep = {
+
             userName : this.state.userName,
             fullName : this.state.fullName,
             area     : this.state.area,
@@ -147,11 +131,8 @@ const useStyles = (theme) => ({
                 }
             })
             .then(res => {
-                if(res.status === 200){
-                   // window.location.reload();
                     this.setState({open:false});
-                     this.props.history.push("/admin/salesreps");
-                }
+                    this.props.history.push("/admin/salesreps");   
             })
             .catch(err => {
                 if(err.tokenmessage){
@@ -159,7 +140,15 @@ const useStyles = (theme) => ({
                     this.setState({isExpire:true}) ; 
                 }
             })
+    }
 
+    openModal = () => {
+        this.setState({open:true});
+    }
+
+    closeModal = () => {
+        this.setState({open:false});
+        this.props.history.push("/admin/salesreps");
     }
 
     render() {
@@ -170,7 +159,12 @@ const useStyles = (theme) => ({
             <Modal 
                 className={classes.modal}
                 onClose={this.closeModal}
-                open={open}       
+                open={open}
+                BackdropProps={{
+                    style: {
+                      opacity:'0.5'
+                    }
+                  }}       
             >
                 <Card className={classes.modalCard}>
                     <form onSubmit={this.onSubmit} >
