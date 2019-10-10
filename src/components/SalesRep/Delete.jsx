@@ -27,8 +27,9 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
     }
 
     deleteSalesrep = (e) => {
-        const {match:{params}} =this.props;
+
         e.preventDefault();
+        const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken');
         Axios
             .delete(`/salesreps/delete/${params.id}`,{
@@ -55,6 +56,11 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
                 <Dialog
                     open={this.state.open}
                     onClose={this.closeDialog}
+                    BackdropProps={{
+                        style: {
+                          opacity:'0.5'
+                        }
+                      }}
                 
                 >
                     <DialogTitle style={{color:"red"}} >{'Are you sure you want to delete the salesrep?'}</DialogTitle>
