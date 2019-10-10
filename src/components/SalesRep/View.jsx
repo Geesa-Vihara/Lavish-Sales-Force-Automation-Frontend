@@ -1,21 +1,42 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
-import Paper from '@material-ui/core/Paper';
+import { Redirect } from 'react-router-dom';
+import { withStyles } from '@material-ui/core';
+import Modal from "@material-ui/core/Modal";
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import ReactFusioncharts from "react-fusioncharts";
-// import { Card,CardContent,CardHeader } from '@material-ui/core';
- import Grid from '@material-ui/core/Grid';
- import  salesrepMonthlySales from "variables/salesrepSales.jsx";
+import { Card,CardContent,CardActions } from '@material-ui/core';
+import  salesrepMonthlySales from "variables/salesrepSales.jsx";
 
+ const useStyles = theme =>({
 
-const useStyles = theme =>({
-
-    paper:{
-        width:'100%',
+    button:{
+        color:theme.palette.common.white,
+        backgroundColor:"#1b5e20",
+        '&:hover':{
+        backgroundColor:"#8EB69B",
+        },
+        width:'20%',
+        marginRight:theme.spacing(2)
+       
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalCard: {
+        width: '100%',
+        height:'100%',
+        maxWidth: 800,
+        overflow:'auto'
+    },
+    modalCardContent: {
+        display: 'flex',
+        flexDirection: 'column',
     },
     imgshadow:{
         margin: "10px auto 0",
@@ -26,19 +47,20 @@ const useStyles = theme =>({
         borderRadius: "50%"
     },
     img:{
-        
         width: "100%",
         height: "100%"
     },
     user:{
-        fontSize:20,
+        fontSize:19,
         color: "#1b5e20"
     },
     typography:{
-        margin:'5px'
+        margin:'3px'
     }
 
 })
+
+
  class View extends React.Component {
 
     constructor(props){
@@ -47,9 +69,11 @@ const useStyles = theme =>({
             salesRep:[],
             isExpire:false,
             value:2,
-
-        };
-        
+            open:true,
+           
+        };  
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);   
     }
 
     componentDidMount(){
@@ -66,64 +90,77 @@ const useStyles = theme =>({
                 this.setState({
                     salesRep : res.data    
                 });
-                console.log(this.state.salesReps);
+                console.log(res.data);
             })
             .catch(err => {
-                if(err){
-                    console.log(err.message);
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
                     this.setState({isExpire:true});
                 }
+                console.log(err);
             })
     }
-      //TODO get data from salesreps        done
-      //TODO get data from orders           
-      // TODO monthly sales progress   - fusion charts     done
-      // TODO daily route coverage - matirial ui progress
-      //TODO rating method    done
-      //TODO organize as 3 grids
-         // profiledata
-         // rating/progress daily route coverage etc
-         // monthlysales
 
+    openModal = () => {
+        this.setState({open:true});
+    }
 
-    render() {
+    closeModal = () => {
+        this.setState({open:false});
+        this.props.history.push("/admin/salesreps");
+    }
+
+    render(){
         const { classes } = this.props;
         const { salesRep } = this.state;
         if(!this.state.isExpire){
-            return (
-                 <div>
-                    <Paper>
-                        <div className={classes.imgshadow}>                    
-                            <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
-                        </div> 
-                        <div style={{textAlign:"center"}}>
-                            <p className={classes.user}><b>{salesRep.fullName}</b></p>
-                            <Box component="fieldset" mb={3} borderColor="transparent">
-                                <Typography >Rating</Typography>
-                                <Rating value={this.state.value} readOnly />
-                            </Box>
-                            <Typography ><b>User Name:</b><label>{salesRep.userName}</label></Typography >
-                            {/* <Typography ><b>Full Name:</b><label>{salesRep.fullName}</label></Typography > */}
-                            <Typography className={classes.typography} ><b>Area:</b><label>{salesRep.area}</label></Typography >
-                            <Typography className={classes.typography} ><b>Email:</b><label>{salesRep.email}</label></Typography >
-                            <Typography className={classes.typography}><b>Phone no:</b><label>{salesRep.phoneNo}</label></Typography >
-                            <Typography className={classes.typography}><b>NIC:</b><label>{salesRep.nic}</label></Typography >
-                            <Typography className={classes.typography}><b>Address:</b><label>{salesRep.address}</label></Typography >
-                            <Typography className={classes.typography}><b>Distributor:</b><label>Namal perera</label></Typography >
-                        </div>
-                    {/* </Paper> */}
-                        <Grid item xs={24} style={{height:500}}>
+            return(
+                <Modal
+                    className={classes.modal}
+                    open={this.state.open}
+                    onClose={this.closeModal}
+                >
+                    <Card className={classes.modalCard}>
+                        <CardContent className={classes.modalCardContent}>
+                            <div className={classes.imgshadow}>                    
+                                <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
+                            </div> 
+                            <div style={{textAlign:"center"}}>
+                                <p className={classes.user}><b>{salesRep.fullName}</b></p>
+                                <Box component="fieldset" mb={0} borderColor="transparent">
+                                    {/* <Typography >Rating</Typography> */}
+                                    <Rating value={this.state.value} readOnly />
+                                </Box>
+                                <Typography ><b>User Name:</b><label>{salesRep.userName}</label></Typography >
+                                {/* <Typography ><b>Full Name:</b><label>{salesRep.fullName}</label></Typography > */}
+                                <Typography className={classes.typography} ><b>Area:</b><label>{salesRep.area}</label></Typography >
+                                <Typography className={classes.typography} ><b>Email:</b><label>{salesRep.email}</label></Typography >
+                                <Typography className={classes.typography}><b>Phone no:</b><label>{salesRep.phoneNo}</label></Typography >
+                                <Typography className={classes.typography}><b>NIC:</b><label>{salesRep.nic}</label></Typography >
+                                <Typography className={classes.typography}><b>Address:</b><label>{salesRep.address}</label></Typography >
+                                <Typography className={classes.typography}><b>Distributor:</b><label>Namal perera</label></Typography >
+                            </div>
                             <ReactFusioncharts
-                                type='column2d'
-                                width='70%'
-                                height='400'
-                                dataFormat='JSON'
-                                dataSource={salesrepMonthlySales}  
-                            />
-                        </Grid>
-                    </Paper>
-                </div>
-            )
+                                        type='column2d'
+                                        width='85%'
+                                        height='500'
+                                        dataFormat='JSON'
+                                        dataSource={salesrepMonthlySales}  
+                            
+                                    />  
+                        </CardContent>
+                        <CardActions  style={{justifyContent:'right'}}>
+                            <Button 
+                                className={classes.button}
+                                onClick={this.closeModal} 
+                                variant='contained'
+                            >
+                                Close
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Modal>
+            );
         }
         else{
             return(
@@ -132,11 +169,9 @@ const useStyles = theme =>({
                         pathname:"/login",
                         state:{expire:"Session expired please login again"}
                         }}/>
-                    
                 </div>
             )
         }
     }
 }
-
 export default withStyles(useStyles)(View);

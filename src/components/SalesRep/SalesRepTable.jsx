@@ -5,6 +5,7 @@ import Axios from 'axios';
 import Add from "components/SalesRep/Add";
 import Delete from "components/SalesRep/Delete";
 import Update from "components/SalesRep/Update";
+import View from "components/SalesRep/View";
 // @material-ui/core components
 import { withStyles} from '@material-ui/core/styles';
 import { Table,TableBody,TableCell,TableHead,TableRow,TextField }  from "@material-ui/core";
@@ -93,6 +94,7 @@ class  SalesRepTable extends React.Component{
           console.log(err.tokenmessage);
           this.setState({isExpire:true});
         }
+        console.log(err);
       })
   }
 
@@ -203,11 +205,12 @@ class  SalesRepTable extends React.Component{
                     <TableCell>{salesrep.address}</TableCell>
                     <TableCell>{salesrep.phoneNo}</TableCell>
                     <TableCell>
-                      <Link to={`/salesrep/${salesrep._id}`}>  
+                      <Link to={`/admin/salesreps/view/${salesrep._id}`}>  
                         <IconButton  aria-label="view"  >
                             <ViewIcon className={classes.icon}/>
                         </IconButton> 
                       </Link>
+                      <Route exact path='/admin/salesreps/view/:id' component={View} />
                       <Link to={`/admin/salesreps/update/${salesrep._id}`}>      
                         <IconButton  aria-label="edit" >
                             <EditIcon className={classes.icon} />

@@ -30,7 +30,6 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         const {match:{params}} =this.props;
         e.preventDefault();
         var token = localStorage.getItem('jwtToken');
-     //   this.setState({open:false});
         Axios
             .delete(`/salesreps/delete/${params.id}`,{
                 headers:{
@@ -39,6 +38,7 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
             })
             .then(res => {
                 console.log('salesrep deleted');
+                this.setState({open:false});
                 this.props.history.push('/admin/salesreps');
             })
             .catch(err => {
