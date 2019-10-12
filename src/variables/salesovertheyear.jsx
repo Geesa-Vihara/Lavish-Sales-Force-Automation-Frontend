@@ -10,59 +10,58 @@ const salesovertheyear = {
       palettecolors:"#dcedc8",    
       drawAnchors: "1",
       anchorBorderColor: "#1b5e20",
-      yaxisname: "Velocity (in mph)",
-      numbersuffix: " mph",
+      numbersuffix: " Rs",
       rotatelabels: "1",
       setadaptiveymin: "1",
       theme: "fusion"
     },
     data: [
       {
-        label: "2005",
+        label: "January",
         value: "89.45"
       },
       {
-        label: "2006",
+        label: "February",
         value: "89.87"
       },
       {
-        label: "2007",
+        label: "March",
         value: "89.64"
       },
       {
-        label: "2008",
+        label: "April",
         value: "90.13"
       },
       {
-        label: "2009",
+        label: "May",
         value: "90.67"
       },
       {
-        label: "2010",
+        label: "June",
         value: "90.54"
       },
       {
-        label: "2011",
+        label: "July",
         value: "90.75"
       },
       {
-        label: "2012",
+        label: "August",
         value: "90.8"
       },
       {
-        label: "2013",
+        label: "September",
         value: "91.16"
       },
       {
-        label: "2014",
+        label: "October",
         value: "91.37"
       },
       {
-        label: "2015",
+        label: "November",
         value: "91.66"
       },
       {
-        label: "2016",
+        label: "December",
         value: "91.8"
       }
     ]

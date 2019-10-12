@@ -21,6 +21,8 @@ import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 import AnalyticsPage from "views/Analytics/Analytics.jsx";
 import Tracking from "views/Tracking/Tracking.jsx";
+import Reports from "views/Reports/Reports.jsx";
+
 
 const dashboardRoutes = [
   {
@@ -43,7 +45,7 @@ const dashboardRoutes = [
     path: "/reports",
     name: "Reports",
     icon: Description,
-    component: NotificationsPage,
+    component: Reports,
     layout: "/admin"
   },
      

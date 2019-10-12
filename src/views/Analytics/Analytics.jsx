@@ -26,38 +26,11 @@ import { KeyboardDatePicker,MuiPickersUtilsProvider,
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
-const useStyles = theme => ({
- 
-  content: {
-    textAlign:"right",
-    marginRight:theme.spacing(2),
-    color:"black"
-  },  
-  icon:{
-     fontSize:100,
-     
-   },
-  iconimage:{
-    color:"white",
-    borderRadius: "20px",
-    backgroundColor:"#dce775",
-    width:100,
-    height:100,
-    textAlign:"center",
-    
-  },
-  iconstore:{
-    fontSize:130,
-    backgroundColor:"#dce775",
-    color:"white",
-    borderRadius: "20px",
-    float:"left",
-  },
-  container:{
-    width:"100%"
-  },  
+const useStyles = theme => ({ 
+  
   avatar: {
-    backgroundColor: lightGreen[300],
+    
+    backgroundColor: "transparent",
   },
   inline: {
     display: 'inline',
@@ -117,7 +90,7 @@ class Analytics extends React.Component {
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
-                    <Icon style={{color:"black"}}>attach_money</Icon>
+                    <Icon style={{color:"black"}}>monetization_on</Icon>
                   </Avatar>
                 }
                 title="Lavish Tea Company Sales"
@@ -456,7 +429,7 @@ class Analytics extends React.Component {
                 <KeyboardDatePicker
                   minDate={showproductdatefrom}
                   label="Date to"
-                  style={{width:"40%",marginLeft:80}}
+                  style={{width:"40%",marginLeft:"20%"}}
                   format="yyyy-MM-dd "
                   value={showproductdateto}
                   onChange={this.handleDateChangeProductto}
@@ -468,7 +441,7 @@ class Analytics extends React.Component {
                 <ReactFusioncharts
                   type="doughnut2d"
                   width="100%"
-                  height="500"
+                  height="480"
                   dataFormat="JSON"
                   dataSource={yearlyproducts}
                 />
@@ -733,7 +706,7 @@ class Analytics extends React.Component {
                 <KeyboardDatePicker
                   minDate={showsalesdatefrom}
                   label="Date to"
-                  style={{width:"40%",marginLeft:40}}
+                  style={{width:"40%",marginLeft:"20%"}}
                   format="yyyy-MM-dd "
                   value={showsalesdateto}
                   onChange={this.handleDateChangeSalesto}
@@ -745,7 +718,7 @@ class Analytics extends React.Component {
                 <ReactFusioncharts
                     type="bar2d"
                     width="100%"
-                    height="500"
+                    height="480"
                     dataFormat="JSON"
                     dataSource={yearlysales}
                   />                
@@ -772,7 +745,7 @@ class Analytics extends React.Component {
                 <KeyboardDatePicker
                   minDate={showoutletdatefrom}
                   label="Date to"
-                  style={{width:"45%",marginLeft:20}}
+                  style={{width:"45%",marginLeft:"10%"}}
                   format="yyyy-MM-dd "
                   value={showoutletdateto}
                   onChange={this.handleDateChangeOutletto}
