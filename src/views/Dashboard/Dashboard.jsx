@@ -8,7 +8,6 @@ import Icon from "@material-ui/core/Icon";
 import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
-import {lightGreen} from '@material-ui/core/colors';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -32,7 +31,7 @@ const useStyles = theme => ({
   iconimage:{
     color:"white",
     borderRadius: "20px",
-    backgroundColor:"#dce775",
+    backgroundColor:"#dcedc8",
     width:100,
     height:100,
     textAlign:"center",
@@ -40,7 +39,7 @@ const useStyles = theme => ({
   },
   iconstore:{
     fontSize:130,
-    backgroundColor:"#dce775",
+    backgroundColor:"#dcedc8",
     color:"white",
     borderRadius: "20px",
     float:"left",
@@ -49,7 +48,7 @@ const useStyles = theme => ({
     width:"100%"
   },  
   avatar: {
-    backgroundColor: lightGreen[300],
+    backgroundColor: "transparent",
   },
   inline: {
     display: 'inline',
@@ -90,7 +89,7 @@ class Dashboard extends React.Component {
                   <CardHeader
                     avatar={
                       <Avatar aria-label="recipe" className={classes.avatar}>
-                        <Icon style={{color:"black"}}>money</Icon>
+                        <Icon style={{color:"black"}}>monetization_on</Icon>
                       </Avatar>
                     }
                     title="Daily sales revenue"

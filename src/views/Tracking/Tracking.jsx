@@ -5,11 +5,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles,createMuiTheme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Axios from 'axios';
 import { Link,Redirect } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import { ThemeProvider } from '@material-ui/styles';
+
 import {
     MuiPickersUtilsProvider,
     KeyboardDateTimePicker,
@@ -23,6 +25,11 @@ import {
   InfoWindow,
 } from "react-google-maps";
 
+const body = createMuiTheme({
+  palette: {
+      primary: {500:"#1b5e20"},
+  },
+  });
 const useStyles = theme => ({
     
     formControl: {
@@ -42,9 +49,9 @@ const useStyles = theme => ({
         borderRadius: "3px",
         letterSpacing: "1.5px",
         marginTop: "1rem" ,
-        backgroundColor:"#8EB69B",
+        backgroundColor:"#1b5e20",
         '&:hover':{
-          backgroundColor:"#1b5e20",
+          backgroundColor:"#8EB69B",
         },
         color:"white"
       },
@@ -207,6 +214,7 @@ class Tracking extends Component {
             <div>
                 <form onSubmit={this.onSubmit}>
                     <Grid container className={classes.container}   >
+                    <ThemeProvider theme={body}>  
                         <Grid item xs={4}>
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="age-simple" >Select sales representative</InputLabel>
@@ -257,6 +265,7 @@ class Tracking extends Component {
                                 />
                             </Grid>                            
                         </MuiPickersUtilsProvider>
+                        </ThemeProvider>
                         <Grid item xs={2}>                          
                                 <Button
                                     variant="contained"
