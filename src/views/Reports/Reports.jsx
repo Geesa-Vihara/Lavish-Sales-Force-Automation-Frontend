@@ -40,6 +40,7 @@ const useStyles = theme => ({
     width: '100%',
     height:'100%',
     maxWidth: 1000,
+    maxHeight: 1000,
     overflow:'auto'
 },
   cardcontainer: {
@@ -314,7 +315,7 @@ generateReport=(report)=>{
             <div>
               <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button} >
                 Back
-              </Button>
+              </Button>              
               <Button
                 variant="contained"
                 onClick={this.handleNext}
