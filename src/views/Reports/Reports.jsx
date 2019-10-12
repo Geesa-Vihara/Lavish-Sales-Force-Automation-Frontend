@@ -6,7 +6,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { ThemeProvider } from '@material-ui/styles';
-import { Paper } from '@material-ui/core';
+import { Paper,Card, Modal, CardContent } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -16,15 +16,35 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import SalesReport from '../Reports/salesreport.jsx';
+import StockBalance from '../Reports/stockbalance.jsx';
+import DistOutstanding from '../Reports/distoutstanding.jsx';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
+
+
   
 const useStyles = theme => ({
   root: {
     width: '90%',
     marginTop:"2%"
+  },  
+  modal:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  card: {
+    width: '100%',
+    height:'100%',
+    maxWidth: 1000,
+    overflow:'auto'
+},
+  cardcontainer: {
+      display: 'flex',
+      flexDirection: 'column',
   },
   button: {
     marginRight: theme.spacing(1),
@@ -64,7 +84,8 @@ class Reports extends Component {
     selectedDatefrom:Date.now(),
     selectedDateto:Date.now()+1000*60*60*24*31,
     dist:"0",
-    selectdist:"0"
+    selectdist:"0",
+    open:false
   }
 
   handleNext = () => {  
@@ -113,7 +134,30 @@ class Reports extends Component {
     this.setState({selectedDateto:date})
 
   }
-  
+  enablemodel=()=>{
+      this.setState({open:true})
+  }
+  disablemodel=()=>{
+    this.setState({open:false})
+}
+generateReport=(report)=>{
+  switch (report){
+    case "0":
+      return(
+        <SalesReport/>
+      );
+    case "1":
+      return(
+        <StockBalance/>
+      );
+    case "2":
+      return(
+        <DistOutstanding/>
+      );
+    default :
+        return "Could not generate report"; 
+  }
+}
   getStepContent=(step)=>{
     switch (step) {
       case 0:
@@ -223,7 +267,7 @@ class Reports extends Component {
   }
   render(){
     const {classes} = this.props;
-    const {activeStep} = this.state;
+    const {activeStep,report} = this.state;
     const steps=this.getSteps();
   return (
     <div className={classes.root}>
@@ -251,9 +295,16 @@ class Reports extends Component {
             <Button onClick={this.handleReset} className={classes.button}>
               Reset
             </Button>
-            <Button className={classes.nextfinish}>
+            <Button className={classes.nextfinish} onClick={this.enablemodel}>
               Generate report
             </Button>
+            <Modal className={classes.modal} onClose={this.disablemodel}open={this.state.open}>
+              <Card className={classes.card}>
+                <CardContent className={classes.cardcontainer}>
+                  {this.generateReport(report)} 
+                </CardContent>
+              </Card>       
+            </Modal>
           </div>
         ) : (
           <div>
@@ -263,8 +314,7 @@ class Reports extends Component {
             <div>
               <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button} >
                 Back
-              </Button>              
-
+              </Button>
               <Button
                 variant="contained"
                 onClick={this.handleNext}
