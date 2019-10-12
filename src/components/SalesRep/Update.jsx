@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { Redirect } from 'react-router-dom';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
@@ -12,8 +13,7 @@ const useStyles = (theme) => ({
 
     textField: { 
         marginLeft:theme.spacing(8),
-       // marginRight:theme.spacing(1),
-       width:'80%',
+        width:'80%',
     },
     actionbuttons:{
         marginLeft:theme.spacing(7),
@@ -46,6 +46,11 @@ const useStyles = (theme) => ({
     marginTop: {
         marginTop: theme.spacing(2),
     },
+    textfielderror: {
+        marginLeft: theme.spacing(8), 
+        marginTop:theme.spacing(0) ,    
+        color:"red"
+    },
 });
 
  class Update extends React.Component {
@@ -61,10 +66,9 @@ const useStyles = (theme) => ({
             phoneNo:'',
             nic:'',
             email:'',
-           // password:'',
-         //   confirmPassword:'',
             open:true,
-            isExpire:false
+            isExpire:false,
+            errors:{}
         };
         this.onChange   = this.onChange.bind(this);
         this.onSubmit   = this.onSubmit.bind(this);
@@ -95,7 +99,6 @@ const useStyles = (theme) => ({
                     phoneNo:res.data.phoneNo,
                     nic:res.data.nic,
                     email:res.data.email
-
                 });
             })
             .catch(err=>{
@@ -120,8 +123,6 @@ const useStyles = (theme) => ({
             phoneNo  : this.state.phoneNo,
             nic      : this.state.nic,
             email    : this.state.email,
-          //  password : this.state.password,
-           // confirmPassword : this.state.confirmPassword
         };
        
         Axios
@@ -131,10 +132,18 @@ const useStyles = (theme) => ({
                 }
             })
             .then(res => {
+                if(res.status===200){
+                    console.log(res.data);
                     this.setState({open:false});
                     this.props.history.push("/admin/salesreps");   
+                }
+                else{
+                    const error = new Error(res.error);
+                    throw error;
+                }
             })
             .catch(err => {
+                this.setState({errors:err.response.data});
                 if(err.tokenmessage){
                     console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
@@ -153,7 +162,7 @@ const useStyles = (theme) => ({
 
     render() {
         const { classes } = this.props;
-        const { userName,fullName,area,address,phoneNo,nic,email,open,isExpire } = this.state;
+        const { userName,fullName,area,address,phoneNo,nic,email,open,isExpire,errors } = this.state;
         if(!isExpire){
         return (
             <Modal 
@@ -167,7 +176,7 @@ const useStyles = (theme) => ({
                   }}       
             >
                 <Card className={classes.modalCard}>
-                    <form onSubmit={this.onSubmit} >
+                    <form noValidate onSubmit={this.onSubmit} >
                         <CardContent className={classes.modalCardContent}>
                             <TextField
                                 required
@@ -181,6 +190,7 @@ const useStyles = (theme) => ({
                                 margin="normal"
                                 type="text"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
                             <TextField
                                 required
                                 id="fullName"
@@ -192,6 +202,7 @@ const useStyles = (theme) => ({
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.fullName}</FormHelperText>
                             <TextField
                                 required
                                 id="address"
@@ -203,6 +214,7 @@ const useStyles = (theme) => ({
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.address}</FormHelperText>
                             <TextField
                                 required
                                 id="area"
@@ -214,6 +226,7 @@ const useStyles = (theme) => ({
                                 variant="outlined"
                                 margin="normal"       
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
                             <TextField
                                 required
                                 id="phoneNo"
@@ -225,6 +238,7 @@ const useStyles = (theme) => ({
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.phoneNo}</FormHelperText>
                             <TextField
                                 id="email"
                                 label="Email"
@@ -235,6 +249,7 @@ const useStyles = (theme) => ({
                                 margin="normal"
                                 type="email"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.email}</FormHelperText>
                             <TextField
                                 required
                                 id="nic"
@@ -246,6 +261,7 @@ const useStyles = (theme) => ({
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.nic}</FormHelperText>
                             {/* <TextField
                                 required
                                 id="password"

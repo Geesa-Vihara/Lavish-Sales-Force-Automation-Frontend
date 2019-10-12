@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -11,17 +12,15 @@ const useStyles = theme => ({
     
     textField: { 
         marginLeft:theme.spacing(8),
-       // marginRight:theme.spacing(1),
-       width:'80%',
+        width:'80%',
+        marginTop:theme.spacing(1),
+     
     },
     actionbuttons:{
         marginLeft:theme.spacing(7),
         marginRight:theme.spacing(8),
     },
     buttonsave:{
-        //marginTop:theme.spacing(1),
-        //marginLeft:theme.spacing(8),
-        //marginRight:theme.spacing(8),
         color:theme.palette.common.white,
         backgroundColor:"#1b5e20",
         '&:hover':{
@@ -29,13 +28,9 @@ const useStyles = theme => ({
         },
         width:'100%'
     },
-    buttonclose:{
-        //marginTop:theme.spacing(1),
-        //marginLeft:theme.spacing(8),
-        //marginRight:theme.spacing(8),            
+    buttonclose:{          
         width:'100%'
     },
-     //modal styles
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -44,19 +39,24 @@ const useStyles = theme => ({
     modalCard: {
         width: '90%',
         maxWidth: 700,
+      //  height:'100%',
+       // overflow:'auto'
     },
     modalCardContent: {
         display: 'flex',
         flexDirection: 'column',
     },
     marginTop: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(1),
     },
-
+    textfielderror: {
+        marginLeft: theme.spacing(8), 
+        marginTop:theme.spacing(0) ,    
+        color:"red"
+    },
 });
 
 class Add extends React.Component{
-    
     constructor(props){
 
         super(props);
@@ -71,8 +71,8 @@ class Add extends React.Component{
             password:'',
             confirmPassword:'',
             open:true,
-            isExpire:false
-
+            isExpire:false,
+            errors:{},
         };
         
         this.onChange   = this.onChange.bind(this);
@@ -81,16 +81,14 @@ class Add extends React.Component{
         this.closeModal = this.closeModal.bind(this);
     }
 
-    onChange = (e) => {         // TODO manage all satates using one function 
+    onChange = (e) => {        
         this.setState({[e.target.id] : e.target.value});
     }
 
     onSubmit =(e) => {
-
         e.preventDefault();
         var token = localStorage.getItem('jwtToken')
         const salesrep = {
-
             userName : this.state.userName,
             fullName : this.state.fullName,
             area     : this.state.area,
@@ -108,12 +106,20 @@ class Add extends React.Component{
                 }
             })
             .then(res => {
-                console.log(res.data);
-                this.setState({open:false});
-                this.props.history.push("/admin/salesreps");
-        
+                if(res.status===200){                                
+                   // window.location.reload();
+                   //console.log(res.data);
+                   this.setState({open:false});
+                   this.props.history.push("/admin/salesreps");
+                }
+                else {
+                    const error = new Error(res.error);
+                    throw error;
+                }
              })
             .catch(err => {
+                this.setState({errors:err.response.data}) ; 
+               // console.log(err.response.data)
                 if(err.tokenmessage){
                     console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
@@ -131,19 +137,17 @@ class Add extends React.Component{
     }
 
     render(){
-
         const { classes } = this.props;
-        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire } = this.state;
+        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire,errors } = this.state;
         if(!isExpire){
-        return (
-            
+        return ( 
             <Modal 
                 className={classes.modal}
                 onClose={this.closeModal}
                 open={open}           
             >
                 <Card className={classes.modalCard}>
-                    <form onSubmit={this.onSubmit} >
+                    <form noValidate onSubmit={this.onSubmit} >
                         <CardContent className={classes.modalCardContent}>
                             <TextField
                                 required
@@ -157,6 +161,7 @@ class Add extends React.Component{
                                 margin="normal"
                                 type="text"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
                             <TextField
                                 required
                                 id="fullName"
@@ -168,6 +173,7 @@ class Add extends React.Component{
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.fullName}</FormHelperText>
                             <TextField
                                 required
                                 id="address"
@@ -177,8 +183,9 @@ class Add extends React.Component{
                                 onChange={this.onChange}
                                 className={classes.textField}
                                 variant="outlined"
-                                margin="normal"
+                                margin="normal"  
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}>{errors.address}</FormHelperText>
                             <TextField
                                 required
                                 id="area"
@@ -190,6 +197,7 @@ class Add extends React.Component{
                                 variant="outlined"
                                 margin="normal"       
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
                             <TextField
                                 required
                                 id="phoneNo"
@@ -201,6 +209,7 @@ class Add extends React.Component{
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.phoneNo}</FormHelperText>
                             <TextField
                                 id="email"
                                 label="Email"
@@ -211,6 +220,7 @@ class Add extends React.Component{
                                 margin="normal"
                                 type="email"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.email}</FormHelperText>
                             <TextField
                                 required
                                 id="nic"
@@ -222,6 +232,7 @@ class Add extends React.Component{
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.nic}</FormHelperText>
                             <TextField
                                 required
                                 id="password"
@@ -233,6 +244,7 @@ class Add extends React.Component{
                                 margin="normal"
                                 type="password"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.password}</FormHelperText>
                             <TextField
                                 required
                                 id="confirmPassword"
@@ -244,6 +256,7 @@ class Add extends React.Component{
                                 margin="normal"
                                 type="password"
                             />
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.confirmPassword}</FormHelperText>
                             <CardActions className={classes.actionbuttons}>
                                 <Button
                                     type="submit"
@@ -268,15 +281,15 @@ class Add extends React.Component{
         }
         else{
             return(
-              <div>                
+              <small>                
                   <Redirect to={{
                       pathname:"/login",
                       state:{expire:"Session expired please login again"}
                       }}/>
                   
-              </div>
+              </small>
           )
           }
-    }          
-}
+    }
+} 
 export default withStyles(useStyles)(Add);
