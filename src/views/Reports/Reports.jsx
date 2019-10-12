@@ -166,9 +166,9 @@ generateReport=(report)=>{
             <ThemeProvider theme={body}>  
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="report" name="reports" value={this.state.report} onChange={this.handleChange}>
-                        <FormControlLabel value="0" control={<Radio color="primary" />} label="Sales report" />
-                        <FormControlLabel value="1" control={<Radio color="primary" />} label="Distributor balance stock report" />
-                        <FormControlLabel value="2" control={<Radio color="primary"/>} label="Distributor market outstanding report" />                    
+                        <FormControlLabel value="0" control={<Radio color="primary" />} label="Sales Report" />
+                        <FormControlLabel value="1" control={<Radio color="primary" />} label="Distributor Balance Stock Report" />
+                        <FormControlLabel value="2" control={<Radio color="primary"/>} label="Distributor Market Outstanding Report" />                    
                     </RadioGroup>
                 </FormControl>
             </ThemeProvider>
@@ -315,7 +315,7 @@ generateReport=(report)=>{
             <div>
               <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button} >
                 Back
-              </Button>              
+              </Button>                           
               <Button
                 variant="contained"
                 onClick={this.handleNext}
