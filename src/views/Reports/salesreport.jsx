@@ -114,22 +114,23 @@ class SalesReport extends Component{
                         </tbody>
                     </table> 
                     <Grid container xs={12} className={classes.sign}>
-                        <Grid item xs={3}>
+                        <Grid item xs={3}><b>
                         ------------------------------------------------<br/>
-                        Sales rep signature/Date
+                        Sales rep signature/Date</b>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={3}><b>
                         ------------------------------------------------<br/>
-                        ASM signature/Date
+                        ASM signature/Date</b>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={3}><b>
                         ------------------------------------------------<br/>
-                        Distributor signature/Date
+                        Distributor signature/Date</b>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={3}><b>
                         ------------------------------------------------<br/>
-                        Distributor rubber stamp
+                        Distributor rubber stamp</b>
                         </Grid>
+                        
                     </Grid>
                 </div>
         )
