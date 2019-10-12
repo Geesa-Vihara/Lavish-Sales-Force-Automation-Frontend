@@ -38,7 +38,7 @@ const routecoverage = {
         },
         {
           maxvalue: "11",
-          displayvalue: "No data available",
+          displayvalue: "N/A",
           code: "#e0e0e0"
         }
       ]
@@ -49,52 +49,52 @@ const routecoverage = {
           {
             id: "LK.AP",
             value: "10",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.AD",
             value: "9",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.BD",
             value: "9",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.BC",
             value: "9",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.CO",
             value: "7",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.GL",
             value: "9",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.GQ",
             value: "5",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.HB",
             value: "2",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.JA",
             value: "10",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.KT",
             value: "1",
-            //tooltext: "No data available"
+            //tooltext: "N/A"
           },
           {
             id: "LK.KY",
@@ -107,7 +107,7 @@ const routecoverage = {
           {
             id: "LK.KL",
             value: "5.7",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.KG",
@@ -116,12 +116,12 @@ const routecoverage = {
           {
             id: "LK.MB",
             value: "4.9",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.MT",
             value: "2.9",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.MH",
@@ -130,17 +130,17 @@ const routecoverage = {
           {
             id: "LK.MJ",
             value: "7",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.MP",
             value: "5.1",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.NW",
             value: "7.1",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.PR",
@@ -157,12 +157,12 @@ const routecoverage = {
           {
             id: "LK.TC",
             value: "6.1",
-            tooltext: "No data available"
+            tooltext: "N/A"
           },
           {
             id: "LK.VA",
             value: "6.4",
-            tooltext: "No data available"
+            tooltext: "N/A"
           }
         ]
       }
