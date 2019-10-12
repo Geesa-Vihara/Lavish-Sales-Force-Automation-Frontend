@@ -31,7 +31,7 @@ import  salesrepMonthlySales from "variables/salesrepSales.jsx";
     modalCard: {
         width: '100%',
         height:'100%',
-        maxWidth: 800,
+        maxWidth: 900,
         overflow:'auto'
     },
     modalCardContent: {
@@ -130,7 +130,7 @@ import  salesrepMonthlySales from "variables/salesrepSales.jsx";
                             <div className={classes.imgshadow}>                    
                                 <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
                             </div> 
-                            <div style={{textAlign:"center"}}>
+                            <div style={{textAlign:"center",marginBottom:'20px'}}>
                                 <p className={classes.user}><b>{salesRep.fullName}</b></p>
                                 <Box component="fieldset" mb={0} borderColor="transparent">
                                     {/* <Typography >Rating</Typography> */}
@@ -146,8 +146,8 @@ import  salesrepMonthlySales from "variables/salesrepSales.jsx";
                                 <Typography className={classes.typography}><b>Distributor:</b><label>Namal perera</label></Typography >
                             </div>
                             <ReactFusioncharts
-                                        type='column2d'
-                                        width='85%'
+                                        type='msline'
+                                        width='700'
                                         height='500'
                                         dataFormat='JSON'
                                         dataSource={salesrepMonthlySales}  
