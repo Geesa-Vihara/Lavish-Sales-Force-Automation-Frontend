@@ -19,6 +19,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import SalesReport from '../Reports/salesreport.jsx';
 import StockBalance from '../Reports/stockbalance.jsx';
 import DistOutstanding from '../Reports/distoutstanding.jsx';
+import { Icon } from "@material-ui/core";
+
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -31,6 +33,11 @@ const useStyles = theme => ({
     width: '90%',
     marginTop:"2%"
   },  
+  buttonprint:{
+    backgroundColor:"#DCDCDC",
+    float:"right",
+    marginBottom:10
+},
   modal:{
     display: 'flex',
     alignItems: 'center',
@@ -39,7 +46,7 @@ const useStyles = theme => ({
   card: {
     width: '100%',
     height:'100%',
-    maxWidth: 1000,
+    maxWidth: 900,
     maxHeight: 1000,
     overflow:'auto'
 },
@@ -144,7 +151,7 @@ class Reports extends Component {
 generateReport=(report)=>{
   switch (report){
     case "0":
-      return(
+      return(        
         <SalesReport/>
       );
     case "1":
@@ -266,6 +273,13 @@ generateReport=(report)=>{
         return 'Unknown step';
     }
   }
+  printreport=()=>{
+    const content = document.getElementById('reporttoprint').innerHTML;
+    const orderHtml = '<html><head><title></title></head><body>' + content + '</body></html>'
+    document.body.innerHTML = orderHtml;        
+    window.location.reload();
+    window.print();  
+}
   render(){
     const {classes} = this.props;
     const {activeStep,report} = this.state;
@@ -299,13 +313,16 @@ generateReport=(report)=>{
             <Button className={classes.nextfinish} onClick={this.enablemodel}>
               Generate report
             </Button>
-            <Modal className={classes.modal} onClose={this.disablemodel}open={this.state.open}>
+             <Modal className={classes.modal} onClose={this.disablemodel}open={this.state.open}>
               <Card className={classes.card}>
                 <CardContent className={classes.cardcontainer}>
+                    <div>
+                      <Button className={classes.buttonprint} onClick={this.printreport} ><Icon style={{fontSize:40}}>printer</Icon>Print</Button>
+                    </div> 
                   {this.generateReport(report)} 
                 </CardContent>
               </Card>       
-            </Modal>
+            </Modal> 
           </div>
         ) : (
           <div>
@@ -315,7 +332,7 @@ generateReport=(report)=>{
             <div>
               <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button} >
                 Back
-              </Button>                           
+              </Button>               
               <Button
                 variant="contained"
                 onClick={this.handleNext}
