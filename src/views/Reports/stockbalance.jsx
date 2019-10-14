@@ -6,8 +6,11 @@ import avatar from "assets/img/lavishlogo.png";
 const useStyles = theme => ({  
     sign:{
        textAlign:"center",
-       marginTop:50
+       marginTop:40
     },
+    heading:{        
+        marginBottom:10
+     },
     table:{
         borderCollapse: "collapse",
         width: "100%",
@@ -26,8 +29,8 @@ const useStyles = theme => ({
         paddingLeft:0
     },     
     logo:{        
-        maxWidth: "180px",
-        maxHeight: "180px",
+        maxWidth: "150px",
+        maxHeight: "150px",
     },
     logoimg:{
         width: "100%",
@@ -41,27 +44,27 @@ class StockBalance extends Component{
         const {classes}=this.props;
         return(
             <div>
-                    <Grid container>
-                        <Grid item xs={12}>
+                    <Grid container id="reporttoprint">
+                        <Grid item xs={12} >
                         <div className={classes.logo}style={{float:"left"}}>                    
                             <img className={classes.logoimg} src={avatar} alt="img" />                    
                         </div>
                         <div style={{float:"right"}} ><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191</b></div>
-                        </Grid>
-                        <Grid item xs={12} >
-                            <h5><b>Distributor Balance Stock Report</b></h5>
-                        </Grid>
-                        <Grid item xs={3}><b>
-                            Area-______________________
-                            </b>
+                        </Grid>                        
+                        <Grid container className={classes.heading}>
+                            <Grid item xs={12} >
+                                <h5><b>Distributor Balance Stock Report</b></h5>
                             </Grid>
                             <Grid item xs={3}><b>
-                            Month/Year-___________________</b>
+                                Area-___________________</b>
+                            </Grid>
+                            <Grid item xs={3}><b>
+                                Month/Year-____________</b>
                             </Grid>
                             <Grid item xs={6}><b>
-                            Distributor Name-________________________________________________</b>
+                                Distributor Name-_______________________________</b>
                             </Grid>
-                            <p/>
+                        </Grid>
                         <table className={classes.table}>
                             <thead>
                                 <tr>
@@ -220,9 +223,6 @@ class StockBalance extends Component{
                             ------------------------------------------------<br/>
                             Distributor Signature/Rubber Stamp</b>
                             </Grid>
-                            
-                            
-                        
                         </Grid>
                     </Grid>
                 </div>

@@ -24,7 +24,8 @@ import CustomerTable from "components/Customer/CustomerTable"
 import AnalyticsPage from "views/Analytics/Analytics.jsx";
 import Tracking from "views/Tracking/Tracking.jsx";
 import Reports from "views/Reports/Reports.jsx";
-
+import Stock from "views/Stock/Stock.jsx";
+import SalesInvoices from "views/SalesInvoices/SalesInvoices.jsx";
 
 const dashboardRoutes = [
   {
@@ -39,7 +40,7 @@ const dashboardRoutes = [
     path: "/stock",
     name: "Stock ",
     icon: Storage,
-    component:NotificationsPage,
+    component:Stock,
     layout: "/admin"
   },
 
@@ -87,7 +88,7 @@ const dashboardRoutes = [
     path: "/invoices",
     name: "Sales Invoices",
     icon: AttachMoney,
-    component: NotificationsPage,
+    component: SalesInvoices,
     layout: "/admin"
   },
   
