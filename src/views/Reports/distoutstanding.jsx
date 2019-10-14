@@ -3,13 +3,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import avatar from "assets/img/lavishlogo.png";
 
-const useStyles = theme => ({  
+const useStyles = theme => ({
+    
     sign:{
        textAlign:"center",
-       marginTop:50
+       marginTop:20,
+       fontSize:13
     },
     heading:{        
-        marginBottom:20
+        marginBottom:10
      },
     table:{
         borderCollapse: "collapse",
@@ -29,8 +31,8 @@ const useStyles = theme => ({
         paddingLeft:0
     },     
     logo:{        
-        maxWidth: "180px",
-        maxHeight: "180px",
+        maxWidth: "150px",
+        maxHeight: "150px",
     },
     logoimg:{
         width: "100%",
@@ -52,8 +54,8 @@ class DistOutstanding extends Component{
                         <div style={{float:"right"}} ><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191</b></div>
                         </Grid>
                         <Grid container className={classes.heading}>
-                            <Grid item xs={12} style={{marginBottom:30}}>
-                                <h5><b>Distributor Market Outstanding Report</b></h5>
+                            <Grid item xs={12} style={{marginBottom:13}} >
+                                <b>Distributor Market Outstanding Report</b>
                             </Grid>
                             <Grid item xs={3}><b>
                                 Area-___________________</b>

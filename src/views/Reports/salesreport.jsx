@@ -6,7 +6,8 @@ const useStyles = theme => ({
     
     sign:{
        textAlign:"center",
-       marginTop:50
+       marginTop:20,
+       fontSize:13
     },
     table:{
         borderCollapse: "collapse",
@@ -33,8 +34,10 @@ class SalesReport extends Component{
         return(
             <div>   
                     <Grid container id="reporttoprint"> 
-                        <Grid item xs={12}><b>Lavish Tea (Private)Limited<br/>No 40 ,Raymond Road<br/>Nugegoda</b></Grid>
-                        <Grid item xs={12} style={{textAlign:"center"}}><h5><b>Monthly Sales Report</b></h5></Grid>
+                        <Grid container>
+                            <Grid item xs={12}><b>Lavish Tea (Private)Limited<br/>No 40 ,Raymond Road<br/>Nugegoda</b></Grid>
+                            <Grid item xs={12} style={{textAlign:"center"}}><b>Monthly Sales Report</b></Grid>
+                        </Grid>
                         <table className={classes.table}>
                             <thead>
                                 <tr>
