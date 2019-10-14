@@ -19,6 +19,8 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
+import DistributorTable from "components/Distributor/DistributorTable"
+import CustomerTable from "components/Customer/CustomerTable"
 import AnalyticsPage from "views/Analytics/Analytics.jsx";
 import Tracking from "views/Tracking/Tracking.jsx";
 import Reports from "views/Reports/Reports.jsx";
@@ -70,7 +72,7 @@ const dashboardRoutes = [
     path: "/customers",
     name: "Customers",
     icon: Store,
-    component: NotificationsPage,
+    component: CustomerTable,
     layout: "/admin"
   },
 
@@ -78,7 +80,7 @@ const dashboardRoutes = [
     path: "/distributors",
     name: "Distributors",
     icon: People,
-    component: NotificationsPage,
+    component: DistributorTable,
     layout: "/admin"
   },
   
