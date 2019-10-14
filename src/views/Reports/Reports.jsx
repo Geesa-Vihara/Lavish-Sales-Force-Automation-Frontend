@@ -274,8 +274,8 @@ generateReport=(report)=>{
     }
   }
   printreport=()=>{
-    const content = document.getElementById('reporttoprint').innerHTML;
-    const orderHtml = '<html><head><title></title></head><body>' + content + '</body></html>'
+    const content = document.getElementById('reporttoprint').innerHTML;   
+    const orderHtml = ' <html><head><title></title><style>table {line-height:1;}</style></head><body>' + content + '</body></html>';
     document.body.innerHTML = orderHtml;        
     window.location.reload();
     window.print();  
@@ -332,7 +332,7 @@ generateReport=(report)=>{
             <div>
               <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button} >
                 Back
-              </Button>               
+              </Button>                            
               <Button
                 variant="contained"
                 onClick={this.handleNext}
