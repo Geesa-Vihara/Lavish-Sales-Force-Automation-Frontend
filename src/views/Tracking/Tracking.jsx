@@ -48,12 +48,8 @@ const useStyles = theme => ({
         height:45,
         borderRadius: "3px",
         letterSpacing: "1.5px",
-        marginTop: "1rem" ,
-        backgroundColor:"#1b5e20",
-        '&:hover':{
-          backgroundColor:"#8EB69B",
-        },
-        color:"white"
+        marginTop: "1rem" ,      
+        color:"black"
       },
   });
 const CustomSkinMap = withScriptjs(       
