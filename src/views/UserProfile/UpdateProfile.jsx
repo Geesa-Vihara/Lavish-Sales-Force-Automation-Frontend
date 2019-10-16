@@ -61,7 +61,7 @@ const useStyles = theme => ({
     heading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
-      color:" #8EB69B"
+      color:"black"
     },
     accountheading:{
         textAlign:"center",
@@ -69,17 +69,17 @@ const useStyles = theme => ({
       },
     userlogin:{
         fontSize:17,
-        color: "#1b5e20"
+        color: "black"
     },
     icon:{
         color:"black",
     },
     button:{
-        backgroundColor:"#1b5e20",
-        '&:hover':{
+        //backgroundColor:"#1b5e20",
+        /* '&:hover':{
         backgroundColor:"#8EB69B",
-        },
-        color:"white",
+        }, */
+        color:"black",
         width: "100%",
         height:45,
         borderRadius: "3px",
@@ -393,7 +393,7 @@ class UpdateProfile extends Component{
                     </div> 
                     <Link to="/admin/dashboard">
                         <ArrowBack className={classes.icon}/>
-                        <b style={{color: "#8EB69B" }}> Back to Dashboard</b>
+                        <b style={{color: "black" }}> Back to Dashboard</b>
                     </Link>        
                     <ExpansionPanel className={classes.root}>
                         <ExpansionPanelSummary
@@ -504,11 +504,12 @@ class UpdateProfile extends Component{
                                                 </small>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={12}>                           
+                                        <Grid item xs={12} >                           
                                                 <Button
                                                     variant="contained"
                                                     type="submit"
                                                     className={classes.button}
+                                                    style={{width:"20%",float:"right"}}
                                                     >
                                                     UPDATE
                                                 </Button>
@@ -859,6 +860,7 @@ class UpdateProfile extends Component{
                                                     variant="contained"
                                                     type="submit"
                                                     className={classes.button}
+                                                    style={{width:"25%",float:"right"}}
                                                     >
                                                     SUBMIT
                                                 </Button>

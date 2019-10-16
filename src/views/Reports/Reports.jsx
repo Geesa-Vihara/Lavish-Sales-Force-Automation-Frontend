@@ -60,11 +60,11 @@ const useStyles = theme => ({
   nextfinish:{
     marginRight: theme.spacing(1),
 
-    backgroundColor:"#1b5e20",
-    '&:hover':{
+    //backgroundColor:"#1b5e20",
+    /* '&:hover':{
       backgroundColor:"#8EB69B",
-    },
-    color:"white"
+    }, */
+    color:"black"
   },
   instructions: {
     marginTop: theme.spacing(1),
@@ -80,7 +80,7 @@ const stepper = createMuiTheme({
     });
 const body = createMuiTheme({
     palette: {
-        primary: {500:"#1b5e20"},
+        primary: {500:"#000000"},
     },
     });
 
