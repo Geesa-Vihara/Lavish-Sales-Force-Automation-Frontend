@@ -25,20 +25,20 @@ const useStyles =theme => ({
  
     fab: {
       margin: theme.spacing(2),
-      color:theme.palette.common.white,
-      backgroundColor:"#8EB69B",
-      '&:hover':{
-        backgroundColor:"#1b5e20",
-      },
+      color:theme.palette.common.black,
+      backgroundColor:"transparent",
+      // '&:hover':{
+      //   backgroundColor:"#1b5e20",
+      // },
     },
     extendedIcon: {
       marginRight: theme.spacing(2),
     },
     icon:{
-      color:"#1b5e20",
-      '&:hover':{
-        color:"#8EB69B"
-      }                    
+      color:"black",
+      // '&:hover':{
+      //   color:"#8EB69B"
+      // }                    
     },
     table: {
       marginBottom: "0",
