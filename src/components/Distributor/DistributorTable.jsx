@@ -6,7 +6,6 @@ import Add from "components/Distributor/Add";
 import Delete from "components/Distributor/Delete";
 import Update from "components/Distributor/Update";
 
-
 //material ui
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles} from '@material-ui/core/styles';

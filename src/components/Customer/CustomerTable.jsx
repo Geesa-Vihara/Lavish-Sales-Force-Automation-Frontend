@@ -1,11 +1,10 @@
 import React from 'react';
-// import  { Link,Route,Redirect}  from 'react-router-dom';
-// import { CSVLink } from 'react-csv';
-// import Axios from 'axios';
-// import Add from "components/Distributor/Add";
-// import Delete from "components/Distributor/Delete";
-// import Update from "components/Distributor/Update";
-
+import  { Link,Route,Redirect}  from 'react-router-dom';
+import { CSVLink } from 'react-csv';
+import Axios from 'axios';
+import Add from "components/Customer/Add";
+import Delete from "components/Customer/Delete";
+import Update from "components/Customer/Update";
 
 //material ui
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -36,9 +35,9 @@ const useStyles =theme => ({
       marginRight: theme.spacing(2),
     },
     icon:{
-      color:"#1b5e20",
+      color:"#8EB69B",
       '&:hover':{
-        color:"#8EB69B"
+        color:"#1b5e20"
       }                    
     },
     table: {
@@ -65,16 +64,84 @@ class CustomerTable extends React.Component{
         super(props);
         this.state = {
             customers:[],
-            errors:{},
+            date: new Date().toLocaleDateString(),
             isExpire:false,
-
+            filterText:"",
+            filteredData:[]  
         }
-
+        this.onChange=this.onChange.bind(this);
     }
+
+    componentWillReceiveProps(){
+
+        var token = localStorage.getItem('jwtToken');
+        Axios
+          .get('/customers',{
+            headers:{
+              'Authorization':token
+            }
+          })
+          .then(res => {
+            this.setState({
+              customers : res.data,
+              filteredData : res.data
+            });
+          })
+          .catch(err => {
+            if(err.tokenmessage){
+              console.log(err.tokenmessage);
+              this.setState({isExpire:true});
+            }
+            console.log(err);
+          })
+      }
+    
+      componentDidMount(){
+    
+        var token = localStorage.getItem('jwtToken');
+        Axios
+          .get('/customers',{
+            headers:{
+              'Authorization':token
+            }
+          })
+          .then(res => {
+            this.setState({
+              customers : res.data,
+              filteredData : res.data
+            });
+            console.log(this.state.customers);
+          })
+          .catch(err => {
+            if(err.tokenmessage){
+              console.log(err.tokenmessage);
+              this.setState({isExpire:true});
+            }
+          })
+      }
+    
+      onChange = (e) => {
+        const filterText=e.target.value;
+        this.setState(prevState => {
+          const filteredData = prevState.customers.filter(e => {
+            return e.userName.toLowerCase().includes(filterText.toLowerCase());
+          });
+          return {
+            filterText,
+            filteredData
+          };
+        });
+      }
+    
+    getFileName(){
+        return 'customers '+ this.state.date ;
+    }
+
 
     render(){
         const { classes } = this.props;
-         return(
+        if(!this.state.isExpire){
+          return(
             <div>
                 <div className={classes.root}>
                     <TextField
@@ -83,8 +150,8 @@ class CustomerTable extends React.Component{
                         id='filter'
                         type='text'
                         placeholder='Search Customers'
-                        // value={this.state.filterText}
-                        // onChange={this.onChange}
+                        value={this.state.filterText}
+                        onChange={this.onChange}
                         margin='normal'
                         className={classes.textField}
                         InputProps={{
@@ -97,12 +164,12 @@ class CustomerTable extends React.Component{
                     />  
                 </div>
                 <Paper>
-                    {/* <Link to='/admin/distributorss/add'> */}
+                    <Link to='/admin/customers/add'>
                     <Fab aria-label="add" className={classes.fab}  >      
                         <AddIcon />
                     </Fab>  
-                {/* </Link> */}
-                {/* <Route exact path="/admin/distributors/add" component={Add} /> */}
+                </Link>
+                <Route exact path="/admin/customers/add" component={Add} />
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -133,41 +200,56 @@ class CustomerTable extends React.Component{
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow hover>
-                                <TableCell>keels</TableCell>
-                                <TableCell>Realtail</TableCell>
-                                <TableCell>nuwan</TableCell>
-                                <TableCell>Matara</TableCell>
-                                <TableCell>Nupe,Matara</TableCell>
-                                <TableCell>073456789</TableCell>
-                                <TableCell>nuwan@gmail.com </TableCell>
+                        {this.state.filteredData.map((customer,i) => {
+                            return(
+                                <TableRow key={i} hover>
+                                    <TableCell>{customer.shop}</TableCell>
+                                    <TableCell>{customer.type}</TableCell>
+                                    <TableCell>{customer.name}</TableCell>
+                                    <TableCell>{customer.area}</TableCell>
+                                    <TableCell>{customer.address}</TableCell>
+                                    <TableCell>{customer.phoneNo}</TableCell>
+                                    <TableCell>{customer.email}</TableCell>  
                                 <TableCell>
-                                    {/* <Link to={`/admin/distributorss/update/${distributor._id}`}>       */}
+                                    <Link to={`/admin/customers/update/${customer._id}`}>      
                                         <IconButton  aria-label="edit" >
                                             <EditIcon className={classes.icon} />
                                         </IconButton>
-                                    {/* </Link> */}
-                                    {/* <Route exact path='/admin/distributorss/update/:id' component={Update} /> */}
-                                    {/* <Link to={`/admin/distributors/delete/${distributor._id}`}> */}
+                                    </Link>
+                                    <Route exact path='/admin/customers/update/:id' component={Update} />
+                                    <Link to={`/admin/customers/delete/${customer._id}`}>
                                         <IconButton  aria-label="delete">
                                             <DeleteIcon className={classes.icon}/>
                                         </IconButton>
-                                    {/* </Link> */}
-                                    {/* <Route exact path='/admin/Distributors/delete/:id' component={Delete} /> */}
+                                    </Link>
+                                    <Route exact path='/admin/customers/delete/:id' component={Delete} />
                                 </TableCell>
-                            </TableRow>
+                            </TableRow>);
+                        })}
                         </TableBody>
                     </Table>
-                    {/* <CSVLink data={this.state.distributorss} filename={this.getFileName()}> */}
+                    <CSVLink data={this.state.customers} filename={this.getFileName()}>
                         <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>       
                             <GetAppIcon className={classes.extendedIcon}/>
                                 Export
                         </Fab> 
-                    {/* </CSVLink> */}
+                    </CSVLink>
                 </Paper>
             </div>
         
         );
+      }
+      else{
+        return(
+          <small>                
+              <Redirect to={{
+                  pathname:"/login",
+                  state:{expire:"Session expired please login again"}
+                  }}/>
+              
+          </small>
+        )
+      }
     }
 
 
