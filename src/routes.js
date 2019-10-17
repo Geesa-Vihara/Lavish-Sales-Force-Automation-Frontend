@@ -25,7 +25,7 @@ import AnalyticsPage from "views/Analytics/Analytics.jsx";
 import Tracking from "views/Tracking/Tracking.jsx";
 import Reports from "views/Reports/Reports.jsx";
 import Stock from "views/Stock/Stock.jsx";
-import SalesInvoices from "views/SalesInvoices/SalesInvoices.jsx";
+import InvoiceTable from "components/Invoices/InvoiceTable.jsx";
 
 const dashboardRoutes = [
   {
@@ -88,7 +88,7 @@ const dashboardRoutes = [
     path: "/invoices",
     name: "Sales Invoices",
     icon: AttachMoney,
-    component: SalesInvoices,
+    component: InvoiceTable,
     layout: "/admin"
   },
   
