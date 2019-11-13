@@ -17,7 +17,7 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 //import UserProfile from "views/UserProfile/UserProfile.jsx";
 
 //import Maps from "views/Maps/Maps.jsx";
-import NotificationsPage from "views/Notifications/Notifications.jsx";
+//import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 import DistributorTable from "components/Distributor/DistributorTable"
 import CustomerTable from "components/Customer/CustomerTable"
