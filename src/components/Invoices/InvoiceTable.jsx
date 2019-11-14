@@ -201,7 +201,7 @@ class InvoiceTable extends React.Component{
                                         <TableCell>{invoice.distributor}</TableCell>
                                         <TableCell>{invoice.total}</TableCell>  
                                         <TableCell>
-                                            <Link to={`/admin/invoices/view/${invoice._id}`}>      
+                                            <Link to={`/admin/invoices/view/${invoice.orderId}`}>      
                                                 <IconButton  aria-label="view" >
                                                     <ViewIcon className={classes.icon} />
                                                 </IconButton>

@@ -11,7 +11,7 @@ import ReactFusioncharts from "react-fusioncharts";
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import  salesrepMonthlySales from "variables/salesrepSales.jsx";
 
- const useStyles = theme =>({
+const useStyles = theme =>({
 
     button:{
       //  color:theme.palette.common.white,
