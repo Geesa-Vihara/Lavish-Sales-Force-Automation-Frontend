@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { Card,CardContent,CardActions} from '@material-ui/core';
 import logo from "assets/img/lavishlogo.png";
 import { Table,TableCell,TableHead,TableBody,TableRow} from '@material-ui/core';
+import Axios from 'axios';
 const useStyles = theme =>({
 
     button:{
@@ -57,6 +58,7 @@ class View extends React.Component{
         super(props);
         this.state = {
             invoice : [],
+            filteredData:[],
             isExpire:false,
             open:true,
         }
@@ -64,6 +66,38 @@ class View extends React.Component{
         this.closeModal = this.closeModal.bind(this);
     }
 
+    componentDidMount(){
+        const {match:{params}} = this.props;
+        var token = localStorage.getItem('jwtToken');
+        Axios
+            .get(`/invoices/${params.id}`,{
+                headers:{
+                    'Authorization':token
+                }
+            })
+            .then(res=>{
+                this.setState({
+                    invoice : res.data,
+                    filteredData : res.data
+                });
+                console.log(res.data);
+            })
+            .catch(err=>{
+                if(err.message){
+                    console.log(err.tokrnmessage);
+                    this.setState({isExpire:true});
+                }
+            });
+    }
+
+    // filter = () =>{
+    //     this.setState(prevState =>{
+    //         const filteredData = prevState.invoice.filter(e=>{
+    //             return e.price.
+    //         });
+    //     })
+
+    // }
 
     openModal = () => {
         this.setState({open:true});
@@ -98,14 +132,14 @@ class View extends React.Component{
                             <Typography className={classes.typography} style={{textAlign:"left",float:"right"}}><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191<br/></b></Typography>
                             <Typography variant="h6" className={classes.typography} style={{float:"right",marginTop:"30px",marginLeft:"70%"}}>Order Invoice</Typography>
                             <div style={{textAlign:"left",float:"right",marginTop:"20px"}}>
-                                <Typography className={classes.typography} >Date:<label style={{textAlign:"right",float:"right"}} >2019-11-14</label><br/></Typography >
-                                <Typography className={classes.typography} >Invoice RefNo:<label style={{textAlign:"right",float:"right"}}>2435</label><br/></Typography >
+                                <Typography className={classes.typography} >Date:<label style={{textAlign:"right",float:"right"}} >{invoice.orderDate}</label><br/></Typography >
+                                <Typography className={classes.typography} >Invoice RefNo:<label style={{textAlign:"right",float:"right"}}>{invoice.Invoiceno}</label><br/></Typography >
                                 <Typography className={classes.typography} >Territory:<label style={{textAlign:"right",float:"right"}}>Matara</label><br/></Typography >
-                                <Typography className={classes.typography} >Salesrep :<label style={{textAlign:"right",float:"right"}}>kumar</label><br/></Typography >
+                                <Typography className={classes.typography} >Salesrep :<label style={{textAlign:"right",float:"right"}}>{invoice.salesrepName}</label><br/></Typography >
                             </div>
                             <div style={{textAlign:"left",float:"left",marginBottom:"5px",marginTop:"5px"}}>
                                 <Typography className={classes.typography} ><b>Bill To<br/></b></Typography >
-                                <Typography className={classes.typography} >Customer:<label style={{textAlign:"right",float:"right"}}>kamal perera</label><br/></Typography >
+                                <Typography className={classes.typography} >Customer:<label style={{textAlign:"right",float:"right"}}>{invoice.customerName}</label><br/></Typography >
                                 <Typography className={classes.typography} >Address:<label style={{textAlign:"right",float:"right"}}>meddawatha,Matara</label><br/></Typography >
                                 <Typography className={classes.typography} >Contact :<label style={{textAlign:"right",float:"right"}}>0716008664</label><br/></Typography >
                             </div>
@@ -120,21 +154,21 @@ class View extends React.Component{
                                         <TableCell style={{fontSize:'1.1em'}}>Total</TableCell>
                                     </TableRow>
                                 </TableHead>
-                                {/* <TableBody>
+                                <TableBody>
                                     {this.state.invoice.map((product,i)=> {
                                         return(
                                             <TableRow key={i} hover>
-                                                <TableCell>{product.id}</TableCell>
+                                                <TableCell>{product.Invoiceno}</TableCell>
                                                 <TableCell>{product.name}</TableCell>
                                                 <TableCell>{product.weight}</TableCell>
-                                                <TableCell>{product.qty}</TableCell>
-                                                <TableCell>{product.rate}</TableCell>
-                                                <TableCell>{product.total}</TableCell>
+                                                <TableCell>{product.qut}</TableCell>
+                                                <TableCell>{product.price}</TableCell>
+                                                <TableCell>{product.totalValue}</TableCell>
 
                                             </TableRow>  
                                         );
                                     })}
-                                </TableBody> */}
+                                </TableBody>
                             </Table>
                         </CardContent>
                         <CardActions  style={{justifyContent:'right',marginTop:"85%"}}>

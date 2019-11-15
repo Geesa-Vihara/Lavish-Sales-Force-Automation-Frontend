@@ -15,6 +15,7 @@ import ResetPassword from "views/Pages/ResetPassword";
 import SalesRepTable from "components/SalesRep/SalesRepTable";
 // import View from "components/SalesRep/View";
 //import Delete from "components/SalesRep/Delete";
+import InvoiceTable from "components/Invoices/InvoiceTable";
 import CheckExp from "components/Auth/CheckExp";
 
 const hist = createBrowserHistory();
@@ -52,6 +53,7 @@ ReactDOM.render(
       {/* <PrivateRoute path = "/delete/:userName"  component = {Delete}/> */}
       {/* <PrivateRoute path = "/salesrep/:id" component = {View}/> */}
       <PrivateRoute path = "/admin/salesreps" component = {SalesRepTable}/>
+      <PrivateRoute path = "/admin/invoices" component = {InvoiceTable}/>
       <Redirect from="/" to="/admin/dashboard" /> 
 
     </Switch>
