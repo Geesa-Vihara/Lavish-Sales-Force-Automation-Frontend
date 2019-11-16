@@ -75,15 +75,16 @@ class InvoiceTable extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            invoices:[
+            invoices:[],
+            // invoices:[
 
-                {orderId:'2345',salesrep:"Kasun Perera",customer:"Cargills",distributor:'kamal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.10000'},
-                {orderId:'2347',salesrep:"Saman Perera",customer:"Family Super",distributor:'gamini perera',date:"10-02-2019",time:"02:34 PM",total:'Rs.23090'},
-                {orderId:'2348',salesrep:"Nimantha Silva",customer:"Keells",distributor:'piyal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.13000'},
-                {orderId:'2349',salesrep:"Chamara Sampath",customer:"Food City",distributor:'ranil silva',date:"10-02-2019",time:"02:34 PM",total:'Rs.3000'},
-                {orderId:'2350',salesrep:"Nuwan Madushka",customer:"City Center ",distributor:'sajith gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.5000'},
+            //     {orderId:'2345',salesrep:"Kasun Perera",customer:"Cargills",distributor:'kamal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.10000'},
+            //     {orderId:'2347',salesrep:"Saman Perera",customer:"Family Super",distributor:'gamini perera',date:"10-02-2019",time:"02:34 PM",total:'Rs.23090'},
+            //     {orderId:'2348',salesrep:"Nimantha Silva",customer:"Keells",distributor:'piyal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.13000'},
+            //     {orderId:'2349',salesrep:"Chamara Sampath",customer:"Food City",distributor:'ranil silva',date:"10-02-2019",time:"02:34 PM",total:'Rs.3000'},
+            //     {orderId:'2350',salesrep:"Nuwan Madushka",customer:"City Center ",distributor:'sajith gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.5000'},
     
-            ],
+            // ],
             date: new Date().toLocaleDateString(),
             isExpire:false,
             selectsalesrep:'0',
@@ -93,6 +94,52 @@ class InvoiceTable extends React.Component{
            // filteredData:[]    
 
         }
+    }
+    componentWillReceiveProps(){
+
+        var token = localStorage.getItem('jwtToken');
+        Axios
+          .get('/invoices',{
+            headers:{
+              'Authorization':token
+            }
+          })
+          .then(res => {
+            this.setState({
+              invoices: res.data,
+             // filteredData : res.data
+            });
+            console.log(this.state.invoices);
+          })
+          .catch(err => {
+            if(err.tokenmessage){
+              console.log(err.tokenmessage);
+              this.setState({isExpire:true});
+            }
+            console.log(err);
+          });
+      }
+    
+    componentDidMount(){
+        var token = localStorage.getItem('jwtToken');
+        Axios
+            .get('/invoices',{
+                headers:{
+                    'Authorization':token
+                }
+            })
+            .then(res=>{
+                this.setState=({
+                    invoices:res.data
+                });
+                console.log(res.data);
+            })
+            .catch(err=>{
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
+                    this.setState({isExpire:true});
+                }
+            });
     }
     getFileName(){
         return 'Invoices '+ this.state.date ;
@@ -123,7 +170,7 @@ class InvoiceTable extends React.Component{
                             >
                                 <MenuItem value={0}>Default-All</MenuItem> 
                                 {invoices.map(invoice=>
-                                    <MenuItem key={invoice.orderId} value={invoice.orderId}>{invoice.salesrep}</MenuItem> 
+                                    <MenuItem key={invoice.Invoiceno} value={invoice.Invoiceno}>{invoice.salesrepName}</MenuItem> 
                                 )}
                             
                             </Select>
@@ -164,7 +211,7 @@ class InvoiceTable extends React.Component{
                             <TableHead>
                                 <TableRow>
                                     <TableCell style={{fontSize:'1.1em'}}>
-                                        Order Id
+                                        Invoice Id
                                     </TableCell>
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Customer
@@ -175,12 +222,12 @@ class InvoiceTable extends React.Component{
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Invoice Date
                                     </TableCell>
-                                    <TableCell style={{fontSize:'1.1em'}}>
+                                    {/* <TableCell style={{fontSize:'1.1em'}}>
                                         Invoice Time
                                     </TableCell>
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Supplier
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Total 
                                     </TableCell>
@@ -190,18 +237,18 @@ class InvoiceTable extends React.Component{
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {this.state.invoices.map((invoice,i) => {
+                            {invoices.map((invoice,i) => {
                                 return(
                                     <TableRow key={i} hover>
-                                        <TableCell>{invoice.orderId}</TableCell>
-                                        <TableCell>{invoice.customer}</TableCell>
-                                        <TableCell>{invoice.salesrep}</TableCell>
-                                        <TableCell>{invoice.date}</TableCell>
-                                        <TableCell>{invoice.time}</TableCell>
-                                        <TableCell>{invoice.distributor}</TableCell>
-                                        <TableCell>{invoice.total}</TableCell>  
+                                        <TableCell>{invoice.Invoiceno}</TableCell>
+                                        <TableCell>{invoice.customerName}</TableCell>
+                                        <TableCell>{invoice.salesrepName}</TableCell>
+                                        <TableCell>{invoice.orderDate}</TableCell>
+                                        {/* <TableCell>{invoice.time}</TableCell>
+                                        <TableCell>{invoice.distributor}</TableCell> */}
+                                        <TableCell>{invoice.totalValue}</TableCell>  
                                         <TableCell>
-                                            <Link to={`/admin/invoices/view/${invoice.orderId}`}>      
+                                            <Link to={`/admin/invoices/view/${invoice._id}`}>      
                                                 <IconButton  aria-label="view" >
                                                     <ViewIcon className={classes.icon} />
                                                 </IconButton>
@@ -212,7 +259,7 @@ class InvoiceTable extends React.Component{
                             })}
                         </TableBody>
                         </Table>
-                        <CSVLink data={this.state.invoices} filename={this.getFileName()}>
+                        <CSVLink data={invoices} filename={this.getFileName()}>
                         <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>       
                             <GetAppIcon className={classes.extendedIcon}/>
                                 Export
