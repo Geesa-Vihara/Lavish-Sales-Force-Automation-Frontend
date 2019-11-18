@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { withStyles,Divider} from '@material-ui/core';
+import { withStyles} from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
