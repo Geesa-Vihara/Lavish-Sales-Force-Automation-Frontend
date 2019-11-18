@@ -1,11 +1,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { withStyles} from '@material-ui/core';
+import { withStyles,Divider} from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Card,CardContent,CardActions} from '@material-ui/core';
+import { Card,CardContent,CardActions,Grid} from '@material-ui/core';
 import logo from "assets/img/lavishlogo.png";
+import { Icon } from "@material-ui/core";
 import { Table,TableCell,TableHead,TableBody,TableRow} from '@material-ui/core';
 import Axios from 'axios';
 const useStyles = theme =>({
@@ -20,10 +21,17 @@ const useStyles = theme =>({
         marginRight:theme.spacing(2)
        
     },
+    buttonprint:{
+        backgroundColor:"#DCDCDC",
+        float:"right",
+       // marginBottom:10,
+        //marginTop:5
+    },
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        //height:"90%"
     },
     modalCard: {
         width: '100%',
@@ -42,12 +50,22 @@ const useStyles = theme =>({
         marginBottom: "0",
         width: "100%",
         maxWidth: "100%",
-        borderCollapse: "collapse"
+        borderCollapse: "collapse",
+       // border:'1px solid black'
       },
     tableHeadCell: {
        color: "inherit",
-       fontSize: "1.1em"
+       fontSize: "1em",
+      // border:'1px solid black'
       },
+    logo:{        
+        maxWidth: "150px",
+        maxHeight: "150px",
+    },
+    logoimg:{
+        width: "100%",
+        height: "100%"
+    },
 
 })
 
@@ -90,15 +108,6 @@ class View extends React.Component{
             });
     }
 
-    // filter = () =>{
-    //     this.setState(prevState =>{
-    //         const filteredData = prevState.invoice.filter(e=>{
-    //             return e.price.
-    //         });
-    //     })
-
-    // }
-
     openModal = () => {
         this.setState({open:true});
     }
@@ -106,6 +115,13 @@ class View extends React.Component{
     closeModal = () => {
         this.setState({open:false});
         this.props.history.push("/admin/invoices");
+    }
+    printreport=()=>{
+        const content = document.getElementById('reporttoprint').innerHTML;   
+        const orderHtml = ' <html><body>' + content + '</<body></html>';
+        document.body.innerHTML = orderHtml;        
+        window.location.reload();
+        window.print();  
     }
 
     render(){
@@ -115,6 +131,7 @@ class View extends React.Component{
         if(!this.state.isExpire){
             return(
                 <Modal
+                    
                     className={classes.modal}
                     open={this.state.open}
                     onClose={this.closeModal}
@@ -125,13 +142,23 @@ class View extends React.Component{
                     }}
                 >
                     <Card className={classes.modalCard}>
-                        <CardContent>
-                            <div style={{float:"left"}}>
+                        <CardContent >
+                            <div>
+                                <Button className={classes.buttonprint} onClick={this.printreport} ><Icon style={{fontSize:30}}>printer</Icon>Print</Button>
+                            </div> 
+                            <div id="reporttoprint"> 
+                            <Grid item xs={12} style={{marginTop:'45px'}} >
+                                <div className={classes.logo}style={{float:"left"}}>                    
+                                    <img className={classes.logoimg} src={logo} alt="img" />                    
+                                </div>
+                                <div style={{float:"right"}} ><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191</b></div>
+                            </Grid>                  
+                            {/* <div style={{float:"left",marginTop:"30px"}}>
                                 <img style={{width:"120px",height:"120px"}} src={logo} alt="logo"/>
                             </div>
-                            <Typography className={classes.typography} style={{textAlign:"left",float:"right"}}><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191<br/></b></Typography>
-                            <Typography variant="h6" className={classes.typography} style={{float:"right",marginTop:"30px",marginLeft:"70%"}}>Order Invoice</Typography>
-                            <div style={{textAlign:"left",float:"right",marginTop:"20px"}}>
+                            <Typography style={{textAlign:"left",float:"right",marginTop:"40px",marginLeft:"100px"}}><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191<br/></b></Typography> */}
+                            <Typography variant="h6" className={classes.typography} style={{float:"right",marginTop:"15px",marginLeft:"70%"}}>Sales Order Invoice</Typography>
+                            <div style={{textAlign:"left",float:"right",marginTop:"15px"}}>
                                 <Typography className={classes.typography} >Date:<label style={{textAlign:"right",float:"right"}} >{invoice.orderDate}</label><br/></Typography >
                                 <Typography className={classes.typography} >Invoice RefNo:<label style={{textAlign:"right",float:"right"}}>{invoice.Invoiceno}</label><br/></Typography >
                                 <Typography className={classes.typography} >Territory:<label style={{textAlign:"right",float:"right"}}>Matara</label><br/></Typography >
@@ -146,32 +173,51 @@ class View extends React.Component{
                             <Table className={classes.table}>
                                 <TableHead className={classes.tableHeadCell}>
                                     <TableRow>
-                                        <TableCell >Invoice Id</TableCell>
-                                        <TableCell style={{fontSize:'1.1em'}}>Product</TableCell>
-                                        <TableCell style={{fontSize:'1.1em'}}>Weight</TableCell>
-                                        <TableCell style={{fontSize:'1.1em'}}>Qty</TableCell>
-                                        <TableCell style={{fontSize:'1.1em'}}>Rate</TableCell>
-                                        <TableCell style={{fontSize:'1.1em'}}>Total</TableCell>
+                                        {/* <TableCell >Invoice Id</TableCell>   product code */}
+                                        <TableCell style={{border:'1px solid black'}}>Product</TableCell>
+                                        <TableCell style={{border:'1px solid black'}}>Weight</TableCell>
+                                        <TableCell style={{border:'1px solid black'}}>Qty</TableCell>
+                                        {/* <TableCell style={{fontSize:'1.1em',border:'1px solid black'}}>Rate</TableCell> */}
+                                        <TableCell style={{border:'1px solid black'}}>price</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {this.state.invoice.map((product,i)=> {
-                                        return(
-                                            <TableRow key={i} hover>
-                                                <TableCell>{product.Invoiceno}</TableCell>
-                                                <TableCell>{product.name}</TableCell>
-                                                <TableCell>{product.weight}</TableCell>
-                                                <TableCell>{product.qut}</TableCell>
-                                                <TableCell>{product.price}</TableCell>
-                                                <TableCell>{product.totalValue}</TableCell>
-
-                                            </TableRow>  
-                                        );
+                                    {Object.keys(invoice).map((product,i)=> {
+                                        if(invoice[product].price && invoice[product].price!==0){
+                                            return(
+                                                <TableRow key={i} hover>
+                                                    {/* <TableCell>{invoice[product].Invoiceno}</TableCell> */}   
+                                                    <TableCell style={{border:'1px solid black'}}>{invoice[product].name}</TableCell>
+                                                    <TableCell style={{border:'1px solid black'}}>{invoice[product].weight}</TableCell>
+                                                    <TableCell style={{border:'1px solid black'}}>{invoice[product].qut}</TableCell>
+                                                    {/* <TableCell>{invoice[product].rate}</TableCell> */}
+                                                    <TableCell style={{border:'1px solid black'}}>{invoice[product].price}</TableCell>
+                                                </TableRow>  
+                                            );
+                                        }
                                     })}
+                                    <TableRow>
+                                        <TableCell rowSpan={4} style={{border:'1px solid black'}}/>
+                                        <TableCell colSpan={2} style={{border:'1px solid black'}}>Sub Total</TableCell>
+                                        <TableCell align="right" style={{border:'1px solid black'}}>{invoice.totalValue}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colSpan={2} style={{border:'1px solid black'}}>AddDisc Total</TableCell>
+                                        <TableCell align="right" style={{border:'1px solid black'}}>0</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colSpan={2} style={{border:'1px solid black'}}>Tax/VAT Total</TableCell>
+                                        <TableCell align="right" style={{border:'1px solid black'}}>0</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colSpan={2} style={{border:'1px solid black'}}><b>Total</b></TableCell>
+                                        <TableCell align="right" style={{border:'1px solid black'}}><b>{invoice.totalValue}</b></TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
+                        </div>
                         </CardContent>
-                        <CardActions  style={{justifyContent:'right',marginTop:"85%"}}>
+                        <CardActions  style={{justifyContent:'right'}}>
                             <Button 
                                 className={classes.button}
                                 onClick={this.closeModal} 

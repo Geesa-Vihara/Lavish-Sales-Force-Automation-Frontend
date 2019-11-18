@@ -76,49 +76,36 @@ class InvoiceTable extends React.Component{
         super(props)
         this.state = {
             invoices:[],
-            // invoices:[
-
-            //     {orderId:'2345',salesrep:"Kasun Perera",customer:"Cargills",distributor:'kamal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.10000'},
-            //     {orderId:'2347',salesrep:"Saman Perera",customer:"Family Super",distributor:'gamini perera',date:"10-02-2019",time:"02:34 PM",total:'Rs.23090'},
-            //     {orderId:'2348',salesrep:"Nimantha Silva",customer:"Keells",distributor:'piyal gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.13000'},
-            //     {orderId:'2349',salesrep:"Chamara Sampath",customer:"Food City",distributor:'ranil silva',date:"10-02-2019",time:"02:34 PM",total:'Rs.3000'},
-            //     {orderId:'2350',salesrep:"Nuwan Madushka",customer:"City Center ",distributor:'sajith gamage',date:"10-02-2019",time:"02:34 PM",total:'Rs.5000'},
-    
-            // ],
             date: new Date().toLocaleDateString(),
             isExpire:false,
             selectsalesrep:'0',
             selectedDateFrom:Date.now()-1000*60*60*24,
-            selectedDateTo:Date.now(),
-           // filterText:"",
-           // filteredData:[]    
-
-        }
+            selectedDateTo:Date.now()
+        };
     }
-    componentWillReceiveProps(){
+    // componentWillReceiveProps(){
 
-        var token = localStorage.getItem('jwtToken');
-        Axios
-          .get('/invoices',{
-            headers:{
-              'Authorization':token
-            }
-          })
-          .then(res => {
-            this.setState({
-              invoices: res.data,
-             // filteredData : res.data
-            });
-            console.log(this.state.invoices);
-          })
-          .catch(err => {
-            if(err.tokenmessage){
-              console.log(err.tokenmessage);
-              this.setState({isExpire:true});
-            }
-            console.log(err);
-          });
-      }
+    //     var token = localStorage.getItem('jwtToken');
+    //     Axios
+    //       .get('/invoices',{
+    //         headers:{
+    //           'Authorization':token
+    //         }
+    //       })
+    //       .then(res => {
+    //         this.setState({
+    //           invoices: res.data
+    //         });
+    //         console.log(this.state.invoices);
+    //       })
+    //       .catch(err => {
+    //         if(err.tokenmessage){
+    //           console.log(err.tokenmessage);
+    //           this.setState({isExpire:true});
+    //         }
+    //         console.log(err);
+    //       });
+    //   }
     
     componentDidMount(){
         var token = localStorage.getItem('jwtToken');
@@ -129,10 +116,11 @@ class InvoiceTable extends React.Component{
                 }
             })
             .then(res=>{
-                this.setState=({
+                this.setState({
                     invoices:res.data
                 });
-                console.log(res.data);
+                console.log(this.state.invoices);
+
             })
             .catch(err=>{
                 if(err.tokenmessage){
@@ -141,6 +129,15 @@ class InvoiceTable extends React.Component{
                 }
             });
     }
+    // visit = (obj, fn) => {
+    //     const values = Object.values(obj)
+    
+    //     values.forEach(val => 
+    //         val && typeof val === "object" ? visit(val, fn) : fn(val))
+    // }
+    // print = (val) => console.log(val)
+    
+
     getFileName(){
         return 'Invoices '+ this.state.date ;
     }
