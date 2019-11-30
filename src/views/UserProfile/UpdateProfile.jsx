@@ -11,11 +11,13 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
+/*
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+*/
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -330,6 +332,7 @@ class UpdateProfile extends Component{
         
               
     };
+    /*
     deleteaccount = e => {
         e.preventDefault(); 
         var token=localStorage.getItem("jwtToken");
@@ -358,6 +361,7 @@ class UpdateProfile extends Component{
         }); 
               
     };
+    
     handleClose = () => {
         this.setState({open:false});
         
@@ -366,7 +370,7 @@ class UpdateProfile extends Component{
         this.setState({open:true});
         
       };
-    
+    */
     changeprofilepic = e => {
         e.preventDefault();
         this.setState({
@@ -376,7 +380,7 @@ class UpdateProfile extends Component{
     }
     
     render(){
-        const { errors,newusernameerrors,userprofile,passworderrors,open,registererrors,picerrors,isexpire} = this.state;                
+        const { errors,newusernameerrors,userprofile,passworderrors/*,open*/,registererrors,picerrors,isexpire} = this.state;                
         const { classes } = this.props;
         if(!isexpire){
             
@@ -870,6 +874,7 @@ class UpdateProfile extends Component{
                             </Grid>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
+                    {/*
                     <ExpansionPanel className={classes.root}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -930,6 +935,7 @@ class UpdateProfile extends Component{
                             </Grid>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
+                    */}
                     <div className="bottom">
                         <Footer />
                     </div>

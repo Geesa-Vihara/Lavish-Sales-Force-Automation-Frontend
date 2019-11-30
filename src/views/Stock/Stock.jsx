@@ -72,7 +72,7 @@ class Stock extends Component{
             autoFocus
             id='filter'
             type='text'
-            placeholder='Search Salesreps'
+            placeholder='Search Stock Order'
             value={this.state.filterText}
             onChange={this.onChange}
             margin='normal'
