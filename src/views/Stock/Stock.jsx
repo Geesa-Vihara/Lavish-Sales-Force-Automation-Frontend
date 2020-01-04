@@ -100,7 +100,6 @@ class Stock extends Component{
     }
     render(){
     const { classes } = this.props;
-    const {stocks} = this.state;
     if(!this.state.isExpire){
     return(
       <div>
