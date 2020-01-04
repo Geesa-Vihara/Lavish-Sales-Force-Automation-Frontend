@@ -4,8 +4,12 @@ import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
 import Button from '@material-ui/core/Button';
 import { Card,CardContent,CardActions } from '@material-ui/core';
-import StockTable from './StockTable';
+//import StockTable from './StockTable';
 import { Icon } from "@material-ui/core";
+import axios from "axios";
+import Grid from "@material-ui/core/Grid";
+import avatar from "assets/img/lavishlogo.png";
+
  const useStyles = theme =>({
     buttonprint:{
         backgroundColor:"#DCDCDC",
@@ -55,7 +59,40 @@ import { Icon } from "@material-ui/core";
     },
     typography:{
         margin:'3px'
-    }
+    },
+    sign:{
+        textAlign:"center",
+        marginTop:40
+     },
+     heading:{        
+         marginBottom:10
+      },
+     table:{
+         borderCollapse: "collapse",
+         width: "100%",
+     },    
+     th:{
+         border: "solid",
+         textAlign: "left",
+     }, 
+     th2:{
+         border: "solid",
+         textAlign: "center",
+     },   
+     td:{
+         border: "solid",
+         textAlign: "left",
+         paddingLeft:0
+     },     
+     logo:{        
+         maxWidth: "150px",
+         maxHeight: "150px",
+     },
+     logoimg:{
+         width: "100%",
+         height: "100%"
+     },
+     
 
 })
 
@@ -65,10 +102,10 @@ import { Icon } from "@material-ui/core";
     constructor(props){
         super(props);
         this.state = {
-            salesRep:[],
             isExpire:false,
             value:2,
             open:true,
+            stock:[],
            
         };  
         this.openModal = this.openModal.bind(this);
@@ -90,26 +127,123 @@ import { Icon } from "@material-ui/core";
         window.location.reload();
         window.print();  
     }
+    componentDidMount=()=>{
+        const {match:{params}} =this.props;
+        var token=localStorage.getItem("jwtToken");
+        axios.get(`/stock/${params.id}`, {
+           headers:{
+             "Authorization": token 
+           }
+         }
+           )
+             .then(response => {
+                 this.setState({stock:response.data});
+                 
+                  
+             })
+             .catch(err=>{
+                 
+                 if(err.tokenmessage){
+                     this.setState({isexpire:true}) ; 
+                 }
+             })
+         
+     }
+     
     render(){
         const { classes } = this.props;
+        const {stock}=this.state;
         if(!this.state.isExpire){
             return(
                 <Modal
                     className={classes.modal}
                     open={this.state.open}
                     onClose={this.closeModal}
-                    BackdropProps={{
+                    /* BackdropProps={{
                         style: {
-                          opacity:'0.5'
+                          opacity:'0.8'
                         }
-                    }}
+                    }} */
                 >
                     <Card className={classes.modalCard}>
                         <CardContent className={classes.modalCardContent}>  
                         <div>
                             <Button className={classes.buttonprint} onClick={this.printreport} ><Icon style={{fontSize:40}}>printer</Icon>Print</Button>
                         </div>                            
-                            <StockTable/>
+                        <Grid container id="reporttoprint">
+                        <Grid item xs={12} >
+                        <div className={classes.logo}style={{float:"left"}}>                    
+                            <img className={classes.logoimg} src={avatar} alt="img" />                    
+                        </div>
+                        <div style={{float:"right"}} ><b>Lavish Tea (Private) Limited<br/>No 40<br/>Raymond Road<br/>Nugegoda<br/>Tel-011 4349191</b></div>
+                        </Grid>                        
+                        <Grid container className={classes.heading}>
+                            <Grid item xs={12} >
+                                <h5><b>Stock Order Form</b></h5>
+                            </Grid>
+                            <Grid item xs={3}><b>
+                                Area-{stock.area}</b>
+                            </Grid>
+                            <Grid item xs={3}><b>
+                                Month/Year-{stock.dateandtime}</b>
+                            </Grid>
+                            <Grid item xs={6}><b>
+                                Distributor Name-{stock.distname}</b>
+                            </Grid>
+                        </Grid>
+                        <table className={classes.table}>
+                            <thead>
+                                <tr>
+                                    <th className={classes.th2} rowSpan="2">Product</th>
+                                    <th className={classes.th2} rowSpan="2">Weight</th>
+                                    <th className={classes.th2} rowSpan="2">Qty</th>
+                                    <th className={classes.th2} rowSpan="2">Rate</th>
+                                    <th className={classes.th2} colSpan="2">Value</th>
+                                </tr>
+                                <tr>                                    
+                                    <th className={classes.th2} >Rs</th>
+                                    <th className={classes.th2} >cts</th>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {Object.keys(stock).map((product,i)=> {
+                                if(stock[product].price && stock[product].price!==0){
+                                return(
+                                    
+                                    <tr key={i}>                                    
+                                        <td className={classes.td}><b>{stock[product].name}</b></td>
+                                        <td className={classes.td}><b>{stock[product].weight}</b></td>
+                                        <td className={classes.td}><b>{stock[product].qty}</b></td>
+                                        <td className={classes.td}><b>{stock[product].rate}</b></td>
+                                        <td className={classes.td}><b>{stock[product].price}</b></td>
+                                        <td className={classes.td}><b>{stock[product].cents}</b></td> 
+                                    </tr>
+
+                                )
+                                }
+                            })}                               
+                            <tr>
+                                        
+                                        <td className={classes.td}></td><td className={classes.td}></td><td className={classes.td}></td><td className={classes.td}><b>Total</b></td><td className={classes.td}>{stock.totalValue}</td><td className={classes.td}></td>
+                            </tr>
+                            </tbody>
+                        </table> 
+                        <Grid container className={classes.sign}>
+                            <Grid item xs={4}><b>
+                            ------------------------------------------------<br/>
+                            Sales Rep Name</b>
+                            </Grid>
+                            <Grid item xs={4}><b>
+                            ------------------------------------------------<br/>
+                            Sales Rep Signature</b>
+                            </Grid>
+                            <Grid item xs={4}><b>
+                            ------------------------------------------------<br/>
+                            Distributor Signature/Rubber Stamp</b>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                            
                         </CardContent>
                         <CardActions  style={{justifyContent:'right'}}>

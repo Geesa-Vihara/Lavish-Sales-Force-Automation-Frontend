@@ -11,6 +11,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import Assignment from "@material-ui/icons/Assignment";
+import axios from "axios"; 
 
 const useStyles =theme => ({   
  
@@ -50,19 +51,56 @@ const useStyles =theme => ({
   });
 
 class Stock extends Component{
+  
     state={
         isexpire:false,
-        salesReps:[],
         date: new Date().toLocaleDateString(),
         isExpire:false,
         filterText:"",
-        filteredData:[{stockno:"1234",distname:"Kasun Sampath",repname:"Chamara sampath",area:"Matara",date:"2019-10-18",time:"9:30 AM"}],
-    }
-    getFileName(){
-        return 'salesreps '+ this.state.date ;
+        filteredData:[],
+        stocks:[],
+        
       }
+    getFileName(){
+        return 'stocks '+ this.state.date ;
+      }
+    componentDidMount(){
+      var token=localStorage.getItem("jwtToken");
+      axios.get('/stock', {
+        headers:{
+          "Authorization": token 
+        }
+      }
+        )
+          .then(response => {
+              this.setState({
+                stocks:response.data,
+                filteredData:response.data
+              });
+               
+          })
+          .catch(err=>{
+              
+              if(err.tokenmessage){
+                  this.setState({isexpire:true}) ; 
+              }
+          })
+    }   
+    onChange = (e) => {
+      const filterText=e.target.value;
+      this.setState(prevState => {
+        const filteredData = prevState.stocks.filter(e => {
+          return e.stockno.includes(filterText);
+        });
+        return {
+          filterText,
+          filteredData
+        };
+      });
+    }
     render(){
     const { classes } = this.props;
+    const {stocks} = this.state;
     if(!this.state.isExpire){
     return(
       <div>
@@ -72,7 +110,7 @@ class Stock extends Component{
             autoFocus
             id='filter'
             type='text'
-            placeholder='Search Stock Order'
+            placeholder='Search by Stock Order No'
             value={this.state.filterText}
             onChange={this.onChange}
             margin='normal'
@@ -122,25 +160,26 @@ class Stock extends Component{
                     <TableCell>{stock.distname}</TableCell>
                     <TableCell>{stock.repname}</TableCell>
                     <TableCell>{stock.area}</TableCell>
-                    <TableCell>{stock.date}</TableCell>
+                    <TableCell>{stock.dateandtime}</TableCell>
                     <TableCell>{stock.time}</TableCell>
                     <TableCell>
-                      <Link to={`/admin/stock/${stock.stockno}`}>  
+                      <Link to={`/admin/stock/view/${stock._id}`}>  
                       <Button
                         variant="contained"
                         className={classes.button}
-                        startIcon={<Assignment />}
+                        startIcon={<Assignment />}   
+                        onClick={this.getSingleStock}                     
                       >
                         View report
                       </Button>
-                      </Link>
-                      <Route exact path='/admin/stock/:id' component={StockView} />                      
+                      </Link>                                        
                   </TableCell>
                 </TableRow>);
               })}
+              <Route exact path='/admin/stock/view/:id' component={StockView} />    
               </TableBody>
           </Table>
-          <CSVLink data={this.state.salesReps} filename={this.getFileName()}>
+          <CSVLink data={this.state.stocks} filename={this.getFileName()}>
           <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>       
             <GetAppIcon className={classes.extendedIcon}/>
             Export
