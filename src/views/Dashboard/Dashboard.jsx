@@ -63,7 +63,9 @@ class Dashboard extends React.Component {
   state = {
     date:"",
     dailyOrders:[],
+    dailyRevenue:null,
   };
+  
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");
     const decoded=jwt_decode(token);
@@ -86,7 +88,8 @@ class Dashboard extends React.Component {
        this.setState({
            dailyOrders:res.data,
       
-      })
+      })      
+      this.setState({dailyRevenue:this.getTotalRevenue()})
       }               
       )
       .catch(err=>{
@@ -95,6 +98,9 @@ class Dashboard extends React.Component {
                 this.setState({isexpire:true}) ; 
             }
         })
+        
+        
+       
 
 
   }
@@ -123,9 +129,17 @@ class Dashboard extends React.Component {
     }
        
     }
+    getTotalRevenue=()=>{
+      var tot=0;
+      Object.keys(this.state.dailyOrders).map((order,i)=> {
+        tot=tot+this.state.dailyOrders[order].totalValue;
+      });
+      return tot;
+    }
   render() {
-    const {date,dailyOrders}=this.state;
+    
     const { classes } = this.props;
+    const {date,dailyOrders,dailyRevenue}=this.state;
     return (
 
       <div> 
@@ -150,7 +164,7 @@ class Dashboard extends React.Component {
                       </div>
                       <CardContent className={classes.content}>
                         <Typography component="h4" variant="h4">
-                          <b>Rs 20,000</b>
+                          <b>{"Rs "}{dailyRevenue}</b>
                         </Typography>
                       </CardContent>
                     </CardContent>
