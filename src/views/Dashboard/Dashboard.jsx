@@ -17,6 +17,9 @@ import ReactFusioncharts from "react-fusioncharts";
 import salesrep from "assets/img/faces/salesrep.png";
 import dailysales from "variables/dailysales.jsx";
 import dailyproducts from "variables/dailyproducts.jsx";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+
 const useStyles = theme => ({
  
   content: {
@@ -58,10 +61,13 @@ const useStyles = theme => ({
 
 class Dashboard extends React.Component {
   state = {
-    date:""
+    date:"",
+    dailyOrders:[],
   };
   componentDidMount(){
-    
+    const token=localStorage.getItem("jwtToken");
+    const decoded=jwt_decode(token);
+    this.setState({username:decoded.name}); 
     var date = new Date().getDate(); 
     var month = new Date().getMonth() + 1; 
     var year = new Date().getFullYear(); 
@@ -71,12 +77,54 @@ class Dashboard extends React.Component {
       date:
         monthNames[month]+" "+date + ", "  +  year 
     });
-
+    axios.get('/dashboard/dailyorders',{
+      headers:{
+        "Authorization": token 
+       }
+    })
+      .then(res=>{
+       this.setState({
+           dailyOrders:res.data,
+      
+      })
+      }               
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
 
 
   }
+  getLongAgo=(date)=>{ 
+       
+    var res = Math.abs(new Date() - new Date(date)) / 1000;         
+     // get total days between two dates
+     var days = Math.floor(res / 86400);
+     // get hours        
+     var hours = Math.floor(res / 3600) % 24; 
+     // get minutes
+     var minutes = Math.floor(res / 60) % 60;    
+     // get seconds
+     var seconds = Math.round(res % 60);
+     if(days!==0){
+         return days+" days ago";
+     }
+     else if(hours!==0){
+         return hours+" hours ago";
+     }
+     else if(minutes!==0){
+        return minutes+" minutes ago";
+    }
+    else if(seconds!==0){
+        return seconds+" seconds ago";
+    }
+       
+    }
   render() {
-    const {date}=this.state;
+    const {date,dailyOrders}=this.state;
     const { classes } = this.props;
     return (
 
@@ -172,247 +220,38 @@ class Dashboard extends React.Component {
                     <CardContent >
                       <GridList style={{marginLeft:10,marginRight:10}}>  
                         <List style={{width:"100%",height:490}}>
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Remy Sharp" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Brunch this weekend?"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Ali Connors
-                                  </Typography>
-                                  {" — I'll be in your neighborhood doing errands this…"}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Travis Howard" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Summer BBQ"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    to Scott, Alex, Jennifer
-                                  </Typography>
-                                  {" — Wish I could come, but I'm out of town this…"}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src={salesrep} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Oui Oui"
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                  >
-                                    Sandra Adams
-                                  </Typography>
-                                  {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
+                          
+                          {dailyOrders.map((order,i)=>{                            
+                            return(
+                              <div key={i}>
+                                  <ListItem alignItems="flex-start" >
+                                  <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={salesrep} />
+                                  </ListItemAvatar>
+                                  <ListItemText
+                                    primary={order.customerName}
+                                    secondary={
+                                      <React.Fragment>
+                                        <Typography
+                                          component="span"
+                                          variant="body2"
+                                          className={classes.inline}
+                                          color="textPrimary"
+                                        >
+                                          {order.salesrepName}
+                                        </Typography>
+                                        {"-"}{this.getLongAgo(order.orderDate)}
+                                      </React.Fragment>
+                                    }
+                                  />
+                                  
+                                </ListItem> 
+                                <Divider variant="inset" component="li" />
+                              </div>
+                            )
+                            
+                          })}
+                                               
                         </List>
                       </GridList>
                     </CardContent>

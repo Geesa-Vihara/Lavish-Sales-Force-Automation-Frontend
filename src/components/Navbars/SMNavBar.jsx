@@ -181,11 +181,7 @@ class SMNavBar extends Component{
                         )
                     }
                    
-                    {/* <MenuItem onClick={this.notiClose}>Mike John responded to your email</MenuItem>                    
-                    <MenuItem onClick={this.notiClose}>You have 5 new tasks</MenuItem>
-                    <MenuItem onClick={this.notiClose}>You are now friend with Andrew</MenuItem>  
-                    <MenuItem onClick={this.notiClose}>Another Notification</MenuItem>  
-                    <MenuItem onClick={this.notiClose}>Another One</MenuItem>  */}
+                   
                 </Menu>       
                  <Button
                     aria-owns={openprof ? "menu" : null}                    
