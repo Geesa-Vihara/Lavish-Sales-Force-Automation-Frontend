@@ -64,6 +64,8 @@ class Dashboard extends React.Component {
     date:"",
     dailyOrders:[],
     dailyRevenue:null,
+    topProduct:"",
+    topCustomer:"",
   };
   
   componentDidMount(){
@@ -86,7 +88,7 @@ class Dashboard extends React.Component {
     })
       .then(res=>{
        this.setState({
-           dailyOrders:res.data,
+           dailyOrders:res.data
       
       })      
       this.setState({dailyRevenue:this.getTotalRevenue()})
@@ -98,6 +100,32 @@ class Dashboard extends React.Component {
                 this.setState({isexpire:true}) ; 
             }
         })
+
+        axios.get('/dashboard/topcustomer',{
+          headers:{
+            "Authorization": token 
+           }
+        })
+          .then(res=>{
+            if(res.data.invoice.length!==0){
+                this.setState({
+                    topCustomer:res.data.invoice[0].customerName,
+                
+                }) 
+          }else{            
+            this.setState({
+              topCustomer:"No outlet",
+          
+          }) 
+          }
+          }               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
         
         
        
@@ -139,7 +167,7 @@ class Dashboard extends React.Component {
   render() {
     
     const { classes } = this.props;
-    const {date,dailyOrders,dailyRevenue}=this.state;
+    const {date,dailyOrders,dailyRevenue,topCustomer}=this.state;
     return (
 
       <div> 
@@ -212,7 +240,7 @@ class Dashboard extends React.Component {
                       <CardContent className={classes.content}>  
                       <Icon className={classes.iconstore} >storefront</Icon>                      
                         <Typography component="h3" variant="h3" style={{marginTop:20}}>                          
-                          <b> Cargills Colombo</b>
+                          <b>{topCustomer}</b>
                         </Typography>
                       </CardContent>
                     </CardContent>
