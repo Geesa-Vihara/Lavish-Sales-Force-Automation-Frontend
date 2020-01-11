@@ -16,7 +16,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GridList from '@material-ui/core/GridList';
 import salesrep from "assets/img/faces/salesrep.png";
 import yearlysales from "variables/yearlysales.jsx";
-import yearlyproducts from "variables/yearlyproducts.jsx";
 import routecoverage from "variables/routecoverage.jsx";
 import { KeyboardDatePicker,MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -55,7 +54,7 @@ class Analytics extends React.Component {
     showoutletdateto:(new Date()),
     yearlySales:[],
     salesByMonth:{},
-
+    products:[],
   };
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");    
@@ -127,6 +126,35 @@ class Analytics extends React.Component {
                         this.setState({isexpire:true}) ; 
                     }
                 })
+                const Data={
+                  dateFrom:this.state.showproductdatefrom,
+                  dateTo:this.state.showoutletdateto
+                }
+                axios.post('/analytics/topproduct',Data,{
+                  headers:{
+                    "Authorization": token 
+                   }
+                })
+                  .then(res=>{
+                    if(res.data.length!==0){
+                   this.setState({
+                       products:res.data[0]
+                  
+                  }) 
+                 } else{
+                  this.setState({
+                    products:{}
+               
+               }) 
+                }    
+                  }               
+                  )
+                  .catch(err=>{
+                        
+                        if(err.tokenmessage){
+                            this.setState({isexpire:true}) ; 
+                        }
+                    })
   }
   getSalesByMonth=()=>{
     var obj={};
@@ -175,11 +203,72 @@ class Analytics extends React.Component {
     this.setState({showcoveragedate:date})
   }
   handleDateChangeProductfrom=(date)=>{
+    const token=localStorage.getItem("jwtToken");  
     this.setState({showproductdatefrom:date})
     this.setState({showproductdateto:date})
+    const Data={
+      dateFrom:date,
+      dateTo:date
+    }
+    axios.post('/analytics/topproduct',Data,{
+      headers:{
+        "Authorization": token 
+       }
+    })
+      .then(res=>{
+        if(res.data.length!==0){
+       this.setState({
+           products:res.data[0]
+      
+      }) 
+     }  
+      else{
+        this.setState({
+          products:{}
+     
+     }) 
+      }  
+      }               
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
   }
   handleDateChangeProductto=(date)=>{
+    const token=localStorage.getItem("jwtToken");    
     this.setState({showproductdateto:date})
+    const Data={
+      dateFrom:this.state.showproductdatefrom,
+      dateTo:date
+    }
+    axios.post('/analytics/topproduct',Data,{
+      headers:{
+        "Authorization": token 
+       }
+    })
+      .then(res=>{
+        if(res.data.length!==0){
+       this.setState({
+           products:res.data[0]
+      
+      })  
+    }    else{
+      this.setState({
+        products:{}
+   
+   }) 
+    } 
+      }               
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
   }
   handleDateChangeSalesfrom=(date)=>{
     this.setState({showsalesdatefrom:date})
@@ -196,7 +285,7 @@ class Analytics extends React.Component {
     this.setState({showoutletdateto:date})
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -659,7 +748,46 @@ class Analytics extends React.Component {
                   width="100%"
                   height="480"
                   dataFormat="JSON"
-                  dataSource={yearlyproducts}
+                  dataSource={ {
+                    chart: {
+                      
+                      palettecolors:"#8bc34a,#dcedc8,#aed581,#8bc34a,#689f38,#558b2f",
+                      showlegend: "1",  
+                      showpercentvalues: "0",
+                      aligncaptionwithcanvas: "0",
+                      captionpadding: "0",
+                      decimals: "1",
+                      plottooltext:
+                        "<b>$label</b> sold <b>$percentValue</b> amount  ",
+                      theme: "fusion"
+                    },
+                    data: [
+                      {
+                        label: "Tea pouch",
+                        value: products.teapouch_sum
+                      },
+                      {
+                        label: "Tea bag",
+                        value: products.teabag_sum
+                      },
+                      {
+                        label: "Tea sachet",
+                        value: products.teasachet_sum
+                      },
+                      {
+                        label: "Tea bulk",
+                        value: products.teabulk_sum
+                      },
+                      {
+                        label: "Tea bottle",
+                        value: products.teabottle_sum
+                      },
+                      {
+                        label: "Tea basket",
+                        value: products.teabasket_sum
+                      }
+                    ]
+                  }}
                 />
               </CardContent>
             </Card>
