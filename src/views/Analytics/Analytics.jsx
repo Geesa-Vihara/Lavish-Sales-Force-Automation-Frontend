@@ -14,17 +14,21 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GridList from '@material-ui/core/GridList';
-import ReactFusioncharts from "react-fusioncharts";
 import salesrep from "assets/img/faces/salesrep.png";
 import yearlysales from "variables/yearlysales.jsx";
 import yearlyproducts from "variables/yearlyproducts.jsx";
-import progressbetweenyears from "variables/progressbetweenyears.jsx";
 import routecoverage from "variables/routecoverage.jsx";
 import { KeyboardDatePicker,MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import axios from "axios";
+import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import FusionCharts from "fusioncharts";
+import Widgets from "fusioncharts/fusioncharts.widgets";
+import ReactFusioncharts from "react-fusioncharts";
+
+ReactFusioncharts.fcRoot(FusionCharts, Widgets, FusionTheme);
 
 const useStyles = theme => ({ 
   
@@ -78,7 +82,51 @@ class Analytics extends React.Component {
                     this.setState({isexpire:true}) ; 
                 }
             })
-
+            axios.get('/analytics/progress',{
+              headers:{
+                "Authorization": token 
+                }
+            })
+              .then(res=>{
+                if(res.data.length===2){
+                  if(res.data[0]._id===new Date().getFullYear()){
+                    this.setState({
+                      progressSales:res.data[0].sum/res.data[1].sum*100
+                
+                  })
+                  }else if(res.data[1]._id===new Date().getFullYear()){
+                    this.setState({
+                      progressSales:res.data[1].sum/res.data[0].sum*100
+                
+                  })
+                  }
+                
+              
+            }else if(res.data.length===1){
+              if(res.data[0]._id===new Date().getFullYear()){
+                this.setState({
+                  progressSales:100
+            
+              })
+              }else {
+                this.setState({
+                  progressSales:0
+            
+              })
+              }
+            }else{
+              this.setState({
+                progressSales:0
+          
+            })
+            }}               
+              )
+              .catch(err=>{
+                    
+                    if(err.tokenmessage){
+                        this.setState({isexpire:true}) ; 
+                    }
+                })
   }
   getSalesByMonth=()=>{
     var obj={};
@@ -121,6 +169,7 @@ class Analytics extends React.Component {
                     this.setState({isexpire:true}) ; 
                 }
             })
+            
   }
   handleDateChangeCoverage=(date)=>{
     this.setState({showcoveragedate:date})
@@ -147,7 +196,7 @@ class Analytics extends React.Component {
     this.setState({showoutletdateto:date})
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -261,7 +310,47 @@ class Analytics extends React.Component {
                 width="100%"
                 height="290"
                 dataFormat="JSON"
-                dataSource={progressbetweenyears}
+                dataSource={ {
+                  chart: {      
+                    lowerlimit: "0",
+                    upperlimit: "100",
+                    showvalue: "1",
+                    numbersuffix: "%",
+                    theme: "fusion",
+                    showtooltip: "0"
+                  },
+                  colorrange: {
+                    color: [
+                      {
+                        minvalue: "0",
+                        maxvalue: "25",
+                        code: "#c5e1a5"
+                      },
+                      {
+                        minvalue: "25",
+                        maxvalue: "50",
+                        code: "#8bc34a"
+                      },
+                      {
+                        minvalue: "50",
+                        maxvalue: "75",
+                        code: "#558b2f"
+                      },
+                      {
+                        minvalue: "75",
+                        maxvalue: "100",
+                        code: "#1b5e20"
+                      }
+                    ]
+                  },
+                  dials: {
+                    dial: [
+                      {
+                        value: progressSales
+                      }
+                    ]
+                  }
+                }}
               />
               </CardContent>
             </Card>
