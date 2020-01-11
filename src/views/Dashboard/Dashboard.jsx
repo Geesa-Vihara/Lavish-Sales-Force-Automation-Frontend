@@ -15,7 +15,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GridList from '@material-ui/core/GridList';
 import ReactFusioncharts from "react-fusioncharts";
 import salesrep from "assets/img/faces/salesrep.png";
-import dailysales from "variables/dailysales.jsx";
 import axios from "axios";
 
 const useStyles = theme => ({
@@ -65,6 +64,8 @@ class Dashboard extends React.Component {
     topProduct:"",
     topCustomer:"",
     products:[],
+    dailySales:[],
+    salesByArea:{},
   };
   
   componentDidMount(){
@@ -150,8 +151,53 @@ class Dashboard extends React.Component {
                         this.setState({isexpire:true}) ; 
                     }
                 })
-       
+       axios.get('/dashboard/topproduct',{
+              headers:{
+                "Authorization": token 
+               }
+            })
+              .then(res=>{
+                if(res.data.length!==0){
+               this.setState({
+                   products:res.data[0]
+              
+              }) 
+              this.setState({topProduct:this.getTopProduct()})
 
+            }
+            else{
+              this.setState({topProduct:"No product"})
+            }     
+              
+              }               
+              )
+              .catch(err=>{
+                    
+                    if(err.tokenmessage){
+                        this.setState({isexpire:true}) ; 
+                    }
+                })
+        axios.get('/dashboard/dailysales',{
+          headers:{
+            "Authorization": token 
+            }
+        })
+          .then(res=>{
+            if(res.data.length!==0){
+            this.setState({
+                dailySales:res.data
+          
+          })
+          this.getSalesByArea();
+
+        }}               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
 
   }
   getLongAgo=(date)=>{ 
@@ -202,10 +248,20 @@ class Dashboard extends React.Component {
         return "Tea Sachet";
       else return "Tea Pouch"
     }
+    getSalesByArea=()=>{
+      var obj={};
+      this.state.dailySales.map((sales,i)=> {        
+        obj[sales._id]=sales.sum;
+        return(         
+          this.setState({salesByArea:obj})
+        )
+      });
+      
+    }
   render() {
     
     const { classes } = this.props;
-    const {date,dailyOrders,dailyRevenue,topCustomer,products,topProduct}=this.state;
+    const {date,dailyOrders,dailyRevenue,topCustomer,products,topProduct,salesByArea}=this.state;
     return (
 
       <div> 
@@ -423,7 +479,113 @@ class Dashboard extends React.Component {
                         width="100%"
                         height="550"
                         dataFormat="JSON"
-                        dataSource={dailysales}
+                        dataSource={{
+                          chart: {
+                            palettecolors:"#1b5e20",    
+                            aligncaptionwithcanvas: "0",
+                            plottooltext: "Rs <b>$dataValue</b> worth of sales done in $label",
+                            theme: "fusion"
+                          },
+                          
+                         data: [
+                            {
+                              label: "Kandy",
+                              value: salesByArea['Kandy']
+                            },
+                            {
+                              label: "Wellawaya",
+                              value: salesByArea['Wellawaya']
+                            },
+                            {
+                              label: "Badulla",
+                              value: salesByArea['Badulla']
+                            },
+                            {
+                              label: "Hambanthota",
+                              value: salesByArea['Hambanthota']
+                            },
+                            {
+                              label: "Pitigala",
+                              value: salesByArea['Pitigala']
+                            },
+                            {
+                              label: "Matara",
+                              value: salesByArea['Matara']
+                            },
+                            {
+                              label: "Galle",
+                              value: salesByArea['Galle']
+                            },
+                            {
+                              label: "Ambalangoda",
+                              value: salesByArea['Ambalangoda']
+                            },
+                            {
+                              label: "Kaluthara",
+                              value: salesByArea['Kaluthara']
+                            },
+                            {
+                              label: "Horana",
+                              value: salesByArea['Horana']
+                            },
+                            {
+                              label: "Diwulapitiya",
+                              value: salesByArea['Diwulapitiya']
+                            },
+                            {
+                              label: "Chilaw",
+                              value: salesByArea['Chilaw']
+                            },
+                            {
+                              label: "Pththalam",
+                              value: salesByArea['Pththalam']
+                            },
+                            {
+                              label: "Anuradhapura",
+                              value: salesByArea['Anuradhapura']
+                            },
+                            {
+                              label: "Polonnaruwa",
+                              value: salesByArea['Polonnaruwa']
+                            },
+                            {
+                              label: "Kuliyapitiya",
+                              value: salesByArea['Kuliyapitiya']
+                            },
+                            {
+                              label: "Kurunagala",
+                              value: salesByArea['Kurunagala']
+                            },
+                            {
+                              label: "Mathale",
+                              value: salesByArea['Mathale']
+                            },
+                            {
+                              label: "Kegalle",
+                              value: salesByArea['Kegalle']
+                            },
+                            {
+                              label: "Awissawella",
+                              value: salesByArea['Awissawella']
+                            },
+                            {
+                              label: "Rathnapura",
+                              value: salesByArea['Rathnapura']
+                            },
+                            {
+                              label: "Negombo",
+                              value: salesByArea['Negombo']
+                            },
+                            {
+                              label: "Gampaha",
+                              value: salesByArea['Gampaha']
+                            },
+                            {
+                                label: "Homagama",
+                                value: salesByArea['Homagama']
+                              }
+                          ] 
+                        }}
                       />
                     </CardContent>
                   </Card>
