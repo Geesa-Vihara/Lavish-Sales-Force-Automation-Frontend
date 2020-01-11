@@ -19,12 +19,12 @@ import salesrep from "assets/img/faces/salesrep.png";
 import yearlysales from "variables/yearlysales.jsx";
 import yearlyproducts from "variables/yearlyproducts.jsx";
 import progressbetweenyears from "variables/progressbetweenyears.jsx";
-import salesovertheyear from "variables/salesovertheyear";
 import routecoverage from "variables/routecoverage.jsx";
 import { KeyboardDatePicker,MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from "axios";
 
 const useStyles = theme => ({ 
   
@@ -49,11 +49,78 @@ class Analytics extends React.Component {
     showsalesdateto:(new Date()),
     showoutletdatefrom:(new Date()),
     showoutletdateto:(new Date()),
+    yearlySales:[],
+    salesByMonth:{},
 
   };
-  
+  componentDidMount(){
+    const token=localStorage.getItem("jwtToken");    
+    const userData={
+      year:this.state.showyear
+    };
+        axios.post('/analytics/yearlysales',userData,{
+          headers:{
+            "Authorization": token 
+            }
+        })
+          .then(res=>{
+            if(res.data.length!==0){
+            this.setState({
+                yearlySales:res.data
+          
+          })
+          this.getSalesByMonth();
+        }}               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
+
+  }
+  getSalesByMonth=()=>{
+    var obj={};
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    this.state.yearlySales.map((sales,i)=> {        
+      obj[monthNames[sales._id-1]]=sales.sum;
+      return(         
+        this.setState({salesByMonth:obj})
+      )
+    });
+  }
   handleYearChange=(year)=>{
     this.setState({showyear:year})
+    const token=localStorage.getItem("jwtToken");    
+    const userData={
+      year:year
+    };
+        axios.post('/analytics/yearlysales',userData,{
+          headers:{
+            "Authorization": token 
+            }
+        })
+          .then(res=>{
+            if(res.data.length!==0){
+            this.setState({
+                yearlySales:res.data
+          
+          })
+          this.getSalesByMonth();
+        }else{
+          this.setState({
+            salesByMonth:{}
+      
+      })
+        }}               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
   }
   handleDateChangeCoverage=(date)=>{
     this.setState({showcoveragedate:date})
@@ -80,7 +147,7 @@ class Analytics extends React.Component {
     this.setState({showoutletdateto:date})
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -111,7 +178,67 @@ class Analytics extends React.Component {
                   width="100%"
                   height="300"
                   dataFormat="JSON"
-                  dataSource={salesovertheyear}
+                  dataSource={{
+                    chart: {
+                      palettecolors:"#dcedc8",    
+                      drawAnchors: "1",
+                      anchorBorderColor: "#1b5e20",
+                      numbersuffix: " Rs",
+                      rotatelabels: "1",
+                      setadaptiveymin: "1",
+                      theme: "fusion"
+                    },
+                    data: [
+                      {
+                        label: "January",
+                        value: salesByMonth['January']
+                      },
+                      {
+                        label: "February",
+                        value: salesByMonth['February']
+                      },
+                      {
+                        label: "March",
+                        value: salesByMonth['March']
+                      },
+                      {
+                        label: "April",
+                        value: salesByMonth['April']
+                      },
+                      {
+                        label: "May",
+                        value: salesByMonth['May']
+                      },
+                      {
+                        label: "June",
+                        value: salesByMonth['June']
+                      },
+                      {
+                        label: "July",
+                        value: salesByMonth['July']
+                      },
+                      {
+                        label: "August",
+                        value: salesByMonth['August']
+                      },
+                      {
+                        label: "September",
+                        value: salesByMonth['September']
+                      },
+                      {
+                        label: "October",
+                        value: salesByMonth['October']
+                      },
+                      {
+                        label: "November",
+                        value: salesByMonth['November']
+                      },
+                      {
+                        label: "December",
+                        value: salesByMonth['December']
+                      }
+                    ]
+                }}
                 />
               </CardContent>
             </Card>                
