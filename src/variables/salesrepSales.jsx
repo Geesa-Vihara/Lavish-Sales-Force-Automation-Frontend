@@ -1,7 +1,7 @@
-import ReactFusionCharts from 'react-fusioncharts';
+//import ReactFusionCharts from 'react-fusioncharts';
 import FusionCharts from 'fusioncharts';
 import charts from 'fusioncharts/fusioncharts.charts';
-import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+//import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 charts(FusionCharts);
 
 const salesrepMonthlySales = {

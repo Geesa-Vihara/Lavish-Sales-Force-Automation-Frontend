@@ -186,6 +186,9 @@ class CustomerTable extends React.Component{
                                     Area
                                 </TableCell>
                                 <TableCell style={{fontSize:'1.1em'}}>
+                                    Route
+                                </TableCell>
+                                <TableCell style={{fontSize:'1.1em'}}>
                                     Address
                                 </TableCell>
                                 <TableCell style={{fontSize:'1.1em'}}>
@@ -207,6 +210,7 @@ class CustomerTable extends React.Component{
                                     <TableCell>{customer.type}</TableCell>
                                     <TableCell>{customer.name}</TableCell>
                                     <TableCell>{customer.area}</TableCell>
+                                    <TableCell>{customer.route}</TableCell>
                                     <TableCell>{customer.address}</TableCell>
                                     <TableCell>{customer.phoneNo}</TableCell>
                                     <TableCell>{customer.email}</TableCell>  

@@ -16,9 +16,7 @@ import GridList from '@material-ui/core/GridList';
 import ReactFusioncharts from "react-fusioncharts";
 import salesrep from "assets/img/faces/salesrep.png";
 import dailysales from "variables/dailysales.jsx";
-import dailyproducts from "variables/dailyproducts.jsx";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 const useStyles = theme => ({
  
@@ -66,12 +64,11 @@ class Dashboard extends React.Component {
     dailyRevenue:null,
     topProduct:"",
     topCustomer:"",
+    products:[],
   };
   
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");
-    const decoded=jwt_decode(token);
-    this.setState({username:decoded.name}); 
     var date = new Date().getDate(); 
     var month = new Date().getMonth() + 1; 
     var year = new Date().getFullYear(); 
@@ -127,7 +124,32 @@ class Dashboard extends React.Component {
                 }
             })
         
-        
+            axios.get('/dashboard/topproduct',{
+              headers:{
+                "Authorization": token 
+               }
+            })
+              .then(res=>{
+                if(res.data.length!==0){
+               this.setState({
+                   products:res.data[0]
+              
+              }) 
+              this.setState({topProduct:this.getTopProduct()})
+
+            }
+            else{
+              this.setState({topProduct:"No product"})
+            }     
+              
+              }               
+              )
+              .catch(err=>{
+                    
+                    if(err.tokenmessage){
+                        this.setState({isexpire:true}) ; 
+                    }
+                })
        
 
 
@@ -160,14 +182,30 @@ class Dashboard extends React.Component {
     getTotalRevenue=()=>{
       var tot=0;
       Object.keys(this.state.dailyOrders).map((order,i)=> {
-        tot=tot+this.state.dailyOrders[order].totalValue;
+        return(
+          tot=tot+this.state.dailyOrders[order].totalValue
+        )
       });
       return tot;
+    }
+    getTopProduct=()=>{
+      const {products}=this.state;
+      if(products.teabag_sum>=products.teabasket_sum && products.teabag_sum>=products.teabottle_sum && products.teabag_sum>=products.teabulk_sum && products.teabag_sum>=products.teasachet_sum && products.teabag_sum>=products.teapouch_sum)
+        return "Tea Bag";
+      else if(products.teabasket_sum>=products.teabag_sum && products.teabasket_sum>=products.teabottle_sum && products.teabasket_sum>=products.teabulk_sum && products.teabasket_sum>=products.teasachet_sum && products.teabasket_sum>=products.teapouch_sum)
+        return "Tea Basket";
+      else if(products.teabottle_sum>=products.teabag_sum && products.teabottle_sum>=products.teabasket_sum && products.teabottle_sum>=products.teabulk_sum && products.teabottle_sum>=products.teasachet_sum && products.teabottle_sum>=products.teapouch_sum)
+        return "Tea Bottle";
+      else if(products.teabulk_sum>=products.teabag_sum && products.teabulk_sum>=products.teabasket_sum && products.teabulk_sum>=products.teasachet_sum && products.teabulk_sum>=products.teabottle_sum && products.teabulk_sum>=products.teapouch_sum)
+        return "Tea Bulk";
+      else if(products.teasachet_sum>=products.teabag_sum && products.teasachet_sum>=products.teabasket_sum && products.teasachet_sum>=products.teabottle_sum && products.teasachet_sum>=products.teabulk_sum && products.teasachet_sum>=products.teapouch_sum)
+        return "Tea Sachet";
+      else return "Tea Pouch"
     }
   render() {
     
     const { classes } = this.props;
-    const {date,dailyOrders,dailyRevenue,topCustomer}=this.state;
+    const {date,dailyOrders,dailyRevenue,topCustomer,products,topProduct}=this.state;
     return (
 
       <div> 
@@ -217,7 +255,7 @@ class Dashboard extends React.Component {
                       </div>
                       <CardContent className={classes.content}>
                         <Typography component="h4" variant="h4">
-                          <b>Tea Pouch</b>
+                          <b>{topProduct}</b>
                         </Typography>
                       </CardContent>
                     </CardContent>
@@ -322,7 +360,46 @@ class Dashboard extends React.Component {
                             width="100%"
                             height="400"
                             dataFormat="JSON"
-                            dataSource={dailyproducts}
+                            dataSource={{
+                              chart: {
+    
+                                palettecolors:"#8bc34a,#dcedc8,#aed581,#8bc34a,#689f38,#558b2f",
+                                showlegend: "1",   
+                                showpercentvalues: "0",
+                                aligncaptionwithcanvas: "0",
+                                captionpadding: "0",
+                                decimals: "1",
+                                plottooltext:
+                                  "<b>$label</b> sold <b>$percentValue</b> amount  ",
+                                theme: "fusion"
+                              },
+                              data: [
+                                {
+                                  label: "Tea pouch",
+                                  value: products.teapouch_sum
+                                },
+                                {
+                                  label: "Tea bag",
+                                  value: products.teabag_sum
+                                },
+                                {
+                                  label: "Tea sachet",
+                                  value: products.teasachet_sum
+                                },
+                                {
+                                  label: "Tea bulk",
+                                  value: products.teabulk_sum
+                                },
+                                {
+                                  label: "Tea bottle",
+                                  value: products.teabottle_sum
+                                },
+                                {
+                                  label: "Tea basket",
+                                  value: products.teabasket_sum
+                                }
+                              ]
+                            }}
                         />
                     </CardContent>
                   </Card>

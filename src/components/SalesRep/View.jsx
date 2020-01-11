@@ -68,7 +68,7 @@ const useStyles = theme =>({
         this.state = {
             salesRep:[],
             isExpire:false,
-            value:2,
+            rateValue:0,
             open:true,
            
         };  
@@ -90,6 +90,9 @@ const useStyles = theme =>({
                 this.setState({
                     salesRep : res.data    
                 });
+                this.setState({
+                    rateValue :(this.state.totalOrders/this.state.totalCustomers)
+                });
                 console.log(res.data);
             })
             .catch(err => {
@@ -109,7 +112,7 @@ const useStyles = theme =>({
         this.setState({open:false});
         this.props.history.push("/admin/salesreps");
     }
-
+   
     render(){
         const { classes } = this.props;
         const { salesRep } = this.state;
@@ -134,7 +137,7 @@ const useStyles = theme =>({
                                 <p className={classes.user}><b>{salesRep.fullName}</b></p>
                                 <Box component="fieldset" mb={0} borderColor="transparent">
                                     {/* <Typography >Rating</Typography> */}
-                                    <Rating value={this.state.value} readOnly />
+                                    <Rating value={this.state.rateValue} readOnly />
                                 </Box>
                                 <Typography ><b>User Name:</b><label>{salesRep.userName}</label></Typography >
                                 {/* <Typography ><b>Full Name:</b><label>{salesRep.fullName}</label></Typography > */}
