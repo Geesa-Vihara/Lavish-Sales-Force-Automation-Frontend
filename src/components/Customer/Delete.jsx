@@ -10,11 +10,12 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         super(props);
         this.state = {
             open:true,
-            isExpire:false
+            isExpire:false,
+            status:"active"
         };
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
-        this.deletecustomer = this.deletecustomer.bind(this);
+        this.deleteCustomer = this.deleteCustomer.bind(this);
     }
 
     openDialog = () => {
@@ -26,21 +27,32 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         this.props.history.push("/admin/customers");
     }
 
-    deleteCustomer = (e) => {
-
+     deleteCustomer = (e) => {
+//componentDidMount(){
         e.preventDefault();
         const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken');
+        this.setState({status:"inactive"});
+        const customer = {
+            status:this.state.status
+        };
         Axios
-            .delete(`/customers/delete/${params.id}`,{
+            .put(`/customers/delete/${params.id}`,customer,{
                 headers:{
                     'Authorization':token
                 }
             })
             .then(res => {
-                console.log('customer deleted');
-                this.setState({open:false});
-                this.props.history.push('/admin/customers');
+                if(res.status===200){
+                    console.log(res.data);
+                    console.log('customer deleted');
+                    this.setState({open:false});
+                    this.props.history.push('/admin/customers');
+                }
+                else{
+                    const error = new Error(res.error);
+                    throw error;
+                }
             })
             .catch(err => {
                 if(err.tokenmessage){
