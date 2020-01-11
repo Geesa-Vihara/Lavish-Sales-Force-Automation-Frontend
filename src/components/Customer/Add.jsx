@@ -68,6 +68,7 @@ class Add extends React.Component{
             address:'',
             phoneNo:'',
             email:'',
+            route:'',
             open:true,
             isExpire:false,
             errors:{},
@@ -85,6 +86,7 @@ class Add extends React.Component{
             shop : this.state.shop,
             type : this.state.type,
             area : this.state.area,
+            route:this.state.route,
             address : this.state.address,
             phoneNo : this.state.phoneNo,
             name : this.state.name,
@@ -128,7 +130,7 @@ class Add extends React.Component{
     render(){
       
             const { classes } = this.props;
-            const { shop,type,area,address,phoneNo,name,email,open,isExpire,errors } = this.state;
+            const { shop,type,area,address,phoneNo,name,email,route,open,isExpire,errors } = this.state;
             if(!isExpire){
                 return ( 
                     <Modal 
@@ -200,6 +202,18 @@ class Add extends React.Component{
                                         margin="normal"       
                                     />
                                     <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
+                                    <TextField
+                                        required
+                                        id="route"
+                                        label="Route"
+                                        value={route}
+                                        type="text"
+                                        onChange={this.onChange}
+                                        className={classes.textField}
+                                        variant="outlined"
+                                        margin="normal"       
+                                    />
+                                    <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.route}</FormHelperText>
                                     <TextField
                                         required
                                         id="phoneNo"
