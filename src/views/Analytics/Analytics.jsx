@@ -15,7 +15,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GridList from '@material-ui/core/GridList';
 import salesrep from "assets/img/faces/salesrep.png";
-import routecoverage from "variables/routecoverage.jsx";
 import { KeyboardDatePicker,MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import 'date-fns';
@@ -25,7 +24,10 @@ import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import FusionCharts from "fusioncharts";
 import Widgets from "fusioncharts/fusioncharts.widgets";
 import ReactFusioncharts from "react-fusioncharts";
+import SriLanka from 'fusionmaps/maps/fusioncharts.srilanka';
+import FusionMaps from "fusioncharts/fusioncharts.maps";
 
+ReactFusioncharts.fcRoot(FusionCharts, FusionMaps,SriLanka,FusionTheme);
 ReactFusioncharts.fcRoot(FusionCharts, Widgets, FusionTheme);
 
 const useStyles = theme => ({ 
@@ -56,6 +58,8 @@ class Analytics extends React.Component {
     products:[],
     sales:[],
     salesByArea:{},
+    route:[],
+    routeCoverage:{},
   };
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");    
@@ -187,6 +191,36 @@ class Analytics extends React.Component {
                                 this.setState({isexpire:true}) ; 
                             }
                         })
+                        const dataBody={
+                          dateTime:this.state.showcoveragedate,                          
+                        }
+                        axios.post('/analytics/routecoverage',dataBody,{
+                          headers:{
+                            "Authorization": token 
+                            }
+                        })
+                          .then(res=>{
+                            if(res.data.length!==0){
+                            this.setState({
+                                route:res.data
+                          
+                          })
+                          this.getRouteCoverage();
+                
+                        }else{
+                          this.setState({
+                            routeCoverage:{}
+                      
+                      })
+                        }
+                      }             
+                          )
+                          .catch(err=>{
+                                
+                                if(err.tokenmessage){
+                                    this.setState({isexpire:true}) ; 
+                                }
+                            })
   }
   getSalesByArea=()=>{
     var obj={};
@@ -194,6 +228,15 @@ class Analytics extends React.Component {
       obj[sales._id]=sales.sum;
       return(         
         this.setState({salesByArea:obj})
+      )
+    });
+  }
+  getRouteCoverage=()=>{
+    var obj={};
+    this.state.route.map((r,i)=> {        
+      obj[r._id]=r.sum;
+      return(         
+        this.setState({routeCoverage:obj})
       )
     });
   }
@@ -240,8 +283,40 @@ class Analytics extends React.Component {
             })
             
   }
+  
   handleDateChangeCoverage=(date)=>{
-    this.setState({showcoveragedate:date})
+    const token=localStorage.getItem("jwtToken");
+    this.setState({showcoveragedate:date});   
+    const dataBody={
+      dateTime:date,                          
+    }
+    axios.post('/analytics/routecoverage',dataBody,{
+      headers:{
+        "Authorization": token 
+        }
+    })
+      .then(res=>{
+        if(res.data.length!==0){
+        this.setState({
+            route:res.data
+      
+      })
+      this.getRouteCoverage();
+
+    }else{
+      this.setState({
+        routeCoverage:{}
+  
+  })
+    }
+  }             
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
   }
   handleDateChangeProductfrom=(date)=>{
     const token=localStorage.getItem("jwtToken");  
@@ -390,7 +465,7 @@ class Analytics extends React.Component {
     this.setState({showoutletdateto:date})
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products,salesByArea}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products,salesByArea,routeCoverage}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -814,7 +889,151 @@ class Analytics extends React.Component {
                 width="100%"
                 height="500"
                 dataFormat="JSON"
-                dataSource={routecoverage}
+                dataSource={ {
+                  chart: {
+                    legendposition: "BOTTOM",
+                    entitytooltext: "$lname: <b>$datavalue </b>sales",
+                    entityfillhovercolor: "#f1f8e9",
+                    theme: "fusion"
+                  },
+                  colorrange: {
+                    gradient: "0",
+                    color: [
+                      {
+                        maxvalue: "5000",
+                        displayvalue: "0-5000",
+                        code: "#dcedc8"
+                      },
+                      {
+                        maxvalue: "10000",
+                        displayvalue: "5000-10000",
+                        code: "#aed581"
+                      },
+                      {
+                        maxvalue: "25000",
+                        displayvalue: "10000-25000",
+                        code: "#8bc34a"
+                      },
+                      {
+                        maxvalue: "50000",
+                        displayvalue: "25000-50000",
+                        code: "#1b5e20"
+                      },
+                      {
+                        maxvalue: "0",
+                        displayvalue: "N/A",
+                        code: "#e0e0e0"
+                      }
+                    ]
+                  },
+                  data: [
+                    {
+                      data: [
+                        {
+                          id: "LK.KY",
+                          value: routeCoverage['Kandy']?routeCoverage['Kandy']:0
+                        },
+                        {
+                          id: "LK.MJ",
+                          value: routeCoverage['Wellawaya']?routeCoverage['Wellawaya']:0
+                        },
+                        {
+                          id: "LK.BD",
+                          value: routeCoverage['Badulla']?routeCoverage['Badulla']:0
+                        },
+                        {
+                          id: "LK.HB",
+                          value: routeCoverage['Hambanthota']?routeCoverage['Hambanthota']:0
+                        },
+                        {
+                          id: "LK.MH",
+                          value: routeCoverage['Matara']?routeCoverage['Matara']:0
+                        },
+                        {
+                          id: "LK.GL",
+                          value: routeCoverage['Galle']?routeCoverage['Galle']:0+routeCoverage['Ambalangoda']?routeCoverage['Ambalangoda']:0+routeCoverage['Pitigala']?routeCoverage['Pitigala']:0
+                        },
+                        {
+                          id: "LK.KT",
+                          value: routeCoverage['Kaluthara']?routeCoverage['Kaluthara']:0
+                        },
+                        {
+                          id: "LK.PX",
+                          value: routeCoverage['Pththalam']?routeCoverage['Pththalam']:0+ routeCoverage['Chilaw']?routeCoverage['Chilaw']:0
+                        },
+                        {
+                          id: "LK.AD",
+                          value: routeCoverage['Anuradhapura']?routeCoverage['Anuradhapura']:0
+                        },
+                        {
+                          id: "LK.PR",
+                          value: routeCoverage['Polonnaruwa']?routeCoverage['Polonnaruwa']:0
+                        },
+                        {
+                          id: "LK.KG",
+                          value: routeCoverage['Kurunagala']?routeCoverage['Kurunagala']:0+routeCoverage['Kuliyapitiya']?routeCoverage['Kuliyapitiya']:0
+                        },
+                        {
+                          id: "LK.MT",
+                          value: routeCoverage['Mathale']?routeCoverage['Mathale']:0
+                        },
+                        {
+                          id: "LK.KE",
+                          value: routeCoverage['Kegalle']?routeCoverage['Kegalle']:0
+                        },
+                        {
+                          id: "LK.RN",
+                          value: routeCoverage['Rathnapura']?routeCoverage['Rathnapura']:0
+                        },
+                        {
+                          id: "LK.GQ",
+                          value: routeCoverage['Gampaha']?routeCoverage['Gampaha']:0+routeCoverage['Diwulapitiya']?routeCoverage['Diwulapitiya']:0+routeCoverage['Negombo']?routeCoverage['Negombo']:0
+                        },
+                        {
+                          id: "LK.CO",
+                          value: routeCoverage['Homagama']? routeCoverage['Homagama']:0+routeCoverage['Horana']?routeCoverage['Horana']:0+routeCoverage['Awissawella']?routeCoverage['Awissawella']:0
+                          },
+                          {
+                            id: "LK.JA",
+                            tooltext: "N/A"
+                          },
+                          {
+                            id: "LK.KL",
+                            tooltext: "N/A"
+                            },
+                          {
+                            id: "LK.MP",
+                            tooltext: "N/A"
+                            },
+                          {
+                            id: "LK.MB",
+                            tooltext: "N/A"
+                            },
+                          {
+                            id: "LK.VA",
+                            tooltext: "N/A"
+                          },
+                          {
+                              id: "LK.NW",
+                              tooltext: "N/A"
+                          },
+                          {
+                            id: "LK.TC",
+                            tooltext: "N/A"
+                            },
+                          {
+                            id: "LK.BC",
+                            tooltext: "N/A"
+                            },
+                          {
+                            id: "LK.AP",
+                            tooltext: "N/A"
+                            }
+                      
+                      ] 
+                    }
+                  ]
+                }}
               />
               </CardContent>
             </Card>
