@@ -15,7 +15,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GridList from '@material-ui/core/GridList';
 import salesrep from "assets/img/faces/salesrep.png";
-import yearlysales from "variables/yearlysales.jsx";
 import routecoverage from "variables/routecoverage.jsx";
 import { KeyboardDatePicker,MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -55,6 +54,8 @@ class Analytics extends React.Component {
     yearlySales:[],
     salesByMonth:{},
     products:[],
+    sales:[],
+    salesByArea:{},
   };
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");    
@@ -155,6 +156,46 @@ class Analytics extends React.Component {
                             this.setState({isexpire:true}) ; 
                         }
                     })
+                    const DataUser={
+                      dateFrom:this.state.showsalesdatefrom,
+                      dateTo:this.state.showsalesdateto
+                    }
+                    axios.post('/analytics/salesbyarea',DataUser,{
+                      headers:{
+                        "Authorization": token 
+                        }
+                    })
+                      .then(res=>{
+                        if(res.data.length!==0){
+                        this.setState({
+                            Sales:res.data
+                      
+                      })
+                      this.getSalesByArea();
+            
+                    }else{
+                      this.setState({
+                        salesByArea:{}
+                  
+                  })
+                    }
+                  }             
+                      )
+                      .catch(err=>{
+                            
+                            if(err.tokenmessage){
+                                this.setState({isexpire:true}) ; 
+                            }
+                        })
+  }
+  getSalesByArea=()=>{
+    var obj={};
+    this.state.Sales.map((sales,i)=> {        
+      obj[sales._id]=sales.sum;
+      return(         
+        this.setState({salesByArea:obj})
+      )
+    });
   }
   getSalesByMonth=()=>{
     var obj={};
@@ -271,11 +312,75 @@ class Analytics extends React.Component {
         })
   }
   handleDateChangeSalesfrom=(date)=>{
+    const token=localStorage.getItem("jwtToken");    
     this.setState({showsalesdatefrom:date})
     this.setState({showsalesdateto:date})
+    const DataUser={
+      dateFrom:date,
+      dateTo:date
+    }
+    axios.post('/analytics/salesbyarea',DataUser,{
+      headers:{
+        "Authorization": token 
+        }
+    })
+      .then(res=>{
+        if(res.data.length!==0){
+        this.setState({
+            Sales:res.data
+      
+      })
+      this.getSalesByArea();
+
+    }else{
+      this.setState({
+        salesByArea:{}
+  
+  })
+    }
+  }             
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
   }
   handleDateChangeSalesto=(date)=>{
+    const token=localStorage.getItem("jwtToken"); 
     this.setState({showsalesdateto:date})
+    const DataUser={
+      dateFrom:this.state.showsalesdatefrom,
+      dateTo:date
+    }
+    axios.post('/analytics/salesbyarea',DataUser,{
+      headers:{
+        "Authorization": token 
+        }
+    })
+      .then(res=>{
+        if(res.data.length!==0){
+        this.setState({
+            Sales:res.data
+      
+      })
+      this.getSalesByArea();
+
+    }else{
+      this.setState({
+        salesByArea:{}
+  
+  })
+    }
+  }             
+      )
+      .catch(err=>{
+            
+            if(err.tokenmessage){
+                this.setState({isexpire:true}) ; 
+            }
+        })
   }
   handleDateChangeOutletfrom=(date)=>{
     this.setState({showoutletdatefrom:date})
@@ -285,7 +390,7 @@ class Analytics extends React.Component {
     this.setState({showoutletdateto:date})
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products,salesByArea}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -1064,7 +1169,113 @@ class Analytics extends React.Component {
                     width="100%"
                     height="480"
                     dataFormat="JSON"
-                    dataSource={yearlysales}
+                    dataSource={{
+                      chart: {
+                        palettecolors:"#1b5e20",    
+                        aligncaptionwithcanvas: "0",
+                        plottooltext: "Rs <b>$dataValue</b> worth of sales done in $label",
+                        theme: "fusion"
+                      },
+                      
+                     data: [
+                        {
+                          label: "Kandy",
+                          value: salesByArea['Kandy']
+                        },
+                        {
+                          label: "Wellawaya",
+                          value: salesByArea['Wellawaya']
+                        },
+                        {
+                          label: "Badulla",
+                          value: salesByArea['Badulla']
+                        },
+                        {
+                          label: "Hambanthota",
+                          value: salesByArea['Hambanthota']
+                        },
+                        {
+                          label: "Pitigala",
+                          value: salesByArea['Pitigala']
+                        },
+                        {
+                          label: "Matara",
+                          value: salesByArea['Matara']
+                        },
+                        {
+                          label: "Galle",
+                          value: salesByArea['Galle']
+                        },
+                        {
+                          label: "Ambalangoda",
+                          value: salesByArea['Ambalangoda']
+                        },
+                        {
+                          label: "Kaluthara",
+                          value: salesByArea['Kaluthara']
+                        },
+                        {
+                          label: "Horana",
+                          value: salesByArea['Horana']
+                        },
+                        {
+                          label: "Diwulapitiya",
+                          value: salesByArea['Diwulapitiya']
+                        },
+                        {
+                          label: "Chilaw",
+                          value: salesByArea['Chilaw']
+                        },
+                        {
+                          label: "Pththalam",
+                          value: salesByArea['Pththalam']
+                        },
+                        {
+                          label: "Anuradhapura",
+                          value: salesByArea['Anuradhapura']
+                        },
+                        {
+                          label: "Polonnaruwa",
+                          value: salesByArea['Polonnaruwa']
+                        },
+                        {
+                          label: "Kuliyapitiya",
+                          value: salesByArea['Kuliyapitiya']
+                        },
+                        {
+                          label: "Kurunagala",
+                          value: salesByArea['Kurunagala']
+                        },
+                        {
+                          label: "Mathale",
+                          value: salesByArea['Mathale']
+                        },
+                        {
+                          label: "Kegalle",
+                          value: salesByArea['Kegalle']
+                        },
+                        {
+                          label: "Awissawella",
+                          value: salesByArea['Awissawella']
+                        },
+                        {
+                          label: "Rathnapura",
+                          value: salesByArea['Rathnapura']
+                        },
+                        {
+                          label: "Negombo",
+                          value: salesByArea['Negombo']
+                        },
+                        {
+                          label: "Gampaha",
+                          value: salesByArea['Gampaha']
+                        },
+                        {
+                            label: "Homagama",
+                            value: salesByArea['Homagama']
+                          }
+                      ] 
+                    }}
                   />                
               </CardContent>
             </Card>
