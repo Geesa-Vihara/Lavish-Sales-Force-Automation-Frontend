@@ -103,7 +103,7 @@ const useStyles = (theme) => ({
             })
             .catch(err=>{
                 if(err.tokenmessage){
-                    console.log(err.tokenmessage);
+                 //   console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })
@@ -133,7 +133,7 @@ const useStyles = (theme) => ({
             })
             .then(res => {
                 if(res.status===200){
-                    console.log(res.data);
+                  //  console.log(res.data);
                     this.setState({open:false});
                     this.props.history.push("/admin/salesreps");   
                 }
@@ -145,7 +145,7 @@ const useStyles = (theme) => ({
             .catch(err => {
                 this.setState({errors:err.response.data});
                 if(err.tokenmessage){
-                    console.log(err.tokenmessage);
+                   // console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })

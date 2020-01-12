@@ -91,7 +91,7 @@ class  SalesRepTable extends React.Component{
       })
       .catch(err => {
         if(err.tokenmessage){
-          console.log(err.tokenmessage);
+         // console.log(err.tokenmessage);
           this.setState({isExpire:true});
         }
         console.log(err);
@@ -112,11 +112,11 @@ class  SalesRepTable extends React.Component{
           salesReps : res.data,
           filteredData : res.data
         });
-        console.log(this.state.salesReps);
+    //    console.log(this.state.salesReps);
       })
       .catch(err => {
         if(err.tokenmessage){
-          console.log(err.tokenmessage);
+          //console.log(err.tokenmessage);
           this.setState({isExpire:true});
         }
       })

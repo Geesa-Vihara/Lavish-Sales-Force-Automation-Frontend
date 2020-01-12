@@ -31,14 +31,17 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         e.preventDefault();
         const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken');
+        const distributor = {
+            status:"inactive"
+        }
         Axios
-            .delete(`/distributors/delete/${params.id}`,{
+            .put(`/distributors/delete/${params.id}`,distributor,{
                 headers:{
                     'Authorization':token
                 }
             })
             .then(res => {
-                console.log('distributor deleted');
+                console.log(res.data);
                 this.setState({open:false});
                 this.props.history.push('/admin/distributors');
             })

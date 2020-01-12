@@ -89,7 +89,7 @@ class CustomerTable extends React.Component{
           })
           .catch(err => {
             if(err.tokenmessage){
-              console.log(err.tokenmessage);
+             // console.log(err.tokenmessage);
               this.setState({isExpire:true});
             }
             console.log(err);
@@ -110,11 +110,11 @@ class CustomerTable extends React.Component{
               customers : res.data,
               filteredData : res.data
             });
-            console.log(this.state.customers);
+           // console.log(this.state.customers);
           })
           .catch(err => {
             if(err.tokenmessage){
-              console.log(err.tokenmessage);
+             // console.log(err.tokenmessage);
               this.setState({isExpire:true});
             }
           })
@@ -124,7 +124,7 @@ class CustomerTable extends React.Component{
         const filterText=e.target.value;
         this.setState(prevState => {
           const filteredData = prevState.customers.filter(e => {
-            return e.userName.toLowerCase().includes(filterText.toLowerCase());
+            return e.shop.toLowerCase().includes(filterText.toLowerCase());
           });
           return {
             filterText,
