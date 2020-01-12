@@ -7,9 +7,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import ReactFusioncharts from "react-fusioncharts";
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import  salesrepMonthlySales from "variables/salesrepSales.jsx";
+import GridContainer from 'components/Grid/GridContainer';
 
 const useStyles = theme =>({
 
@@ -51,11 +53,18 @@ const useStyles = theme =>({
         height: "100%"
     },
     user:{
-        fontSize:19,
-        color: "#1b5e20"
+        fontSize:20,
+        color: "#1b5e20",
+        //marginLeft:"50px"
     },
     typography:{
         margin:'3px'
+    },
+    card:{
+      //  minWidth: 80,
+        //minHeight: 60,
+        marginBottom:15,
+
     }
 
 })
@@ -131,31 +140,48 @@ const useStyles = theme =>({
                     <Card className={classes.modalCard}>
                         <CardContent className={classes.modalCardContent}>
                             <div className={classes.imgshadow}>                    
-                                <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
+                                    <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
                             </div> 
                             <div style={{textAlign:"center",marginBottom:'20px'}}>
                                 <p className={classes.user}><b>{salesRep.fullName}</b></p>
                                 <Box component="fieldset" mb={0} borderColor="transparent">
-                                    {/* <Typography >Rating</Typography> */}
-                                    <Rating value={this.state.rateValue} readOnly />
+                                    <Rating value={this.state.rateValue} size="large" readOnly />
                                 </Box>
-                                <Typography ><b>User Name:</b><label>{salesRep.userName}</label></Typography >
-                                {/* <Typography ><b>Full Name:</b><label>{salesRep.fullName}</label></Typography > */}
-                                <Typography className={classes.typography} ><b>Area:</b><label>{salesRep.area}</label></Typography >
-                                <Typography className={classes.typography} ><b>Email:</b><label>{salesRep.email}</label></Typography >
-                                <Typography className={classes.typography}><b>Phone no:</b><label>{salesRep.phoneNo}</label></Typography >
-                                <Typography className={classes.typography}><b>NIC:</b><label>{salesRep.nic}</label></Typography >
-                                <Typography className={classes.typography}><b>Address:</b><label>{salesRep.address}</label></Typography >
-                                <Typography className={classes.typography}><b>Distributor:</b><label>Namal perera</label></Typography >
-                            </div>
+                                <Grid container spacing={3} direction="row-reverse" alignItems="center" justify="center">
+                                    <Grid item xs={3}  >
+                                        <Card  variant="outlined" >
+                                            <CardContent>
+                                                <Typography styles={{fontSize:'17'}} color="textSecondary">Completed Orders</Typography>
+                                                <Typography variant="h5">{salesRep.totalOrders}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={3}  alignItems="flex-start" >
+                                        <Card  variant="outlined">
+                                            <CardContent>
+                                                <Typography styles={{fontSize:'17'}} color="textSecondary"> Total Customers</Typography>
+                                                <Typography variant="h5">{salesRep.totalCustomers}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                </Grid> 
+                                <Typography className={classes.typography}><b>User Name:</b><label style={{fontSize:"16px"}}>{salesRep.userName}</label></Typography>
+                                <Typography className={classes.typography} ><b>Area:</b><label style={{fontSize:"16px"}}>{salesRep.area}</label></Typography >
+                                <Typography className={classes.typography} ><b>Email:</b><label style={{fontSize:"16px"}}>{salesRep.email}</label></Typography >
+                                <Typography className={classes.typography}><b>Phone no:</b><label style={{fontSize:"16px"}}>{salesRep.phoneNo}</label></Typography >
+                                <Typography className={classes.typography}><b>NIC:</b><label style={{fontSize:"16px"}}>{salesRep.nic}</label></Typography >
+                                <Typography className={classes.typography}><b>Address:</b><label style={{fontSize:"16px"}}>{salesRep.address}</label></Typography >
+                                <Typography className={classes.typography}><b>Distributor:</b><label style={{fontSize:"16px"}}>Namal perera</label></Typography >
+                            </div> 
+                                       
                             <ReactFusioncharts
-                                        type='msline'
-                                        width='700'
-                                        height='500'
-                                        dataFormat='JSON'
-                                        dataSource={salesrepMonthlySales}  
-                            
-                                    />  
+                                type='msline'
+                                width='700'
+                                height='500'
+                                dataFormat='JSON'
+                                dataSource={salesrepMonthlySales}  
+                                
+                            />  
                         </CardContent>
                         <CardActions  style={{justifyContent:'right'}}>
                             <Button 
@@ -170,16 +196,16 @@ const useStyles = theme =>({
                 </Modal>
             );
         }
-        else{
-            return(
-                <div>                
-                    <Redirect to={{
-                        pathname:"/login",
-                        state:{expire:"Session expired please login again"}
-                        }}/>
-                </div>
-            )
+            else{
+                return(
+                    <div>                
+                        <Redirect to={{
+                            pathname:"/login",
+                            state:{expire:"Session expired please login again"}
+                            }}/>
+                    </div>
+                )
+            }
         }
-    }
 }
 export default withStyles(useStyles)(View);
