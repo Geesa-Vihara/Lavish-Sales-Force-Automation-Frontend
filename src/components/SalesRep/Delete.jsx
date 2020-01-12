@@ -31,16 +31,26 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         e.preventDefault();
         const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken');
+       // this.setState({status:"inactive"})
+        const salesrep = {
+            status:"inactive"
+        };
         Axios
-            .delete(`/salesreps/delete/${params.id}`,{
+            .put(`/salesreps/delete/${params.id}`,salesrep,{
                 headers:{
                     'Authorization':token
                 }
             })
             .then(res => {
-                console.log('salesrep deleted');
-                this.setState({open:false});
-                this.props.history.push('/admin/salesreps');
+                if(res.status===200){
+                    console.log(res.data);
+                    this.setState({open:false});
+                    this.props.history.push('/admin/salesreps');
+                }
+                else{
+                    const error = new Error(res.error);
+                    throw error;
+                }
             })
             .catch(err => {
                 if(err.tokenmessage){
