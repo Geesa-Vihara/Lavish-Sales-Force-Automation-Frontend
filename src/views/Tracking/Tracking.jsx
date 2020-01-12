@@ -28,7 +28,7 @@ import axios from "axios";
 
 const body = createMuiTheme({
   palette: {
-      primary: {500:"#1b5e20"},
+      primary: {500:"rgb(30, 45, 12)"},
   },
   });
 const useStyles = theme => ({
