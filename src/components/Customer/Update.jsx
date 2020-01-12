@@ -54,7 +54,7 @@ const useStyles = (theme) => ({
 });
 
  class Update extends React.Component {
-
+   // _isMounted = false;
     constructor(props){
         super(props);
         this.state = {
@@ -62,6 +62,7 @@ const useStyles = (theme) => ({
             shop:'',
             type:'',
             area:'',
+            route:'',
             address:'',
             phoneNo:'',
             name:'',
@@ -81,7 +82,7 @@ const useStyles = (theme) => ({
     }
 
     componentDidMount(){
-        
+        //this._isMounted = true; 
         const {match:{params}} =this.props;
         var token=localStorage.getItem("jwtToken");
         Axios
@@ -91,23 +92,32 @@ const useStyles = (theme) => ({
                 }
             })
             .then(res => {
-                this.setState({
-                    shop:res.data.shop,
-                    type:res.data.type,
-                    area:res.data.area,
-                    address:res.data.address,
-                    phoneNo:res.data.phoneNo,
-                    name:res.data.name,
-                    email:res.data.email
-                });
+               // if(this._isMounted){
+                    this.setState({
+                        shop:res.data.shop,
+                        type:res.data.type,
+                        area:res.data.area,
+                        route:res.data.route,
+                        address:res.data.address,
+                        phoneNo:res.data.phoneNo,
+                        name:res.data.name,
+                        email:res.data.email
+                    });
+              //  }
             })
             .catch(err=>{
                 if(err.tokenmessage){
-                    console.log(err.tokenmessage);
+                  //  console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })
     }
+    onChange = (e) => {
+        this.setState({[e.target.id] : e.target.value});
+    }
+    // componentWillUnmount(){
+    //     this._isMounted = false;
+    // }
 
     onSubmit = (e) => {
 
@@ -119,6 +129,7 @@ const useStyles = (theme) => ({
             shop : this.state.shop,
             type : this.state.type,
             area : this.state.area,
+            route:this.state.route,
             address : this.state.address,
             phoneNo : this.state.phoneNo,
             name : this.state.name,
@@ -133,7 +144,7 @@ const useStyles = (theme) => ({
             })
             .then(res => {
                 if(res.status===200){
-                    console.log(res.data);
+                  //  console.log(res.data);
                     this.setState({open:false});
                     this.props.history.push("/admin/customers");   
                 }
@@ -145,7 +156,7 @@ const useStyles = (theme) => ({
             .catch(err => {
                 this.setState({errors:err.response.data});
                 if(err.tokenmessage){
-                    console.log(err.tokenmessage);
+                   // console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
             })
@@ -162,7 +173,7 @@ const useStyles = (theme) => ({
 
     render() {
         const { classes } = this.props;
-        const { shop,type,area,address,phoneNo,name,email,open,isExpire,errors } = this.state;
+        const { shop,type,area,route,address,phoneNo,name,email,open,isExpire,errors } = this.state;
         if(!isExpire){
             return (
                 <Modal 
@@ -239,6 +250,18 @@ const useStyles = (theme) => ({
                                     margin="normal"       
                                 />
                                 <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
+                                <TextField
+                                    required
+                                    id="route"
+                                    label="Route"
+                                    value={route}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"       
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.route}</FormHelperText>
                                 <TextField
                                     required
                                     id="phoneNo"

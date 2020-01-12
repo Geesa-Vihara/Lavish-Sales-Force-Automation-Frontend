@@ -11,7 +11,7 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         this.state = {
             open:true,
             isExpire:false,
-            status:"active"
+           // status:"active"
         };
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
@@ -32,9 +32,9 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
         e.preventDefault();
         const {match:{params}} =this.props;
         var token = localStorage.getItem('jwtToken');
-        this.setState({status:"inactive"});
+       // this.setState({status:"inactive"});
         const customer = {
-            status:this.state.status
+            status:"inactive"
         };
         Axios
             .put(`/customers/delete/${params.id}`,customer,{
@@ -89,7 +89,7 @@ import { Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from
                             Disagree
                         </Button>
                         <Button 
-                            onClick={this.deletecustomer}
+                            onClick={this.deleteCustomer}
                             color="secondary"
                             variant='contained'
                             type='submit'
