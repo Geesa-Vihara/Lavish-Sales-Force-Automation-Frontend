@@ -2,16 +2,32 @@ import React,{Component} from "react";
 import  { Link,Route,Redirect}  from 'react-router-dom';
 import { CSVLink } from 'react-csv';
 import StockView from "views/Stock/StockView.jsx";
-import { withStyles} from '@material-ui/core/styles';
-import { Table,TableBody,TableCell,TableHead,TableRow,TextField }  from "@material-ui/core";
+import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Fab from '@material-ui/core/Fab';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import Assignment from "@material-ui/icons/Assignment";
 import axios from "axios"; 
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { withStyles,createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import FormControl from '@material-ui/core/FormControl';
+
+const body = createMuiTheme({
+  palette: {
+      primary: {500:"rgb(30, 45, 12)"},
+  },
+  });
 
 const useStyles =theme => ({   
  
@@ -43,11 +59,23 @@ const useStyles =theme => ({
      fontSize: "1.1em"
     },
     root: {
-      padding: '2px 4px',
-      display: 'flex',
-      alignItems: 'center',
-      width: 400,
+      textAlign:"center",
+      marginBottom:10,
     },
+    formControl: {
+      marginTop: theme.spacing(2),
+      minWidth: "100%",
+      
+
+    },buttonFilter:{
+      width: "100%",
+      height:45,
+      borderRadius: "3px",
+      letterSpacing: "1.5px",
+      marginTop: "1rem" ,      
+      color:"black"
+    },
+    
   });
 
 class Stock extends Component{
@@ -56,9 +84,11 @@ class Stock extends Component{
         isexpire:false,
         date: new Date().toLocaleDateString(),
         isExpire:false,
-        filterText:"",
-        filteredData:[],
         stocks:[],
+        selectedDateFrom:Date.now()-1000*60*60*24,
+        selectedDateTo:Date.now(),
+        salesreps:[],
+        selectsalesrep:"All",
         
       }
     getFileName(){
@@ -66,63 +96,170 @@ class Stock extends Component{
       }
     componentDidMount(){
       var token=localStorage.getItem("jwtToken");
-      axios.get('/stock', {
+      axios
+      .get('/salesReps',{
+      headers:{
+          'Authorization':token
+      }
+      })
+      .then(res => {
+      this.setState({
+          salesreps : res.data
+      });
+      })
+      .catch(err => {
+      if(err.tokenmessage){
+          this.setState({isexpire:true});
+      }
+      })  
+      const userData={
+        salesRep:this.state.selectsalesrep,
+        dateFrom:this.state.selectedDateFrom,
+        dateTo:this.state.selectedDateTo,
+      };
+      axios.post('/stock',userData,{
         headers:{
           "Authorization": token 
-        }
-      }
+          }
+      })
+        .then(res=>{
+          if(res.data.length!==0){
+          this.setState({
+              stocks:res.data
+        
+        })
+      }else{
+        this.setState({
+          stocks:[]
+    
+    })
+      }}               
         )
-          .then(response => {
-              this.setState({
-                stocks:response.data,
-                filteredData:response.data
-              });
-               
-          })
-          .catch(err=>{
+        .catch(err=>{
               
               if(err.tokenmessage){
                   this.setState({isexpire:true}) ; 
               }
           })
-    }   
-    onChange = (e) => {
-      const filterText=e.target.value;
-      this.setState(prevState => {
-        const filteredData = prevState.stocks.filter(e => {
-          return e.stockno.includes(filterText);
-        });
-        return {
-          filterText,
-          filteredData
-        };
-      });
     }
+  handleDateChangeFrom = (date)=> {
+      this.setState({ selectedDateFrom:date});
+  };
+  handleDateChangeTo = (date)=> {
+      this.setState({ selectedDateTo:date});
+  };
+  handleChange = (e) => {
+      e.preventDefault();
+      this.setState({ selectsalesrep:e.target.value});
+  };  
+  onSubmit= e =>{
+      e.preventDefault();
+      var token = localStorage.getItem('jwtToken');
+      const userData={
+        salesRep:this.state.selectsalesrep,
+        dateFrom:this.state.selectedDateFrom,
+        dateTo:this.state.selectedDateTo,
+      };
+      axios.post('/stock',userData,{
+        headers:{
+          "Authorization": token 
+          }
+      })
+        .then(res=>{
+          if(res.data.length!==0){
+          this.setState({
+              stocks:res.data
+        
+        })
+      }else{
+        this.setState({
+          stocks:[]
+    
+    })
+      }}               
+        )
+        .catch(err=>{
+              
+              if(err.tokenmessage){
+                  this.setState({isexpire:true}) ; 
+              }
+          })
+  }
+  
     render(){
+    const{selectedDateTo,selectedDateFrom,salesreps,selectsalesrep}=this.state;
     const { classes } = this.props;
     if(!this.state.isExpire){
     return(
       <div>
-        <div className={classes.root}>
-          <TextField
-            style={{left:'140%'}}
-            autoFocus
-            id='filter'
-            type='text'
-            placeholder='Search by Stock Order No'
-            value={this.state.filterText}
-            onChange={this.onChange}
-            margin='normal'
-            className={classes.textField}
-            InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-               <SearchIcon className={classes.icon} />
-              </InputAdornment>
-            ),
-            }}
-          />
+        <form onSubmit={this.onSubmit}>
+        <div className={classes.root}>        
+                    <Grid container className={classes.container}   >
+                    <ThemeProvider theme={body}>  
+                        <Grid item xs={4}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-simple" >Select sales representative</InputLabel>
+                            <Select
+                                value={selectsalesrep}
+                                onChange={this.handleChange}   
+                                style={{textAlign:"left"}}                
+                            >
+                                <MenuItem value={"All"}>Default-All</MenuItem> 
+                                {salesreps.map(salesrep=>
+                                    <MenuItem key={salesrep._id} value={salesrep.fullName}>{salesrep.fullName}</MenuItem> 
+                                )}
+                            
+                            </Select>
+                        </FormControl> 
+                        </Grid>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} > 
+                            <Grid item xs={3}>
+                                <KeyboardDatePicker
+                                    variant="inline"
+                                    format="MM-dd-yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Select Date from"
+                                    value={selectedDateFrom}
+                                    onChange={this.handleDateChangeFrom}
+                                    KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                    }}
+                                    
+                                />
+                            </Grid>                            
+                        </MuiPickersUtilsProvider>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}> 
+                            <Grid item xs={3}>
+                                <KeyboardDatePicker
+                                    variant="inline"
+                                    format="MM-dd-yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Select Date to"
+                                    value={selectedDateTo}
+                                    onChange={this.handleDateChangeTo}
+                                    KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                    }}
+                                    
+                                />
+                            </Grid>                            
+                        </MuiPickersUtilsProvider>
+                        </ThemeProvider>
+                        <Grid item xs={2}>                          
+                                <Button
+                                    variant="contained"
+                                    type="submit"
+                                    className={classes.buttonFilter}
+                                    >
+                                    FILTER
+                                </Button> 
+                        </Grid>
+                    </Grid>
+                
         </div>
+        </form>
         <Paper>            
             
             <Table className={classes.table}>
@@ -152,7 +289,7 @@ class Stock extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.filteredData.map((stock,i) => {
+                {this.state.stocks.map((stock,i) => {
                   return(
                   <TableRow key={i} hover>
                     <TableCell>{stock.stockno}</TableCell>
