@@ -14,7 +14,7 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import {
     MuiPickersUtilsProvider,
-    KeyboardDateTimePicker,
+    KeyboardDatePicker,
   } from '@material-ui/pickers';
   
 import {
@@ -24,10 +24,11 @@ import {
   Marker,
   InfoWindow,
 } from "react-google-maps";
+import axios from "axios";
 
 const body = createMuiTheme({
   palette: {
-      primary: {500:"#1b5e20"},
+      primary: {500:"rgb(30, 45, 12)"},
   },
   });
 const useStyles = theme => ({
@@ -123,14 +124,14 @@ const CustomSkinMap = withScriptjs(
             }}
           >
             
-            {props.myordersarray.map(order=>
-              <Marker position={{ lat: order.lat, lng: order.lng }} key={order.OrderId} >                   
+            {props.myordersarray.map((order,i)=>
+              <Marker position={{ lat: Number(order.lat), lng: Number(order.lng) }} key={i} >                   
               {<InfoWindow>
                   <small>
-                      Order-ID: <Link to="/admin/stock">{order.OrderId}</Link><br/>
+                      Order-ID: <Link to="/admin/stock">{order.orderId}</Link><br/>
                       Date: {order.date}<br/>
-                      Time: {order.time}<br/>
-                      Sales rep: {order.fullName}<br/>
+                      Time: {order.hour===24?`12:00 AM`:order.hour===12 && order.minutes===0?`12:00 PM`:order.hour>12 ?`${order.hour-12}: ${order.minutes} PM`:`${order.hour}:${order.minutes} AM`}<br/>
+                      Sales rep: {order.salesrep}<br/>
                       Customer: {order.customer}<br/>
                       
                   </small>
@@ -149,17 +150,10 @@ class Tracking extends Component {
         selectedDateFrom:Date.now()-1000*60*60*24,
         selectedDateTo:Date.now(),
         salesreps:[],
-        orders:[
-            {lat:9.116668,lng:80.443327,fullName:"Kasun Perera",customer:"Cargills",OrderId:"42108",date:"10-02-2019",time:"02:34 PM"},
-            {lat:7.068086,lng:79.988533,fullName:"Saman Perera",customer:"Family Super",OrderId:"50101",date:"10-02-2019",time:"02:34 PM"},
-            {lat:6.422624,lng:80.668498,fullName:"Nimantha Silva",customer:"Keells",OrderId:"60181",date:"10-02-2019",time:"02:34 PM"},
-            {lat:7.365355,lng:80.702229,fullName:"Chamara Sampath",customer:"Food City",OrderId:"70131",date:"10-02-2019",time:"02:34 PM"},
-            {lat:7.645163,lng:81.501627,fullName:"Nuwan Madushka",customer:"City Center ",OrderId:"99101",date:"10-02-2019",time:"02:34 PM"},
-
-            ],
-        selectsalesrep:"0",
+        selectsalesrep:"All",
         YOUR_KEY:"",
         isexpire:false,
+        orders:[],
           
         };
       }
@@ -180,10 +174,40 @@ class Tracking extends Component {
         })
         .catch(err => {
         if(err.tokenmessage){
-            console.log(err.tokenmessage);
             this.setState({isexpire:true});
         }
+        })   
+    const userData={
+      salesRep:this.state.selectsalesrep,
+      dateFrom:this.state.selectedDateFrom,
+      dateTo:this.state.selectedDateTo,
+    };
+        axios.post('/tracking/getmarkers',userData,{
+          headers:{
+            "Authorization": token 
+            }
         })
+          .then(res=>{
+            if(res.data.length!==0){
+            this.setState({
+                orders:res.data
+          
+          })
+        }
+      else{
+        this.setState({
+          orders:[]
+    
+    })
+      }
+    }               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
     }
     handleDateChangeFrom = (date)=> {
         this.setState({ selectedDateFrom:date});
@@ -197,7 +221,36 @@ class Tracking extends Component {
     };  
     onSubmit= e =>{
         e.preventDefault();
-        console.log("submitting!")
+        var token = localStorage.getItem('jwtToken');
+        const userData={
+          salesRep:this.state.selectsalesrep,
+          dateFrom:this.state.selectedDateFrom,
+          dateTo:this.state.selectedDateTo,
+        };
+        axios.post('/tracking/getmarkers',userData,{
+          headers:{
+            "Authorization": token 
+            }
+        })
+          .then(res=>{
+            if(res.data.length!==0){
+            this.setState({
+                orders:res.data
+          
+          })
+        }else{
+          this.setState({
+            orders:[]
+      
+      })
+        }}               
+          )
+          .catch(err=>{
+                
+                if(err.tokenmessage){
+                    this.setState({isexpire:true}) ; 
+                }
+            })
     }
     
     render(){
@@ -219,9 +272,9 @@ class Tracking extends Component {
                                 onChange={this.handleChange}   
                                 style={{textAlign:"left"}}                
                             >
-                                <MenuItem value={0}>Default-All</MenuItem> 
+                                <MenuItem value={"All"}>Default-All</MenuItem> 
                                 {salesreps.map(salesrep=>
-                                    <MenuItem key={salesrep._id} value={salesrep._id}>{salesrep.fullName}</MenuItem> 
+                                    <MenuItem key={salesrep._id} value={salesrep.fullName}>{salesrep.fullName}</MenuItem> 
                                 )}
                             
                             </Select>
@@ -229,9 +282,9 @@ class Tracking extends Component {
                         </Grid>
                         <MuiPickersUtilsProvider utils={DateFnsUtils} > 
                             <Grid item xs={3}>
-                                <KeyboardDateTimePicker
+                                <KeyboardDatePicker
                                     variant="inline"
-                                    format="MM-dd-yyyy hh:mm"
+                                    format="MM-dd-yyyy"
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Select Date from"
@@ -246,9 +299,9 @@ class Tracking extends Component {
                         </MuiPickersUtilsProvider>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}> 
                             <Grid item xs={3}>
-                                <KeyboardDateTimePicker
+                                <KeyboardDatePicker
                                     variant="inline"
-                                    format="MM-dd-yyyy hh:mm"
+                                    format="MM-dd-yyyy"
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Select Date to"

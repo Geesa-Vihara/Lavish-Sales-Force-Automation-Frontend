@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles} from '@material-ui/core/styles';
+import { withStyles,createMuiTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -26,6 +26,7 @@ import Widgets from "fusioncharts/fusioncharts.widgets";
 import ReactFusioncharts from "react-fusioncharts";
 import SriLanka from 'fusionmaps/maps/fusioncharts.srilanka';
 import FusionMaps from "fusioncharts/fusioncharts.maps";
+import { ThemeProvider } from '@material-ui/styles';
 
 ReactFusioncharts.fcRoot(FusionCharts, FusionMaps,SriLanka,FusionTheme);
 ReactFusioncharts.fcRoot(FusionCharts, Widgets, FusionTheme);
@@ -41,7 +42,11 @@ const useStyles = theme => ({
   },
 
 })
-
+const body = createMuiTheme({
+  palette: {
+      primary: {500:"rgb(30, 45, 12)"},
+  },
+  });
 class Analytics extends React.Component {
   state = {
     showyear:(new Date()),
@@ -469,7 +474,8 @@ class Analytics extends React.Component {
     const { classes } = this.props;
     return (
       <div> 
-        <Grid container style={{marginTop:"2%"}}>        
+        <Grid container style={{marginTop:"2%"}}>   
+        <ThemeProvider theme={body}>       
           <Grid item xs={8} >
             <Card style={{height:400,marginRight:10}} >
               <CardHeader
@@ -1557,6 +1563,7 @@ class Analytics extends React.Component {
               </CardContent>
             </Card>
           </Grid>
+          </ThemeProvider>
         </Grid>           
       </div>
     );
