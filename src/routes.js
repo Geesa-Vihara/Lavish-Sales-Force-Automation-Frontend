@@ -37,22 +37,6 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/stock",
-    name: "Stock ",
-    icon: Storage,
-    component:Stock,
-    layout: "/admin"
-  },
-
-  {
-    path: "/reports",
-    name: "Reports",
-    icon: Description,
-    component: Reports,
-    layout: "/admin"
-  },
-     
-  {
     path: "/track",
     name: "Tracking",
     icon: LocationOn,
@@ -60,6 +44,21 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   
+  {
+    path: "/invoices",
+    name: "Sales Invoices",
+    icon: AttachMoney,
+    component: InvoiceTable,
+    layout: "/admin"
+  },
+  
+  {
+    path: "/stock",
+    name: "Stock ",
+    icon: Storage,
+    component:Stock,
+    layout: "/admin"
+  },
   {
     path: "/salesreps",
     name: "Sales Representatives",
@@ -84,21 +83,23 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   
-  {
-    path: "/invoices",
-    name: "Sales Invoices",
-    icon: AttachMoney,
-    component: InvoiceTable,
-    layout: "/admin"
-  },
   
   {
     path: "/analytics",
     name: "Analytics",
     icon: Timeline,
     component: AnalyticsPage,
+    layout: "/admin",
+   
+  }, 
+  {
+    path: "/reports",
+    name: "Reports",
+    icon: Description,
+    component: Reports,
     layout: "/admin"
-  }
+  },
+ 
 ];
 
 export default dashboardRoutes;
