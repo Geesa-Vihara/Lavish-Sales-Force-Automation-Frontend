@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
+import Notifier,{openNotifier} from '../Notifier/Notifier';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
@@ -99,16 +100,24 @@ class Add extends React.Component{
                 }
             })
             .then(res => {
-                if(res.status===200){                                
+                if(res.status===200){ 
+                   openNotifier({msg:"sucess"});                              
                    this.setState({open:false});
                    this.props.history.push("/admin/customers");
                 }
                 else {
+                    if(res.status === 404){
+                        openNotifier({msg:"Error Already Exists"});
+                     }
+                     else if(res.status ===400){
+                         openNotifier({msg:"Error"});
+                     }
                     const error = new Error(res.error);
                     throw error;
                 }
              })
             .catch(err => {
+                openNotifier({msg:"Error"});
                 this.setState({errors:err.response.data}) ; 
                // console.log(err.response.data)
                 if(err.tokenmessage){
@@ -252,6 +261,7 @@ class Add extends React.Component{
                                         >
                                         Close
                                         </Button>
+                                        <Notifier/>
                                     </CardActions>
                                 </CardContent>
                             </form>
