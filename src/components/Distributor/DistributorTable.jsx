@@ -112,7 +112,7 @@ class DistributorTable extends React.Component{
               distributors : res.data,
               filteredData : res.data
             });
-            console.log(this.state.distributors);
+           // console.log(this.state.distributors);
           })
           .catch(err => {
             if(err.tokenmessage){

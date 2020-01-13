@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import ReactFusioncharts from "react-fusioncharts";
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import  salesrepMonthlySales from "variables/salesrepSales.jsx";
-import GridContainer from 'components/Grid/GridContainer';
 
 const useStyles = theme =>({
 
@@ -156,7 +155,7 @@ const useStyles = theme =>({
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item xs={3}  alignItems="flex-start" >
+                                    <Grid item xs={3} >
                                         <Card  variant="outlined">
                                             <CardContent>
                                                 <Typography styles={{fontSize:'17'}} color="textSecondary"> Total Customers</Typography>
