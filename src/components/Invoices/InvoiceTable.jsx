@@ -119,7 +119,7 @@ class InvoiceTable extends React.Component{
                 this.setState({
                     invoices:res.data
                 });
-                console.log(this.state.invoices);
+                //console.log(this.state.invoices);
 
             })
             .catch(err=>{

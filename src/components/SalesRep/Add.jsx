@@ -4,10 +4,13 @@ import { Redirect } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
+import Notifier,{openNotifier} from '../Notifier/Notifier';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
 
+
+  
 const useStyles = theme => ({
     
     textField: { 
@@ -54,6 +57,7 @@ const useStyles = theme => ({
         marginTop:theme.spacing(0) ,    
         color:"red"
     },
+   
 });
 
 class Add extends React.Component{
@@ -106,20 +110,25 @@ class Add extends React.Component{
                 }
             })
             .then(res => {
-                if(res.status===200){                                
-                   // window.location.reload();
-                   //console.log(res.data);
-                   this.setState({open:false});
-                   this.props.history.push("/admin/salesreps");
+                 if(res.status===200){                                
+                    openNotifier({msg:"sucess"});
+                    this.setState({open:false});
+                    this.props.history.push("/admin/salesreps");
                 }
                 else {
+                     if(res.status === 404){
+                        openNotifier({msg:"Error Already Exists"});
+                     }
+                     else if(res.status ===400){
+                         openNotifier({msg:"Error"});
+                     }
                     const error = new Error(res.error);
                     throw error;
                 }
              })
             .catch(err => {
+                openNotifier({msg:"Error"});
                 this.setState({errors:err.response.data}) ; 
-               // console.log(err.response.data)
                 if(err.tokenmessage){
                     console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
@@ -135,7 +144,7 @@ class Add extends React.Component{
         this.setState({open:false});
         this.props.history.push("/admin/salesreps");
     }
-
+   
     render(){
         const { classes } = this.props;
         const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire,errors } = this.state;
@@ -272,6 +281,7 @@ class Add extends React.Component{
                                 >
                                 Close
                                 </Button>
+                                <Notifier/>
                             </CardActions>
                         </CardContent>
                     </form>
