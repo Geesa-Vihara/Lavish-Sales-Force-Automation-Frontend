@@ -65,6 +65,9 @@ class Analytics extends React.Component {
     salesByArea:{},
     route:[],
     routeCoverage:{},
+    topBestSalesreps :[],
+    topLeastSalesreps : [],
+    topOutlets:[]
   };
   componentDidMount(){
     const token=localStorage.getItem("jwtToken");    
@@ -226,6 +229,36 @@ class Analytics extends React.Component {
                                     this.setState({isexpire:true}) ; 
                                 }
                             })
+            
+              axios.get("/analytics/topBestSalesrep",{
+                headers:{
+                  'Authorization':token
+                }
+              })
+              .then(res => {
+                this.setState({topBestSalesreps:res.data})
+              })
+              .catch(err =>{
+                if(err.tokenmessage){
+                  this.setState({isexpire:true}) ; 
+              }
+              });
+
+             axios.get("/analytics/topLeastSalesrep",{
+                headers:{
+                  'Authorization':token
+                }
+              })
+              .then(res => {
+                this.setState({topLeastSalesreps:res.data})
+              })
+              .catch(err =>{
+                if(err.tokenmessage){
+                  this.setState({isexpire:true}) ; 
+              }
+              })
+
+              
   }
   getSalesByArea=()=>{
     var obj={};
@@ -462,15 +495,55 @@ class Analytics extends React.Component {
             }
         })
   }
-  handleDateChangeOutletfrom=(date)=>{
+  handleDateChangeOutletfrom = (date) => {
+
+    const token=localStorage.getItem("jwtToken"); 
     this.setState({showoutletdatefrom:date})
-    this.setState({showoutletdateto:date})
+    //this.setState({showoutletdateto:date})
+    const dateData ={
+      dateTo:this.state.showoutletdateto,
+      dateFrom:date
+    }
+
+    axios.post('analytics/topOutlet',dateData,{
+      headers:{
+        'Authorization':token
+      }
+    })
+    .then(res => {
+      this.setState({topOutlets:res.data})
+    })
+    .catch(err => {
+      if(err.tokenmessage){
+        this.setState({isexpire:true}) ; 
+      }
+    });
   }
-  handleDateChangeOutletto=(date)=>{
-    this.setState({showoutletdateto:date})
+  handleDateChangeOutletto = (date) => {
+
+    const token=localStorage.getItem("jwtToken");
+    this.setState({showoutletdateto:date});
+    const dateData ={
+      dateTo:date,
+      dateFrom:this.state.showoutletdatefrom
+    }
+
+    axios.post('analytics/topOutlet',dateData,{
+      headers:{
+        'Authorization':token
+      }
+    })
+    .then(res => {
+      this.setState({topOutlets:res.data})
+    })
+    .catch(err => {
+      if(err.tokenmessage){
+        this.setState({isexpire:true}) ; 
+      }
+    });
   }
   render() {
-    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products,salesByArea,routeCoverage}=this.state;
+    const {showyear,yearprogress,showcoveragedate,showproductdatefrom,showproductdateto,showsalesdatefrom,showsalesdateto,showoutletdatefrom,showoutletdateto,salesByMonth,progressSales,products,salesByArea,routeCoverage,topBestSalesreps,topLeastSalesreps,topOutlets}=this.state;
     const { classes } = this.props;
     return (
       <div> 
@@ -645,12 +718,14 @@ class Analytics extends React.Component {
               <CardContent >
               <GridList >  
                 <List style={{width:"100%",height:500}}>
-                  <ListItem alignItems="flex-start">
+                  {topBestSalesreps.map((rep,i) =>{
+                    return(
+                  <ListItem key={i} alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar alt="Remy Sharp" src={salesrep} />
+                      <Avatar alt={rep.userName} src={salesrep} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="Brunch this weekend?"
+                      primary={rep.userName}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -659,15 +734,17 @@ class Analytics extends React.Component {
                             className={classes.inline}
                             color="textPrimary"
                           >
-                            Ali Connors
+                            {rep.area}
                           </Typography>
-                          {" — I'll be in your neighborhood doing errands this…"}
+                          {/* {" — I'll be in your neighborhood doing errands this…"} */}
                         </React.Fragment>
                       }
                     />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
+                  </ListItem>);
+                  }) }
+                  {/* <Divider variant="inset" component="li" /> */}
+                  
+                  {/* <ListItem alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar alt="Travis Howard" src={salesrep} />
                     </ListItemAvatar>
@@ -863,7 +940,7 @@ class Analytics extends React.Component {
                         </React.Fragment>
                       }
                     />
-                  </ListItem>                  
+                  </ListItem>                   */}
                 </List>
               </GridList>
               </CardContent>
@@ -1136,12 +1213,14 @@ class Analytics extends React.Component {
               <CardContent >
               <GridList>  
                 <List style={{width:"100%",height:500}}>
-                  <ListItem alignItems="flex-start">
+                  {topLeastSalesreps.map((rep,i) => {
+                    return(
+                  <ListItem key={i} alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar alt="Remy Sharp" src={salesrep} />
+                      <Avatar alt={rep.userName} src={salesrep} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="Brunch this weekend?"
+                      primary={rep.userName}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -1150,15 +1229,16 @@ class Analytics extends React.Component {
                             className={classes.inline}
                             color="textPrimary"
                           >
-                            Ali Connors
+                            Area  :
                           </Typography>
-                          {" — I'll be in your neighborhood doing errands this…"}
+                          {rep.area}
                         </React.Fragment>
                       }
                     />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
+                  </ListItem>);
+                  })}
+                  {/* <Divider variant="inset" component="li" /> */}
+                  {/* <ListItem alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar alt="Travis Howard" src={salesrep} />
                     </ListItemAvatar>
@@ -1354,7 +1434,7 @@ class Analytics extends React.Component {
                         </React.Fragment>
                       }
                     />
-                  </ListItem>                  
+                  </ListItem>                   */}
                 </List>
               </GridList>
               </CardContent>
@@ -1534,8 +1614,12 @@ class Analytics extends React.Component {
               />
               <Divider/>
               <CardContent >
-                <h6 style={{lineHeight:2, fontSize:9}}><b>
-                Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
+                {topOutlets.map((outlet,i) => {
+                    return(
+                
+                <h6 key={i} style={{lineHeight:2, fontSize:9}}><b>
+                  {outlet.area} : <small style={{fontSize:9,color:lightGreen[600]}}>{outlet.customerName}</small><br/></b>
+                {/* Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Wellawaya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Badulla: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Hambanthota: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
@@ -1558,8 +1642,9 @@ class Analytics extends React.Component {
                 Rathnapura: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Negombo: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Gampaha: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Homagama: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/></b>
-                </h6>              
+                Homagama: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/></b> */}
+                </h6>  );
+                })}            
               </CardContent>
             </Card>
           </Grid>
