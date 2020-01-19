@@ -8,10 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import FusionCharts from "fusioncharts";
+import charts from "fusioncharts/fusioncharts.charts";
 import ReactFusioncharts from "react-fusioncharts";
 import { Card,CardContent,CardActions } from '@material-ui/core';
-import  salesrepMonthlySales from "variables/salesrepSales.jsx";
 
+charts(FusionCharts);
 const useStyles = theme =>({
 
     button:{
@@ -75,6 +77,8 @@ const useStyles = theme =>({
         super(props);
         this.state = {
             salesRep:[],
+            monthlySales:[],
+            salesByMonth:{},
             isExpire:false,
             rateValue:0,
             open:true,
@@ -110,8 +114,36 @@ const useStyles = theme =>({
                 }
                 console.log(err);
             })
+        Axios
+            .get(`salesreps/monthlySales/${params.id}`,{
+                headers :{
+                    'Authorization':token
+                }
+            })
+            .then(res => {
+                this.setState({
+                   monthlySales:res.data
+                });
+                this.getChartData();
+            })
+            .catch(err => {
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
+                    this.setState({isExpire:true});
+                }
+                console.log(err);
+            });
     }
-
+    getChartData = () =>{
+        var obj={};
+        var month=['jan','feb','mar','Apr','may','jun','jul','aug','sept','nov','dec'];
+        this.state.monthlySales.map((sales,i) => {
+            obj[month[sales._id-1]] = sales.count;
+            return(
+                this.setState({salesByMonth:obj})
+            )
+        })
+    }
     openModal = () => {
         this.setState({open:true});
     }
@@ -123,7 +155,7 @@ const useStyles = theme =>({
    
     render(){
         const { classes } = this.props;
-        const { salesRep } = this.state;
+        const { salesRep,salesByMonth } = this.state;
         if(!this.state.isExpire){
             return(
                 <Modal
@@ -174,11 +206,74 @@ const useStyles = theme =>({
                             </div> 
                                        
                             <ReactFusioncharts
-                                type='msline'
+                                type='line'
                                 width='700'
                                 height='500'
                                 dataFormat='JSON'
-                                dataSource={salesrepMonthlySales}  
+                                dataSource={{
+                                    chart: {
+                                        caption:"Monthly Average sales",
+                                        subcaption:this.state.monthlySales.salesYear,
+                                      //  xAxisName:"Month",
+                                        yaxisname:"sales",
+                                        numbersuffix:'%',
+                                        showhovereffect: "1",
+                                        drawcrossline: "1",
+                                        rotatelabels: "1",
+                                        setadaptiveymin: "1",
+                                        theme:'fusion',
+                                      },
+                                      data: [
+                                        {
+                                          label: "January",
+                                          value:salesByMonth['jan']
+                                        },
+                                        {
+                                          label: "February",
+                                          value:salesByMonth['feb']
+                                        },
+                                        {
+                                          label: "March",
+                                          value:salesByMonth['mar']
+                                        },
+                                        {
+                                          label: "April",
+                                          value:salesByMonth['apr']
+                                        },
+                                        {
+                                          label: "May",
+                                          value:salesByMonth['may']
+                                        },
+                                        {
+                                          label: "June",
+                                          value:salesByMonth['jun']
+                                        },
+                                        {
+                                          label: "July",
+                                          value:salesByMonth['jul']
+                                        },
+                                        {
+                                          label: "August",
+                                          value:salesByMonth['aug']
+                                        },
+                                        {
+                                          label: "September",
+                                          value:salesByMonth['sep']
+                                        },
+                                        {
+                                          label: "October",
+                                          value:salesByMonth['oct']
+                                        },
+                                        {
+                                          label: "November",
+                                          value:salesByMonth['nov']
+                                        },
+                                        {
+                                          label: "December",
+                                          value:salesByMonth['dec']
+                                        }
+                                      ]
+                                  }}
                                 
                             />  
                         </CardContent>

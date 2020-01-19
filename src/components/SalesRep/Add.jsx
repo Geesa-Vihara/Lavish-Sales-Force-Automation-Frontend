@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import Notifier,{openNotifier} from '../Notifier/Notifier';
+//import Notifier,{openNotifier} from '../Notifier/Notifier';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
@@ -77,6 +77,7 @@ class Add extends React.Component{
             open:true,
             isExpire:false,
             errors:{},
+            statusError:''
         };
         
         this.onChange   = this.onChange.bind(this);
@@ -111,23 +112,24 @@ class Add extends React.Component{
             })
             .then(res => {
                  if(res.status===200){                                
-                    openNotifier({msg:"sucess"});
                     this.setState({open:false});
                     this.props.history.push("/admin/salesreps");
                 }
                 else {
                      if(res.status === 404){
-                        openNotifier({msg:"Error Already Exists"});
+                         this.setState({statusError:"User Name exists"})
+                        //openNotifier({msg:"Error Already Exists"});
                      }
                      else if(res.status ===400){
-                         openNotifier({msg:"Error"});
+                        this.setState({statusError:"Network Error"})
+                       //  openNotifier({msg:"Error"});
                      }
                     const error = new Error(res.error);
                     throw error;
                 }
              })
             .catch(err => {
-                openNotifier({msg:"Error"});
+               // openNotifier({msg:"Error"});
                 this.setState({errors:err.response.data}) ; 
                 if(err.tokenmessage){
                     console.log(err.tokenmessage);
@@ -147,7 +149,7 @@ class Add extends React.Component{
    
     render(){
         const { classes } = this.props;
-        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire,errors } = this.state;
+        const { userName,fullName,area,address,phoneNo,nic,email,password,confirmPassword,open,isExpire,errors,statusError } = this.state;
         if(!isExpire){
         return ( 
             <Modal 
@@ -171,6 +173,7 @@ class Add extends React.Component{
                                 type="text"
                             />
                             <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {statusError}</FormHelperText>
                             <TextField
                                 required
                                 id="fullName"
@@ -281,7 +284,7 @@ class Add extends React.Component{
                                 >
                                 Close
                                 </Button>
-                                <Notifier/>
+                                {/* <Notifier/> */}
                             </CardActions>
                         </CardContent>
                     </form>
