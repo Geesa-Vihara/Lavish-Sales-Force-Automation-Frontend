@@ -182,8 +182,8 @@ class View extends React.Component{
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Object.keys(invoice).map((product,i)=> {
-                                        if(invoice[product].price && invoice[product].price!==0){
+                                    {Object.keys(invoice).filter(p=>invoice[p].price>0).map((product,i)=> {
+                                   
                                             return(
                                                 <TableRow key={i} hover>
                                                     {/* <TableCell>{invoice[product].Invoiceno}</TableCell> */}   
@@ -194,7 +194,7 @@ class View extends React.Component{
                                                     <TableCell style={{border:'1px solid black'}}>{invoice[product].price}</TableCell>
                                                 </TableRow>  
                                             );
-                                        }
+                                        
                                     })}
                                     <TableRow>
                                         <TableCell rowSpan={4} style={{border:'1px solid black'}}/>

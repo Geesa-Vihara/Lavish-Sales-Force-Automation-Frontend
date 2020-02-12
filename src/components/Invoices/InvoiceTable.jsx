@@ -151,7 +151,7 @@ class InvoiceTable extends React.Component{
         e.preventDefault();
         this.setState({ selectsalesrep:e.target.value});
        // const selectsalesrep = e.target.value;
-        if(this.state.selectsalesrep != "ALL"){
+        if(this.state.selectsalesrep !== "ALL"){
            // this.setState(prevState => {
             const filteredInvoices = this.state.invoices.filter(e =>  e.salesrepName = this.state.selectsalesrep );
             return {
