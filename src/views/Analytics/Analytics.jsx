@@ -722,10 +722,10 @@ class Analytics extends React.Component {
                     return(
                   <ListItem key={i} alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar alt={rep.userName} src={salesrep} />
+                      <Avatar alt={rep._id} src={salesrep} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={rep.userName}
+                      primary={rep._id}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -1217,10 +1217,10 @@ class Analytics extends React.Component {
                     return(
                   <ListItem key={i} alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar alt={rep.userName} src={salesrep} />
+                      <Avatar alt={rep._id} src={salesrep} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={rep.userName}
+                      primary={rep._id}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -1229,9 +1229,8 @@ class Analytics extends React.Component {
                             className={classes.inline}
                             color="textPrimary"
                           >
-                            Area  :
-                          </Typography>
                           {rep.area}
+                          </Typography>
                         </React.Fragment>
                       }
                     />
@@ -1618,7 +1617,7 @@ class Analytics extends React.Component {
                     return(
                 
                 <h6 key={i} style={{lineHeight:2, fontSize:9}}><b>
-                  {outlet.area} : <small style={{fontSize:9,color:lightGreen[600]}}>{outlet.customerName}</small><br/></b>
+                  {outlet.area} : <small style={{fontSize:9,color:lightGreen[600]}}>{outlet._id}</small><br/></b>
                 {/* Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Wellawaya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Badulla: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
