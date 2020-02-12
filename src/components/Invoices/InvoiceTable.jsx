@@ -77,6 +77,7 @@ class InvoiceTable extends React.Component{
         this.state = {
             invoices:[],
             date: new Date().toLocaleDateString(),
+            filteredInvoices:[],
             isExpire:false,
             selectsalesrep:'0',
             selectedDateFrom:Date.now()-1000*60*60*24,
@@ -108,6 +109,10 @@ class InvoiceTable extends React.Component{
     //   }
     
     componentDidMount(){
+        // const filterData = {
+        //     dateFrom:this.state.selectedDateFrom,
+        //     dateTo:this.state.selectedDateTo
+        // }
         var token = localStorage.getItem('jwtToken');
         Axios
             .get('/invoices',{
@@ -117,7 +122,8 @@ class InvoiceTable extends React.Component{
             })
             .then(res=>{
                 this.setState({
-                    invoices:res.data
+                    invoices:res.data,
+                    filteredInvoices:res.data
                 });
                 //console.log(this.state.invoices);
 
@@ -144,6 +150,16 @@ class InvoiceTable extends React.Component{
     handleChange = (e) => {
         e.preventDefault();
         this.setState({ selectsalesrep:e.target.value});
+       // const selectsalesrep = e.target.value;
+        if(this.state.selectsalesrep != "ALL"){
+           // this.setState(prevState => {
+            const filteredInvoices = this.state.invoices.filter(e =>  e.salesrepName = this.state.selectsalesrep );
+            return {
+              //  selectsalesrep,
+                filteredInvoices
+            };
+        //});
+    }
     };
     handleDateChangeFrom = (date)=> {
         this.setState({ selectedDateFrom:date});
@@ -153,7 +169,7 @@ class InvoiceTable extends React.Component{
     };
     render(){
         const { classes } = this.props; 
-        const { isExpire,invoices,selectedDateFrom,selectedDateTo,selectsalesrep } = this.state;
+        const { isExpire,invoices,selectedDateFrom,selectedDateTo,selectsalesrep,filteredInvoices } = this.state;
         if(!isExpire){
             return(
                 <div>
@@ -234,7 +250,7 @@ class InvoiceTable extends React.Component{
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {invoices.map((invoice,i) => {
+                            {filteredInvoices.map((invoice,i) => {
                                 return(
                                     <TableRow key={i} hover>
                                         <TableCell>{invoice.Invoiceno}</TableCell>
