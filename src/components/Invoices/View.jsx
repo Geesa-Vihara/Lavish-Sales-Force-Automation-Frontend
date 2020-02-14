@@ -98,7 +98,7 @@ class View extends React.Component{
                     invoice : res.data,
                     filteredData : res.data
                 });
-                console.log(res.data);
+                //console.log(res.data);
             })
             .catch(err=>{
                 if(err.message){
@@ -167,8 +167,8 @@ class View extends React.Component{
                             <div style={{textAlign:"left",float:"left",marginBottom:"5px",marginTop:"5px"}}>
                                 <Typography className={classes.typography} ><b>Bill To<br/></b></Typography >
                                 <Typography className={classes.typography} >Customer:<label style={{textAlign:"right",float:"right"}}>{invoice.customerName}</label><br/></Typography >
-                                <Typography className={classes.typography} >Address:<label style={{textAlign:"right",float:"right"}}>{invoice.address}</label><br/></Typography >
-                                <Typography className={classes.typography} >Contact :<label style={{textAlign:"right",float:"right"}}>0716008664</label><br/></Typography >
+                                <Typography className={classes.typography} >Address:<label style={{textAlign:"right",float:"right"}}>{invoice.area}</label><br/></Typography >
+                                {/* <Typography className={classes.typography} >Contact :<label style={{textAlign:"right",float:"right"}}>0716008664</label><br/></Typography > */}
                             </div>
                             <Table className={classes.table}>
                                 <TableHead className={classes.tableHeadCell}>

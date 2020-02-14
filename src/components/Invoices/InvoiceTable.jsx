@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import  { Link,Route,Redirect}  from 'react-router-dom';
 import { CSVLink } from 'react-csv';
 import Axios from 'axios';
@@ -24,7 +24,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import ViewIcon from "@material-ui/icons/Visibility";
 import {
     MuiPickersUtilsProvider,
-    KeyboardDateTimePicker,
+    KeyboardDatePicker,
   } from '@material-ui/pickers';
 
 const body = createMuiTheme({
@@ -79,7 +79,8 @@ class InvoiceTable extends React.Component{
             date: new Date().toLocaleDateString(),
             filteredInvoices:[],
             isExpire:false,
-            selectsalesrep:'0',
+            salesreps:[],
+            selectsalesrep:"ALL",
             selectedDateFrom:Date.now()-1000*60*60*24,
             selectedDateTo:Date.now()
         };
@@ -115,6 +116,23 @@ class InvoiceTable extends React.Component{
         // }
         var token = localStorage.getItem('jwtToken');
         Axios
+            .get('/salesReps',{
+                headers:{
+                    'Authorization':token
+                }
+            })
+            .then(res => {
+                this.setState({
+                    salesreps : res.data
+                });
+            })
+            .catch(err => {
+                if(err.tokenmessage){
+                    this.setState({isexpire:true});
+                }
+        });
+
+        Axios
             .get('/invoices',{
                 headers:{
                     'Authorization':token
@@ -149,27 +167,60 @@ class InvoiceTable extends React.Component{
     }
     handleChange = (e) => {
         e.preventDefault();
-        this.setState({ selectsalesrep:e.target.value});
-       // const selectsalesrep = e.target.value;
-        if(this.state.selectsalesrep !== "ALL"){
-           // this.setState(prevState => {
-            const filteredInvoices = this.state.invoices.filter(e =>  e.salesrepName = this.state.selectsalesrep );
+        const selectsalesrep=e.target.value;
+        if(selectsalesrep !== "ALL"){
+            this.setState(prevState => {
+            const filteredInvoices = prevState.invoices.filter(e => {
+                return e.salesrepName.toLowerCase() === selectsalesrep.toLowerCase();
+            });
             return {
-              //  selectsalesrep,
                 filteredInvoices
             };
-        //});
-    }
+            });
+        }
+        else if(selectsalesrep==="ALL"){
+            this.setState({filteredInvoices:this.state.invoices})
+        }
+        //    this.setState({ selectsalesrep:e.target.value});
+        //    if(this.state.selectsalesrep !== "ALL"){
+        //    const filtered = this.state.invoices.filter(e => e.salesrepName.toLowerCase().trim() !== this.state.selectsalesrep.toLowerCase().trim() );
+        //    this.setState({filteredInvoices:filtered})
+        // }
     };
     handleDateChangeFrom = (date)=> {
+        
+        const dTo = new Date(this.state.selectedDateTo);   //get select To date
         this.setState({ selectedDateFrom:date});
+        const dFrom = new Date(this.state.selectedDateFrom);  //get select from date
+        this.setState(prevState => {
+            const filteredInvoices =prevState.filteredInvoices.filter(e => {
+                return e.orderDate >=dFrom.toISOString() && e.orderDate < dTo.toISOString();  //here dFrom,dTo is converted to similar date type stored in database
+            }); 
+            return {
+                filteredInvoices
+            };
+        });
+        //console.log(this.state.selectedDateFrom);
+      //const selectedDateFrom = date;
+
     };
     handleDateChangeTo = (date)=> {
+
+        const dFrom = new Date(this.state.selectedDateFrom);  //get select from date
         this.setState({ selectedDateTo:date});
+        const dTo = new Date(this.state.selectedDateTo);
+        this.setState(prevState => {
+            const filteredInvoices =prevState.filteredInvoices.filter(e => {
+                return e.orderDate >=dFrom.toISOString() && e.orderDate < dTo.toISOString();  //here dFrom,dTo is converted to similar date type stored in database
+            }); 
+            return {
+                filteredInvoices
+            };
+        });
     };
     render(){
         const { classes } = this.props; 
-        const { isExpire,invoices,selectedDateFrom,selectedDateTo,selectsalesrep,filteredInvoices } = this.state;
+        const { isExpire,invoices,selectedDateFrom,selectedDateTo,selectsalesrep,filteredInvoices,salesreps } = this.state;
         if(!isExpire){
             return(
                 <div>
@@ -181,18 +232,18 @@ class InvoiceTable extends React.Component{
                                 onChange={this.handleChange}   
                                 style={{textAlign:"left"}}                
                             >
-                                <MenuItem value={0}>Default-All</MenuItem> 
-                                {invoices.map(invoice=>
-                                    <MenuItem key={invoice.Invoiceno} value={invoice.Invoiceno}>{invoice.salesrepName}</MenuItem> 
+                                <MenuItem value={"ALL"}>Default-All</MenuItem> 
+                                {salesreps.map(rep=>
+                                    <MenuItem key={rep._id} value={rep.fullName}>{rep.fullName}</MenuItem> 
                                 )}
                             
                             </Select>
                         </FormControl> 
                         <MuiPickersUtilsProvider utils={DateFnsUtils} > 
-                                <KeyboardDateTimePicker
+                                <KeyboardDatePicker
                                     style={{margin:'19px'}}
                                     variant="inline"
-                                    format="MM-dd-yyyy hh:mm"
+                                    format="MM-dd-yyyy"
                                   //  margin="normal"
                                     id="date-picker-inline"
                                     label="Select Date from"
@@ -204,10 +255,10 @@ class InvoiceTable extends React.Component{
                                 />                           
                         </MuiPickersUtilsProvider>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}> 
-                                <KeyboardDateTimePicker
+                                <KeyboardDatePicker
                                     style={{margin:'19px'}}
                                     variant="inline"
-                                    format="MM-dd-yyyy hh:mm"
+                                    format="MM-dd-yyyy"
                                    // margin="21px"
                                     id="date-picker-inline"
                                     label="Select Date to"
@@ -224,7 +275,7 @@ class InvoiceTable extends React.Component{
                             <TableHead>
                                 <TableRow>
                                     <TableCell style={{fontSize:'1.1em'}}>
-                                        Invoice Id
+                                        Invoice No
                                     </TableCell>
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Customer
@@ -235,14 +286,14 @@ class InvoiceTable extends React.Component{
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Invoice Date
                                     </TableCell>
-                                    {/* <TableCell style={{fontSize:'1.1em'}}>
-                                        Invoice Time
+                                     <TableCell style={{fontSize:'1.1em'}}>
+                                        Area
                                     </TableCell>
-                                    <TableCell style={{fontSize:'1.1em'}}>
+                                    {/* <TableCell style={{fontSize:'1.1em'}}>
                                         Supplier
-                                    </TableCell> */}
+                                    </TableCell>  */}
                                     <TableCell style={{fontSize:'1.1em'}}>
-                                        Total 
+                                        Total Revenue
                                     </TableCell>
                                     <TableCell style={{fontSize:'1.1em'}}>
                                         Actions 
@@ -257,8 +308,8 @@ class InvoiceTable extends React.Component{
                                         <TableCell>{invoice.customerName}</TableCell>
                                         <TableCell>{invoice.salesrepName}</TableCell>
                                         <TableCell>{invoice.orderDate}</TableCell>
-                                        {/* <TableCell>{invoice.time}</TableCell>
-                                        <TableCell>{invoice.distributor}</TableCell> */}
+                                         <TableCell>{invoice.area}</TableCell>
+                                        {/* <TableCell>{invoice.distributor}</TableCell>  */}
                                         <TableCell>{invoice.totalValue}</TableCell>  
                                         <TableCell>
                                             <Link to={`/admin/invoices/view/${invoice._id}`}>      
