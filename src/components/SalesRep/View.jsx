@@ -82,6 +82,7 @@ const useStyles = theme =>({
             isExpire:false,
             rateValue:0,
             open:true,
+            monthlyRate:[]
            
         };  
         this.openModal = this.openModal.bind(this);
@@ -99,13 +100,11 @@ const useStyles = theme =>({
                 }
             })
             .then(res => {
-                this.setState({
-                    salesRep : res.data    
-                });
-                this.setState({
-                    rateValue :(this.state.totalOrders/this.state.totalCustomers)
-                });
-                console.log(res.data);
+                this.setState({salesRep : res.data  });
+                // this.setState({
+                //     rateValue :(this.state.totalOrders/this.state.totalCustomers)
+                // });
+               // console.log(res.data);
             })
             .catch(err => {
                 if(err.tokenmessage){
@@ -115,16 +114,21 @@ const useStyles = theme =>({
                 console.log(err);
             })
         Axios
-            .get(`salesreps/monthlySales/${params.id}`,{
+            .get(`/salesreps/monthlySales/${params.id}`,{
                 headers :{
                     'Authorization':token
                 }
             })
             .then(res => {
-                this.setState({
-                   monthlySales:res.data
-                });
-                this.getChartData();
+                if(res.data.length!==0){
+                    this.setState({ monthlySales:res.data });
+                  //  console.log("monthly=");
+                  //  console.log(this.state.monthlySales);
+                    this.getChartData();
+                }
+                else{
+                    this.setState({monthlySales:{}})
+                }
             })
             .catch(err => {
                 if(err.tokenmessage){
@@ -133,16 +137,69 @@ const useStyles = theme =>({
                 }
                 console.log(err);
             });
+        Axios
+            .get(`/salesreps/rating/${params.id}`,{
+                headers:{
+                    "Authorization":token
+                }
+            })
+            .then(res =>{
+                if(res.data.length!==0){
+                    this.setState({monthlyRate:res.data[0]});
+                    this.getRating();
+                   // console.log("rating =");
+                    //console.log(this.state.monthlyRate);
+                }
+                else{
+                    this.setState({monthlyRate:{}})
+                }
+            })
+            .catch(err => {
+                if(err.tokenmessage){
+                    console.log(err.tokenmessage);
+                    this.setState({isExpire:true});
+                    }
+                console.log(err);
+            });
+
     }
     getChartData = () =>{
         var obj={};
         var month=['jan','feb','mar','Apr','may','jun','jul','aug','sept','nov','dec'];
         this.state.monthlySales.map((sales,i) => {
-            obj[month[sales._id-1]] = sales.count;
+            obj[month[sales._id-1]] = sales.totalSum;
             return(
                 this.setState({salesByMonth:obj})
             )
         })
+    }
+    getRating = () =>{
+        const totalRevenue = this.state.monthlyRate.totalSum;
+        var rate = 0;
+        if(totalRevenue>25000){
+            rate = 5;
+        }
+        else if(totalRevenue>20000){
+            rate = 4.5;
+        }
+        else if(totalRevenue>15000){
+            rate = 4;
+        }
+        else if(totalRevenue>10000){
+            rate = 3;
+        }
+        else if(totalRevenue>5000){
+            rate = 2;
+        }
+        else if(totalRevenue>500){
+            rate = 1;
+        }
+        else{
+            rate = 0;
+        }
+       // console.log(rate);
+        this.setState({rateValue:rate});
+
     }
     openModal = () => {
         this.setState({open:true});
@@ -155,7 +212,7 @@ const useStyles = theme =>({
    
     render(){
         const { classes } = this.props;
-        const { salesRep,salesByMonth } = this.state;
+        const { salesRep,salesByMonth,monthlyRate } = this.state;
         if(!this.state.isExpire){
             return(
                 <Modal
@@ -183,7 +240,15 @@ const useStyles = theme =>({
                                         <Card  variant="outlined" >
                                             <CardContent>
                                                 <Typography styles={{fontSize:'17'}} color="textSecondary">Completed Orders</Typography>
-                                                <Typography variant="h5">{salesRep.totalOrders}</Typography>
+                                                <Typography variant="h5">{monthlyRate.totalOrders}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={3}  >
+                                        <Card  variant="outlined" >
+                                            <CardContent>
+                                                <Typography styles={{fontSize:'17'}} color="textSecondary">Total Revenue</Typography>
+                                                <Typography variant="h5">{monthlyRate.totalSum}</Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
@@ -202,7 +267,7 @@ const useStyles = theme =>({
                                 <Typography className={classes.typography}><b>Phone no:</b><label style={{fontSize:"16px"}}>{salesRep.phoneNo}</label></Typography >
                                 <Typography className={classes.typography}><b>NIC:</b><label style={{fontSize:"16px"}}>{salesRep.nic}</label></Typography >
                                 <Typography className={classes.typography}><b>Address:</b><label style={{fontSize:"16px"}}>{salesRep.address}</label></Typography >
-                                <Typography className={classes.typography}><b>Distributor:</b><label style={{fontSize:"16px"}}>Namal perera</label></Typography >
+                                {/* <Typography className={classes.typography}><b>Distributor:</b><label style={{fontSize:"16px"}}>Namal perera</label></Typography > */}
                             </div> 
                                        
                             <ReactFusioncharts
