@@ -21,7 +21,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import ViewIcon from "@material-ui/icons/Visibility";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
 const useStyles =theme => ({   
  
   fab: {
@@ -176,6 +178,9 @@ class  SalesRepTable extends React.Component{
               <TableHead>
                 <TableRow>
                   <TableCell className={classes.tableHeadCell}>
+                     Status
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell}>
                      User Name
                   </TableCell>
                   <TableCell className={classes.tableHeadCell}>
@@ -199,6 +204,7 @@ class  SalesRepTable extends React.Component{
                 {this.state.filteredData.map((salesrep,i) => {
                   return(
                   <TableRow key={i} hover>
+                    <TableCell> {salesrep.isLogin ? (<AccountCircleIcon className={classes.icon} style={{ color: green[500] }} />) : (<AccountCircleIcon className={classes.icon} style={{ color: grey[500] }} />)}</TableCell>
                     <TableCell>{salesrep.userName}</TableCell>
                     <TableCell>{salesrep.fullName}</TableCell>
                     <TableCell>{salesrep.area}</TableCell>

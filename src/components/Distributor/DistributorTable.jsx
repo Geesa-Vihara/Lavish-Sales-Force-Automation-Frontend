@@ -20,6 +20,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
 
 const useStyles =theme => ({   
  
@@ -175,6 +178,9 @@ class DistributorTable extends React.Component{
                             <TableHead>
                                 <TableRow>
                                     <TableCell style={{fontSize:'1.1em'}}>
+                                        Status
+                                    </TableCell>
+                                    <TableCell style={{fontSize:'1.1em'}}>
                                         User Name
                                     </TableCell>
                                     <TableCell style={{fontSize:'1.1em'}}>
@@ -204,6 +210,9 @@ class DistributorTable extends React.Component{
                             {this.state.filteredData.map((distributor,i) => {
                                 return(
                                     <TableRow key={i} hover>
+                                        <TableCell>
+                                           {distributor.isLogin ? (<AccountCircleIcon className={classes.icon} style={{ color: green[500] }} />) : (<AccountCircleIcon className={classes.icon} style={{ color: grey[500] }} />)}
+                                        </TableCell>
                                         <TableCell>{distributor.userName}</TableCell>
                                         <TableCell>{distributor.fullName}</TableCell>
                                         <TableCell>{distributor.warehouse}</TableCell>
