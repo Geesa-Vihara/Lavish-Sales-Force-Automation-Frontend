@@ -103,12 +103,12 @@ class Analytics extends React.Component {
                 if(res.data.length===2){
                   if(res.data[0]._id===new Date().getFullYear()){
                     this.setState({
-                      progressSales:res.data[0].sum/res.data[1].sum*100
+                      progressSales:res.data[0].sum/(res.data[1].sum+res.data[0].sum)*100
                 
                   })
                   }else if(res.data[1]._id===new Date().getFullYear()){
                     this.setState({
-                      progressSales:res.data[1].sum/res.data[0].sum*100
+                      progressSales:res.data[1].sum/(res.data[1].sum+res.data[0].sum)*100
                 
                   })
                   }
