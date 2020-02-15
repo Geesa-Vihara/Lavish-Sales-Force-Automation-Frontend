@@ -96,7 +96,7 @@ class Reports extends Component {
   this.state={
     activeStep:0,
     report:"0",
-    selectedDate:Date.now(), 
+    selectedDate:new Date(), 
     distributors:[],
     dist:"0",
     selectdist:"0",
