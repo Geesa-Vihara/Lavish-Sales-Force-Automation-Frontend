@@ -4,10 +4,14 @@ import { Redirect } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { Card,CardContent,CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import Notifier,{openNotifier} from '../Notifier/Notifier';
+//import Notifier,{openNotifier} from '../Notifier/Notifier';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = theme => ({
     
@@ -40,8 +44,8 @@ const useStyles = theme => ({
     modalCard: {
         width: '90%',
         maxWidth: 700,
-      //  height:'100%',
-       // overflow:'auto'
+        height:'100%',
+        overflow:'auto'
     },
     modalCardContent: {
         display: 'flex',
@@ -55,6 +59,11 @@ const useStyles = theme => ({
         marginTop:theme.spacing(0) ,    
         color:"red"
     },
+    formControl: {
+        marginLeft:theme.spacing(8),
+        width:'80%',
+        marginBottom:theme.spacing(4),
+      },
 });
 
 class Add extends React.Component{
@@ -74,11 +83,16 @@ class Add extends React.Component{
             open:true,
             isExpire:false,
             errors:{},
+            statusError:''
         }
     }
 
     onChange = (e) => {        
         this.setState({[e.target.id] : e.target.value});
+    }
+    handleChange = (e) =>{
+        e.preventDefault();
+        this.setState({area:e.target.value});
     }
 
     onSubmit =(e) => {
@@ -103,23 +117,25 @@ class Add extends React.Component{
             })
             .then(res => {
                 if(res.status===200){                                
-                    openNotifier({msg:"sucess"});
+                   // openNotifier({msg:"sucess"});
                    this.setState({open:false});
                    this.props.history.push("/admin/distributors");
                 }
                 else {
                     if(res.status === 404){
-                        openNotifier({msg:"Error Already Exists"});
+                        this.setState({statusError:"User Name exists"})
+                        //openNotifier({msg:"Error Already Exists"});
                      }
                      else if(res.status ===400){
-                         openNotifier({msg:"Error"});
+                        this.setState({statusError:"Network Error"})
+                         //openNotifier({msg:"Error"});
                      }
                     const error = new Error(res.error);
                     throw error;
                 }
              })
             .catch(err => {
-                openNotifier({msg:"Error"});
+              //  openNotifier({msg:"Error"});
                 this.setState({errors:err.response.data}) ; 
                // console.log(err.response.data)
                 if(err.tokenmessage){
@@ -139,9 +155,9 @@ class Add extends React.Component{
     }
 
     render(){
-      
+        const areaDetails = ["Matara","Galle","Colombo","Jaffna","Kandy","Gampaha","Hambanthota",,"Wellawaya","Badulla","Pitigala","Ambalangoda","Kaluthara","Horana","Diwulapitiya","Chilwa","Piththalam","Anuradhapura","Polonaruwa","Kuliyapitiya","Kurunagala","Mathale","Kegalle","Awissawella","Rathnapura","Negambo","Homgama"];
             const { classes } = this.props;
-            const { userName,fullName,area,address,phoneNo,warehouse,email,password,confirmPassword,open,isExpire,errors } = this.state;
+            const { userName,fullName,area,address,phoneNo,warehouse,email,password,confirmPassword,open,isExpire,errors,statusError } = this.state;
             if(!isExpire){
                 return ( 
                     <Modal 
@@ -164,6 +180,7 @@ class Add extends React.Component{
                                         margin="normal"
                                         type="text"
                                     />
+                                     <FormHelperText id="component-error-text" className={classes.textfielderror}> {statusError}</FormHelperText>
                                     <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
                                     <TextField
                                         required
@@ -189,7 +206,7 @@ class Add extends React.Component{
                                         margin="normal"  
                                     />
                                     <FormHelperText id="component-error-text" className={classes.textfielderror}>{errors.address}</FormHelperText>
-                                    <TextField
+                                    {/* <TextField
                                         required
                                         id="area"
                                         label="Area"
@@ -199,7 +216,20 @@ class Add extends React.Component{
                                         className={classes.textField}
                                         variant="outlined"
                                         margin="normal"       
-                                    />
+                                    /> */}
+                                     <FormControl className={classes.formControl}>
+                                        <InputLabel htmlFor="age-simple" >Select Area</InputLabel>
+                                        <Select
+                                            value={area}
+                                            onChange={this.handleChange}   
+                                            style={{textAlign:"left"}}                
+                                        >
+                                            {areaDetails.map((Area,i)=>
+                                                <MenuItem key={i} value={Area}>{Area}</MenuItem> 
+                                            )}
+                                        
+                                        </Select>
+                                    </FormControl>  
                                     <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
                                     <TextField
                                         required
@@ -275,7 +305,7 @@ class Add extends React.Component{
                                         >
                                         Close
                                         </Button>
-                                        <Notifier/>
+                                        {/* <Notifier/> */}
                                     </CardActions>
                                 </CardContent>
                             </form>
