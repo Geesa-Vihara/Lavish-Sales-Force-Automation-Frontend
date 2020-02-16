@@ -234,7 +234,7 @@ class InvoiceTable extends React.Component{
                             >
                                 <MenuItem value={"ALL"}>Default-All</MenuItem> 
                                 {salesreps.map(rep=>
-                                    <MenuItem key={rep._id} value={rep.fullName}>{rep.fullName}</MenuItem> 
+                                    <MenuItem key={rep._id} value={rep.userName}>{rep.userName}</MenuItem> 
                                 )}
                             
                             </Select>

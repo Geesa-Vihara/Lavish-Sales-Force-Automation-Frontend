@@ -504,29 +504,6 @@ class Analytics extends React.Component {
     //this.setState({showoutletdateto:date})
     const dateData ={
       dateTo:this.state.showoutletdateto,
-      dateFrom:date
-    }
-
-    axios.post('analytics/topOutlet',dateData,{
-      headers:{
-        'Authorization':token
-      }
-    })
-    .then(res => {
-      this.setState({topOutlets:res.data})
-    })
-    .catch(err => {
-      if(err.tokenmessage){
-        this.setState({isexpire:true}) ; 
-      }
-    });
-  }
-  handleDateChangeOutletto = (date) => {
-
-    const token=localStorage.getItem("jwtToken");
-    this.setState({showoutletdateto:date});
-    const dateData ={
-      dateTo:date,
       dateFrom:this.state.showoutletdatefrom
     }
 
@@ -537,7 +514,34 @@ class Analytics extends React.Component {
     })
     .then(res => {
       this.setState({topOutlets:res.data})
+      console.log(res.data);
     })
+    .catch(err => {
+      if(err.tokenmessage){
+        this.setState({isexpire:true}) ; 
+      }
+      console.log(err);
+    });
+  }
+  handleDateChangeOutletto = (date) => {
+
+    const token=localStorage.getItem("jwtToken");
+    this.setState({showoutletdateto:date});
+    const dateData ={
+      dateTo:this.state.showoutletdateto,
+      dateFrom:this.state.showoutletdatefrom
+    }
+
+    axios.post('analytics/topOutlet',dateData,{
+      headers:{
+        'Authorization':token
+      }
+    })
+    .then(res => {
+      this.setState({topOutlets:res.data})
+      console.log(res.data);
+    })
+
     .catch(err => {
       if(err.tokenmessage){
         this.setState({isexpire:true}) ; 
