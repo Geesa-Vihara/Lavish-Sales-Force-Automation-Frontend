@@ -65,6 +65,7 @@ class Analytics extends React.Component {
     salesByArea:{},
     route:[],
     routeCoverage:{},
+    maxRouteVal:0,
     topBestSalesreps :[],
     topLeastSalesreps : [],
     topOutlets:[]
@@ -213,6 +214,7 @@ class Analytics extends React.Component {
                                 route:res.data
                           
                           })
+                          this.setState({maxRouteVal:res.data[0].sum})
                           this.getRouteCoverage();
                 
                         }else{
@@ -502,29 +504,6 @@ class Analytics extends React.Component {
     //this.setState({showoutletdateto:date})
     const dateData ={
       dateTo:this.state.showoutletdateto,
-      dateFrom:date
-    }
-
-    axios.post('analytics/topOutlet',dateData,{
-      headers:{
-        'Authorization':token
-      }
-    })
-    .then(res => {
-      this.setState({topOutlets:res.data})
-    })
-    .catch(err => {
-      if(err.tokenmessage){
-        this.setState({isexpire:true}) ; 
-      }
-    });
-  }
-  handleDateChangeOutletto = (date) => {
-
-    const token=localStorage.getItem("jwtToken");
-    this.setState({showoutletdateto:date});
-    const dateData ={
-      dateTo:date,
       dateFrom:this.state.showoutletdatefrom
     }
 
@@ -535,7 +514,34 @@ class Analytics extends React.Component {
     })
     .then(res => {
       this.setState({topOutlets:res.data})
+      console.log(res.data);
     })
+    .catch(err => {
+      if(err.tokenmessage){
+        this.setState({isexpire:true}) ; 
+      }
+      console.log(err);
+    });
+  }
+  handleDateChangeOutletto = (date) => {
+
+    const token=localStorage.getItem("jwtToken");
+    this.setState({showoutletdateto:date});
+    const dateData ={
+      dateTo:this.state.showoutletdateto,
+      dateFrom:this.state.showoutletdatefrom
+    }
+
+    axios.post('analytics/topOutlet',dateData,{
+      headers:{
+        'Authorization':token
+      }
+    })
+    .then(res => {
+      this.setState({topOutlets:res.data})
+      console.log(res.data);
+    })
+
     .catch(err => {
       if(err.tokenmessage){
         this.setState({isexpire:true}) ; 
@@ -741,206 +747,8 @@ class Analytics extends React.Component {
                       }
                     />
                   </ListItem>);
-                  }) }
-                  {/* <Divider variant="inset" component="li" /> */}
-                  
-                  {/* <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Travis Howard" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Summer BBQ"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            to Scott, Alex, Jennifer
-                          </Typography>
-                          {" — Wish I could come, but I'm out of town this…"}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>                   */}
+                  }) }                                  
+                 
                 </List>
               </GridList>
               </CardContent>
@@ -983,23 +791,23 @@ class Analytics extends React.Component {
                     gradient: "0",
                     color: [
                       {
-                        maxvalue: "5000",
-                        displayvalue: "0-5000",
+                        maxvalue: this.state.maxRouteVal/4,
+                        displayvalue:`Rs 0-${this.state.maxRouteVal/4}`,
                         code: "#dcedc8"
                       },
                       {
-                        maxvalue: "10000",
-                        displayvalue: "5000-10000",
+                        maxvalue: this.state.maxRouteVal/2,
+                        displayvalue: `Rs ${this.state.maxRouteVal/4}-${this.state.maxRouteVal/2}`,
                         code: "#aed581"
                       },
                       {
-                        maxvalue: "25000",
-                        displayvalue: "10000-25000",
+                        maxvalue: this.state.maxRouteVal/4*3,
+                        displayvalue: `Rs ${this.state.maxRouteVal/2}-${this.state.maxRouteVal/4*3}`,
                         code: "#8bc34a"
                       },
                       {
-                        maxvalue: "50000",
-                        displayvalue: "25000-50000",
+                        maxvalue: this.state.maxRouteVal,
+                        displayvalue: `Rs ${this.state.maxRouteVal/4*3}-${this.state.maxRouteVal}`,
                         code: "#1b5e20"
                       },
                       {

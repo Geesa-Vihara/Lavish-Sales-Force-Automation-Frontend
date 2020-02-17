@@ -7,7 +7,10 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
-
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = (theme) => ({
 
@@ -33,11 +36,14 @@ const useStyles = (theme) => ({
     modal: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',  
+        justifyContent: 'center',
+          
     },
     modalCard: {
         width: '90%',
+        height:"100%",
         maxWidth: 700,
+        overflow:'auto'
     },
     modalCardContent: {
         display: 'flex',
@@ -51,6 +57,11 @@ const useStyles = (theme) => ({
         marginTop:theme.spacing(0) ,    
         color:"red"
     },
+    formControl: {
+        marginLeft:theme.spacing(8),
+        width:'80%',
+        marginBottom:theme.spacing(4),
+      },
 });
 
  class Update extends React.Component {
@@ -66,19 +77,33 @@ const useStyles = (theme) => ({
             phoneNo:'',
             nic:'',
             email:'',
+            distributor:'',
             open:true,
             isExpire:false,
-            errors:{}
+            errors:{},
+            distributors:[]
         };
         this.onChange   = this.onChange.bind(this);
         this.onSubmit   = this.onSubmit.bind(this);
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleChangeArea = this.handleChangeArea.bind(this);
+        this.handleChangeDistributor=this.handleChangeDistributor.bind(this);
     }
 
     onChange = (e) => {
         this.setState({[e.target.id] : e.target.value});
     }
+
+    handleChangeArea = (e) =>{
+        e.preventDefault();
+        this.setState({area:e.target.value});
+    }
+    handleChangeDistributor = (e) =>{
+         e.preventDefault();
+         this.setState({distributor:e.target.value});
+      
+     }
 
     componentDidMount(){
         
@@ -98,7 +123,8 @@ const useStyles = (theme) => ({
                     address:res.data.address,
                     phoneNo:res.data.phoneNo,
                     nic:res.data.nic,
-                    email:res.data.email
+                    email:res.data.email,
+                    distributor:res.data.distributor
                 });
             })
             .catch(err=>{
@@ -106,6 +132,25 @@ const useStyles = (theme) => ({
                  //   console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
+            })
+        Axios
+            .get('/distributors',{
+              headers:{
+                'Authorization':token
+              }
+            })
+            .then(res => {
+              this.setState({
+                distributors : res.data,
+                
+              });
+            })
+            .catch(err => {
+              if(err.tokenmessage){
+              //  console.log(err.tokenmessage);
+                this.setState({isExpire:true});
+              }
+              console.log(err);
             })
     }
 
@@ -123,6 +168,7 @@ const useStyles = (theme) => ({
             phoneNo  : this.state.phoneNo,
             nic      : this.state.nic,
             email    : this.state.email,
+            distributor: this.state.distributor
         };
        
         Axios
@@ -133,7 +179,7 @@ const useStyles = (theme) => ({
             })
             .then(res => {
                 if(res.status===200){
-                  //  console.log(res.data);
+                 //   console.log(res.data);
                     this.setState({open:false});
                     this.props.history.push("/admin/salesreps");   
                 }
@@ -161,8 +207,9 @@ const useStyles = (theme) => ({
     }
 
     render() {
+        const areaDetails = ["Matara","Galle","Colombo","Jaffna","Kandy","Gampaha","Hambanthota","Wellawaya","Badulla","Pitigala","Ambalangoda","Kaluthara","Horana","Diwulapitiya","Chilwa","Piththalam","Anuradhapura","Polonaruwa","Kuliyapitiya","Kurunagala","Mathale","Kegalle","Awissawella","Rathnapura","Negambo","Homgama"];
         const { classes } = this.props;
-        const { userName,fullName,area,address,phoneNo,nic,email,open,isExpire,errors } = this.state;
+        const { userName,fullName,area,address,phoneNo,nic,email,distributor,open,isExpire,errors,distributors } = this.state;
         if(!isExpire){
         return (
             <Modal 
@@ -215,7 +262,22 @@ const useStyles = (theme) => ({
                                 margin="normal"
                             />
                             <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.address}</FormHelperText>
-                            <TextField
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="age-simple" >Select Area</InputLabel>
+                                <Select
+                                    id="area"
+                                    labelId="area"
+                                    value={area}
+                                    onChange={this.handleChangeArea}   
+                                    style={{textAlign:"left"}}                
+                                >
+                                    {areaDetails.map((Area,i)=>
+                                        <MenuItem key={i} value={Area}>{Area}</MenuItem> 
+                                    )}
+                                
+                                </Select>
+                            </FormControl>  
+                            {/* <TextField
                                 required
                                 id="area"
                                 label="Area"
@@ -225,7 +287,7 @@ const useStyles = (theme) => ({
                                 className={classes.textField}
                                 variant="outlined"
                                 margin="normal"       
-                            />
+                            /> */}
                             <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
                             <TextField
                                 required
@@ -262,6 +324,24 @@ const useStyles = (theme) => ({
                                 margin="normal"
                             />
                             <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.nic}</FormHelperText>
+                             <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="age-simple" >Select Distributor</InputLabel>
+                                <Select
+                                    id="distributor"
+                                    labelId="distributor"
+                                    value={distributor}
+                                    onChange={this.handleChangeDistributor}   
+                                    style={{textAlign:"left"}}                
+                                >
+                                    <MenuItem value={''}>Default</MenuItem> 
+                                    {distributors.map(dis=>
+                                        <MenuItem key={dis._id} value={dis.userName}>{dis.userName}</MenuItem> 
+                                    )}
+                                
+                                </Select>
+                            </FormControl>  
+                            
+                            
                             {/* <TextField
                                 required
                                 id="password"

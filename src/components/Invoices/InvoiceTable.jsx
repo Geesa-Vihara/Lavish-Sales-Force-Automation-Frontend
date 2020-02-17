@@ -234,7 +234,7 @@ class InvoiceTable extends React.Component{
                             >
                                 <MenuItem value={"ALL"}>Default-All</MenuItem> 
                                 {salesreps.map(rep=>
-                                    <MenuItem key={rep._id} value={rep.fullName}>{rep.fullName}</MenuItem> 
+                                    <MenuItem key={rep._id} value={rep.userName}>{rep.userName}</MenuItem> 
                                 )}
                             
                             </Select>
@@ -308,7 +308,7 @@ class InvoiceTable extends React.Component{
                                         <TableCell>{invoice.customerName}</TableCell>
                                         <TableCell>{invoice.salesrepName}</TableCell>
                                         <TableCell>{invoice.orderDate}</TableCell>
-                                         <TableCell>{invoice.area}</TableCell>
+                                         <TableCell>{invoice.CustomerAddress}</TableCell>
                                         {/* <TableCell>{invoice.distributor}</TableCell>  */}
                                         <TableCell>{invoice.totalValue}</TableCell>  
                                         <TableCell>

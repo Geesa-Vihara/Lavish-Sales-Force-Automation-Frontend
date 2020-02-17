@@ -161,13 +161,13 @@ class View extends React.Component{
                             <div style={{textAlign:"left",float:"right",marginTop:"15px"}}>
                                 <Typography className={classes.typography} >Date:<label style={{textAlign:"right",float:"right"}} >{invoice.orderDate}</label><br/></Typography >
                                 <Typography className={classes.typography} >Invoice RefNo:<label style={{textAlign:"right",float:"right"}}>{invoice.Invoiceno}</label><br/></Typography >
-                                <Typography className={classes.typography} >Territory:<label style={{textAlign:"right",float:"right"}}>{invoice.area}</label><br/></Typography >
+                                <Typography className={classes.typography} >Territory:<label style={{textAlign:"right",float:"right"}}>{invoice.CustomerAddress}</label><br/></Typography >
                                 <Typography className={classes.typography} >Salesrep :<label style={{textAlign:"right",float:"right"}}>{invoice.salesrepName}</label><br/></Typography >
                             </div>
                             <div style={{textAlign:"left",float:"left",marginBottom:"5px",marginTop:"5px"}}>
                                 <Typography className={classes.typography} ><b>Bill To<br/></b></Typography >
                                 <Typography className={classes.typography} >Customer:<label style={{textAlign:"right",float:"right"}}>{invoice.customerName}</label><br/></Typography >
-                                <Typography className={classes.typography} >Address:<label style={{textAlign:"right",float:"right"}}>{invoice.area}</label><br/></Typography >
+                                <Typography className={classes.typography} >Address:<label style={{textAlign:"right",float:"right"}}>{invoice.CustomerAddress}</label><br/></Typography >
                                 {/* <Typography className={classes.typography} >Contact :<label style={{textAlign:"right",float:"right"}}>0716008664</label><br/></Typography > */}
                             </div>
                             <Table className={classes.table}>

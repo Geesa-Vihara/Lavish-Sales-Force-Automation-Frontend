@@ -206,7 +206,7 @@ class Stock extends Component{
                             >
                                 <MenuItem value={"All"}>Default-All</MenuItem> 
                                 {salesreps.map(salesrep=>
-                                    <MenuItem key={salesrep._id} value={salesrep.fullName}>{salesrep.fullName}</MenuItem> 
+                                    <MenuItem key={salesrep._id} value={salesrep.userName}>{salesrep.userName}</MenuItem> 
                                 )}
                             
                             </Select>

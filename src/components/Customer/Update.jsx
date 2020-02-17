@@ -7,7 +7,10 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from '@material-ui/core';
 import Modal from "@material-ui/core/Modal";
-
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = (theme) => ({
 
@@ -37,7 +40,9 @@ const useStyles = (theme) => ({
     },
     modalCard: {
         width: '90%',
+        height:"100%",
         maxWidth: 700,
+        overflow:"auto"
     },
     modalCardContent: {
         display: 'flex',
@@ -51,6 +56,11 @@ const useStyles = (theme) => ({
         marginTop:theme.spacing(0) ,    
         color:"red"
     },
+    formControl: {
+        marginLeft:theme.spacing(8),
+        width:'80%',
+        marginBottom:theme.spacing(4),
+      },
 });
 
  class Update extends React.Component {
@@ -69,16 +79,22 @@ const useStyles = (theme) => ({
             email:'',
             open:true,
             isExpire:false,
-            errors:{}
+            errors:{},
+            statusError:''
         };
         this.onChange   = this.onChange.bind(this);
         this.onSubmit   = this.onSubmit.bind(this);
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+
     }
 
     onChange = (e) => {
         this.setState({[e.target.id] : e.target.value});
+    }
+    handleChange = (e) =>{
+        e.preventDefault();
+        this.setState({area:e.target.value});
     }
 
     componentDidMount(){
@@ -112,12 +128,6 @@ const useStyles = (theme) => ({
                 }
             })
     }
-    onChange = (e) => {
-        this.setState({[e.target.id] : e.target.value});
-    }
-    // componentWillUnmount(){
-    //     this._isMounted = false;
-    // }
 
     onSubmit = (e) => {
 
@@ -172,6 +182,7 @@ const useStyles = (theme) => ({
     }
 
     render() {
+        const areaDetails = ["Matara","Galle","Colombo","Jaffna","Kandy","Gampaha","Hambanthota","Wellawaya","Badulla","Pitigala","Ambalangoda","Kaluthara","Horana","Diwulapitiya","Chilwa","Piththalam","Anuradhapura","Polonaruwa","Kuliyapitiya","Kurunagala","Mathale","Kegalle","Awissawella","Rathnapura","Negambo","Homgama"];
         const { classes } = this.props;
         const { shop,type,area,route,address,phoneNo,name,email,open,isExpire,errors } = this.state;
         if(!isExpire){
@@ -238,7 +249,7 @@ const useStyles = (theme) => ({
                                     margin="normal"
                                 />
                                 <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.address}</FormHelperText>
-                                <TextField
+                                {/* <TextField
                                     required
                                     id="area"
                                     label="Area"
@@ -248,7 +259,20 @@ const useStyles = (theme) => ({
                                     className={classes.textField}
                                     variant="outlined"
                                     margin="normal"       
-                                />
+                                /> */}
+                                 <FormControl className={classes.formControl}>
+                                    <InputLabel htmlFor="age-simple" >Select Area</InputLabel>
+                                    <Select
+                                        value={area}
+                                        onChange={this.handleChange}   
+                                        style={{textAlign:"left"}}                
+                                    >
+                                        {areaDetails.map((Area,i)=>
+                                            <MenuItem key={i} value={Area}>{Area}</MenuItem> 
+                                        )}
+                                    
+                                    </Select>
+                                </FormControl>  
                                 <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
                                 <TextField
                                     required
