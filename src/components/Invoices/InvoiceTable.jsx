@@ -308,7 +308,7 @@ class InvoiceTable extends React.Component{
                                         <TableCell>{invoice.customerName}</TableCell>
                                         <TableCell>{invoice.salesrepName}</TableCell>
                                         <TableCell>{invoice.orderDate}</TableCell>
-                                         <TableCell>{invoice.area}</TableCell>
+                                         <TableCell>{invoice.CustomerAddress}</TableCell>
                                         {/* <TableCell>{invoice.distributor}</TableCell>  */}
                                         <TableCell>{invoice.totalValue}</TableCell>  
                                         <TableCell>
