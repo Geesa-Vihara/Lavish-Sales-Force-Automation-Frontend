@@ -231,6 +231,34 @@ class Analytics extends React.Component {
                                     this.setState({isexpire:true}) ; 
                                 }
                             })
+                          const dateData={
+                            dateTo:this.state.showoutletdateto,
+                            dateFrom:this.state.showoutletdatefrom
+                          }
+                         axios.post('/analytics/topOutlet',dateData,{
+                              headers:{
+                                'Authorization':token
+                              }
+                            })
+                            .then(res => {
+                              if(res.data.length!==0){
+                                  this.setState({topOutlets:res.data})
+                                 // console.log(res.data);
+                              }
+                              else{
+                                this.setState({
+                                  topOutlets:{}
+                             })
+                              }
+                            //  this.setState({topOutlets:res.data})
+                              //console.log(res.data);
+                            })
+                            .catch(err => {
+                              if(err.tokenmessage){
+                                this.setState({isexpire:true}) ; 
+                              }
+                              console.log(err);
+                            });
             
               axios.get("/analytics/topBestSalesrep",{
                 headers:{
@@ -504,7 +532,7 @@ class Analytics extends React.Component {
     //this.setState({showoutletdateto:date})
     const dateData ={
       dateTo:this.state.showoutletdateto,
-      dateFrom:this.state.showoutletdatefrom
+      dateFrom:date
     }
 
     axios.post('analytics/topOutlet',dateData,{
@@ -513,8 +541,15 @@ class Analytics extends React.Component {
       }
     })
     .then(res => {
-      this.setState({topOutlets:res.data})
-      console.log(res.data);
+      if(res.data.length!==0){
+        this.setState({topOutlets:res.data})
+      //  console.log(res.data);
+    }
+    else{
+      this.setState({
+        topOutlets:{}
+   })
+    }
     })
     .catch(err => {
       if(err.tokenmessage){
@@ -528,7 +563,7 @@ class Analytics extends React.Component {
     const token=localStorage.getItem("jwtToken");
     this.setState({showoutletdateto:date});
     const dateData ={
-      dateTo:this.state.showoutletdateto,
+      dateTo:date,
       dateFrom:this.state.showoutletdatefrom
     }
 
@@ -538,8 +573,15 @@ class Analytics extends React.Component {
       }
     })
     .then(res => {
-      this.setState({topOutlets:res.data})
-      console.log(res.data);
+      if(res.data.length!==0){
+        this.setState({topOutlets:res.data})
+      //  console.log(res.data);
+    }
+    else{
+      this.setState({
+        topOutlets:{}
+   })
+    }
     })
 
     .catch(err => {
@@ -1424,8 +1466,8 @@ class Analytics extends React.Component {
                 {topOutlets.map((outlet,i) => {
                     return(
                 
-                <h6 key={i} style={{lineHeight:2, fontSize:9}}><b>
-                  {outlet.area} : <small style={{fontSize:9,color:lightGreen[600]}}>{outlet._id}</small><br/></b>
+                <h6 key={i} style={{lineHeight:2, fontSize:15}}><b>
+                  {outlet._id} : Rs <small style={{fontSize:15,color:lightGreen[600]}}>{outlet.totalSum}</small><br/></b>
                 {/* Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Wellawaya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Badulla: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
