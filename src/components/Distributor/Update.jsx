@@ -100,7 +100,7 @@ const useStyles = (theme) => ({
     }
     handleChangeSalesrep = (e) =>{
          e.preventDefault();
-         this.setState({distributor:e.target.value});
+         this.setState({salesrep:e.target.value});
      }
 
     componentDidMount(){
