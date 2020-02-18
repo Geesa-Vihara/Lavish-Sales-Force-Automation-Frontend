@@ -95,11 +95,11 @@ const useStyles = (theme) => ({
         this.setState({[e.target.id] : e.target.value});
     }
 
-    handleChangeArea = (e) =>{
+    handleChangeArea = (e) =>{                       //Area drop down
         e.preventDefault();
         this.setState({area:e.target.value});
     }
-    handleChangeDistributor = (e) =>{
+    handleChangeDistributor = (e) =>{                //distributor drop down
          e.preventDefault();
          this.setState({distributor:e.target.value});
       
@@ -107,8 +107,8 @@ const useStyles = (theme) => ({
 
     componentDidMount(){
         
-        const {match:{params}} =this.props;
-        var token=localStorage.getItem("jwtToken");
+        const {match:{params}} =this.props;                  // getting id parameter
+        var token=localStorage.getItem("jwtToken");          // get token for user
         Axios
             .get(`/salesreps/${params.id}`,{
                 headers:{
@@ -128,7 +128,7 @@ const useStyles = (theme) => ({
                 });
             })
             .catch(err=>{
-                if(err.tokenmessage){
+                if(err.tokenmessage){                       
                  //   console.log(err.tokenmessage);
                     this.setState({isExpire:true}) ; 
                 }
@@ -211,182 +211,180 @@ const useStyles = (theme) => ({
         const { classes } = this.props;
         const { userName,fullName,area,address,phoneNo,nic,email,distributor,open,isExpire,errors,distributors } = this.state;
         if(!isExpire){
-        return (
-            <Modal 
-                className={classes.modal}
-                onClose={this.closeModal}
-                open={open}
-                BackdropProps={{
-                    style: {
-                      opacity:'0.5'
-                    }
-                  }}       
-            >
-                <Card className={classes.modalCard}>
-                    <form noValidate onSubmit={this.onSubmit} >
-                        <CardContent className={classes.modalCardContent}>
-                            <TextField
-                                required
-                                autoFocus
-                                id="userName"
-                                label="User Name"
-                                value={userName}
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                type="text"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
-                            <TextField
-                                required
-                                id="fullName"
-                                label="Full Name"
-                                value={fullName}
-                                type="text"
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.fullName}</FormHelperText>
-                            <TextField
-                                required
-                                id="address"
-                                label="Address"
-                                value={address}
-                                type="text"
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.address}</FormHelperText>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="age-simple" >Select Area</InputLabel>
-                                <Select
+            return (
+                <Modal 
+                    className={classes.modal}
+                    onClose={this.closeModal}
+                    open={open}
+                    BackdropProps={{
+                        style: {
+                        opacity:'0.5'
+                        }
+                    }}       
+                >
+                    <Card className={classes.modalCard}>
+                        <form noValidate onSubmit={this.onSubmit} >
+                            <CardContent className={classes.modalCardContent}>
+                                <TextField
+                                    required
+                                    autoFocus
+                                    id="userName"
+                                    label="User Name"
+                                    value={userName}
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                    type="text"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
+                                <TextField
+                                    required
+                                    id="fullName"
+                                    label="Full Name"
+                                    value={fullName}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.fullName}</FormHelperText>
+                                <TextField
+                                    required
+                                    id="address"
+                                    label="Address"
+                                    value={address}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.address}</FormHelperText>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel htmlFor="age-simple" >Select Area</InputLabel>
+                                    <Select
+                                        id="area"
+                                        labelId="area"
+                                        value={area}
+                                        onChange={this.handleChangeArea}   
+                                        style={{textAlign:"left"}}                
+                                    >
+                                        {areaDetails.map((Area,i)=>
+                                            <MenuItem key={i} value={Area}>{Area}</MenuItem> 
+                                        )}
+                                    
+                                    </Select>
+                                </FormControl>  
+                                {/* <TextField
+                                    required
                                     id="area"
-                                    labelId="area"
+                                    label="Area"
                                     value={area}
-                                    onChange={this.handleChangeArea}   
-                                    style={{textAlign:"left"}}                
-                                >
-                                    {areaDetails.map((Area,i)=>
-                                        <MenuItem key={i} value={Area}>{Area}</MenuItem> 
-                                    )}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"       
+                                /> */}
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
+                                <TextField
+                                    required
+                                    id="phoneNo"
+                                    label="Phone Number"
+                                    value={phoneNo}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.phoneNo}</FormHelperText>
+                                <TextField
+                                    id="email"
+                                    label="Email"
+                                    value={email}
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                    type="email"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.email}</FormHelperText>
+                                <TextField
+                                    required
+                                    id="nic"
+                                    label="NIC"
+                                    value={nic}
+                                    type="text"
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                />
+                                <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.nic}</FormHelperText>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel htmlFor="age-simple" >Select Distributor</InputLabel>
+                                    <Select
+                                        id="distributor"
+                                        labelId="distributor"
+                                        value={distributor}
+                                        onChange={this.handleChangeDistributor}   
+                                        style={{textAlign:"left"}}                
+                                    >
+                                        <MenuItem value={''}>Default</MenuItem> 
+                                        {distributors.map(dis=>
+                                            <MenuItem key={dis._id} value={dis.userName}>{dis.userName}</MenuItem> 
+                                        )}
+                                    
+                                    </Select>
+                                </FormControl>  
                                 
-                                </Select>
-                            </FormControl>  
-                            {/* <TextField
-                                required
-                                id="area"
-                                label="Area"
-                                value={area}
-                                type="text"
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"       
-                            /> */}
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.area}</FormHelperText>
-                            <TextField
-                                required
-                                id="phoneNo"
-                                label="Phone Number"
-                                value={phoneNo}
-                                type="text"
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.phoneNo}</FormHelperText>
-                            <TextField
-                                id="email"
-                                label="Email"
-                                value={email}
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                type="email"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.email}</FormHelperText>
-                            <TextField
-                                required
-                                id="nic"
-                                label="NIC"
-                                value={nic}
-                                type="text"
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                            />
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.nic}</FormHelperText>
-                             <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="age-simple" >Select Distributor</InputLabel>
-                                <Select
-                                    id="distributor"
-                                    labelId="distributor"
-                                    value={distributor}
-                                    onChange={this.handleChangeDistributor}   
-                                    style={{textAlign:"left"}}                
-                                >
-                                    <MenuItem value={''}>Default</MenuItem> 
-                                    {distributors.map(dis=>
-                                        <MenuItem key={dis._id} value={dis.userName}>{dis.userName}</MenuItem> 
-                                    )}
                                 
-                                </Select>
-                            </FormControl>  
-                            
-                            
-                            {/* <TextField
-                                required
-                                id="password"
-                                label="Password"
-                                value={password}
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                type="password"
-                            />
-                            <TextField
-                                required
-                                id="confirmPassword"
-                                label="Confirm Password"
-                                value={confirmPassword}
-                                onChange={this.onChange}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                type="password"
-                            /> */}
-                            <CardActions className={classes.actionbuttons}>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    className={classes.buttonsave} 
-                                >
-                                Save
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    className={classes.buttonclose}  
-                                    onClick={this.closeModal}
-                                >
-                                Close
-                                </Button>
-                            </CardActions>
-                        </CardContent>
-                    </form>
-                </Card>
-            </Modal>     
-           
-            
-        );
+                                {/* <TextField
+                                    required
+                                    id="password"
+                                    label="Password"
+                                    value={password}
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                    type="password"
+                                />
+                                <TextField
+                                    required
+                                    id="confirmPassword"
+                                    label="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={this.onChange}
+                                    className={classes.textField}
+                                    variant="outlined"
+                                    margin="normal"
+                                    type="password"
+                                /> */}
+                                <CardActions className={classes.actionbuttons}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        className={classes.buttonsave} 
+                                    >
+                                    Save
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.buttonclose}  
+                                        onClick={this.closeModal}
+                                    >
+                                    Close
+                                    </Button>
+                                </CardActions>
+                            </CardContent>
+                        </form>
+                    </Card>
+                </Modal>       
+            );
         }
         else{
             return(
@@ -397,8 +395,8 @@ const useStyles = (theme) => ({
                       }}/>
                   
               </div>
-          )
-          }
+            )
+        }
     }
 }
 export default withStyles(useStyles)(Update);

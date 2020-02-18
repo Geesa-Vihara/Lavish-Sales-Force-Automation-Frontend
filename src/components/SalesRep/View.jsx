@@ -101,10 +101,6 @@ const useStyles = theme =>({
             })
             .then(res => {
                 this.setState({salesRep : res.data  });
-                // this.setState({
-                //     rateValue :(this.state.totalOrders/this.state.totalCustomers)
-                // });
-               // console.log(res.data);
             })
             .catch(err => {
                 if(err.tokenmessage){
@@ -145,13 +141,13 @@ const useStyles = theme =>({
             })
             .then(res =>{
                 if(res.data.length!==0){
-                    this.setState({monthlyRate:res.data[0]});
+                    this.setState({monthlyRate:res.data[0]});      // here res.data is array[[] so accesing first object of data
                     this.getRating();
                    // console.log("rating =");
-                    //console.log(this.state.monthlyRate);
+                   // console.log(this.state.monthlyRate);
                 }
                 else{
-                    this.setState({monthlyRate:{}})
+                    this.setState({monthlyRate:{}})                //when array is empty set to a empty object
                 }
             })
             .catch(err => {
@@ -228,7 +224,7 @@ const useStyles = theme =>({
                     <Card className={classes.modalCard}>
                         <CardContent className={classes.modalCardContent}>
                             <div className={classes.imgshadow}>                    
-                                    <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`}alt="img"/> 
+                                    <img className={classes.img} src={`/getimage/${localStorage.getItem("jwtToken")}`} alt="img"/> 
                             </div> 
                             <div style={{textAlign:"center",marginBottom:'20px'}}>
                                 <p className={classes.user}><b>{salesRep.fullName}</b></p>
@@ -252,14 +248,14 @@ const useStyles = theme =>({
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item xs={3} >
+                                    {/* <Grid item xs={3} >
                                         <Card  variant="outlined">
                                             <CardContent>
                                                 <Typography styles={{fontSize:'17'}} color="textSecondary"> Total Customers</Typography>
                                                 <Typography variant="h5">{salesRep.totalCustomers}</Typography>
                                             </CardContent>
                                         </Card>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid> 
                                 <Typography className={classes.typography}><b>User Name:</b><label style={{fontSize:"16px"}}>{salesRep.userName}</label></Typography>
                                 <Typography className={classes.typography} ><b>Area:</b><label style={{fontSize:"16px"}}>{salesRep.area}</label></Typography >
