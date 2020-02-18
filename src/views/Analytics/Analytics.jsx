@@ -232,7 +232,34 @@ class Analytics extends React.Component {
                                 }
                             })
                       
-            
+                const dateData ={
+                      dateFrom:this.state.showproductdatefrom,
+                      dateTo:this.state.showproductdateto
+               }
+                        
+                axios.post('/analytics/topOutlet',dateData,{
+                    headers:{
+                       'Authorization':token
+                   }
+                })
+                .then(res => {
+                    if(res.data.length!==0){
+                          this.setState({topOutlets:res.data})
+                        //  console.log(res.data);
+                    }
+                    else{
+                        this.setState({
+                          topOutlets:[]
+                        })
+                    }
+                    })
+               .catch(err => {
+                    if(err.tokenmessage){
+                           this.setState({isexpire:true}) ; 
+                    }
+                    console.log(err);
+               });
+
               axios.get("/analytics/topBestSalesrep",{
                 headers:{
                   'Authorization':token
@@ -508,7 +535,7 @@ class Analytics extends React.Component {
       dateFrom:date
     }
 
-    axios.post('analytics/topOutlet',dateData,{
+    axios.post('/analytics/topOutlet',dateData,{
       headers:{
         'Authorization':token
       }
@@ -516,11 +543,11 @@ class Analytics extends React.Component {
     .then(res => {
       if(res.data.length!==0){
         this.setState({topOutlets:res.data})
-        console.log(res.data);
+     //   console.log(res.data);
     }
     else{
       this.setState({
-        topOutlets:{}
+        topOutlets:[]
    })
     }
     })
@@ -540,7 +567,7 @@ class Analytics extends React.Component {
       dateFrom:this.state.showoutletdatefrom
     }
 
-    axios.post('analytics/topOutlet',dateData,{
+    axios.post('/analytics/topOutlet',dateData,{
       headers:{
         'Authorization':token
       }
@@ -548,11 +575,11 @@ class Analytics extends React.Component {
     .then(res => {
       if(res.data.length!==0){
         this.setState({topOutlets:res.data})
-        console.log(this.state.topOutlets);
+       // console.log(this.state.topOutlets);
     }
     else{
       this.setState({
-        topOutlets:{}
+        topOutlets:[]
    })
     }
     })
