@@ -231,34 +231,7 @@ class Analytics extends React.Component {
                                     this.setState({isexpire:true}) ; 
                                 }
                             })
-                          const dateData={
-                            dateTo:this.state.showoutletdateto,
-                            dateFrom:this.state.showoutletdatefrom
-                          }
-                         axios.post('/analytics/topOutlet',dateData,{
-                              headers:{
-                                'Authorization':token
-                              }
-                            })
-                            .then(res => {
-                              if(res.data.length!==0){
-                                  this.setState({topOutlets:res.data})
-                                 // console.log(res.data);
-                              }
-                              else{
-                                this.setState({
-                                  topOutlets:{}
-                             })
-                              }
-                            //  this.setState({topOutlets:res.data})
-                              //console.log(res.data);
-                            })
-                            .catch(err => {
-                              if(err.tokenmessage){
-                                this.setState({isexpire:true}) ; 
-                              }
-                              console.log(err);
-                            });
+                      
             
               axios.get("/analytics/topBestSalesrep",{
                 headers:{
@@ -529,9 +502,9 @@ class Analytics extends React.Component {
 
     const token=localStorage.getItem("jwtToken"); 
     this.setState({showoutletdatefrom:date})
-    //this.setState({showoutletdateto:date})
+    this.setState({showoutletdateto:date})
     const dateData ={
-      dateTo:this.state.showoutletdateto,
+      dateTo:date,
       dateFrom:date
     }
 
@@ -543,7 +516,7 @@ class Analytics extends React.Component {
     .then(res => {
       if(res.data.length!==0){
         this.setState({topOutlets:res.data})
-      //  console.log(res.data);
+        console.log(res.data);
     }
     else{
       this.setState({
@@ -575,7 +548,7 @@ class Analytics extends React.Component {
     .then(res => {
       if(res.data.length!==0){
         this.setState({topOutlets:res.data})
-      //  console.log(res.data);
+        console.log(this.state.topOutlets);
     }
     else{
       this.setState({
@@ -1462,7 +1435,7 @@ class Analytics extends React.Component {
               </MuiPickersUtilsProvider>}
               />
               <Divider/>
-              <CardContent >
+               <CardContent >
                 {topOutlets.map((outlet,i) => {
                     return(
                 
@@ -1492,9 +1465,9 @@ class Analytics extends React.Component {
                 Negombo: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Gampaha: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
                 Homagama: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/></b> */}
-                </h6>  );
-                })}            
-              </CardContent>
+                 </h6>  );
+                })}           
+              </CardContent> 
             </Card>
           </Grid>
           </ThemeProvider>
