@@ -369,6 +369,7 @@ class Analytics extends React.Component {
             route:res.data
       
       })
+      this.setState({maxRouteVal:res.data[0].sum});
       this.getRouteCoverage();
 
     }else{

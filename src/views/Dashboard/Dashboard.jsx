@@ -256,7 +256,7 @@ class Dashboard extends React.Component {
           this.setState({salesByArea:obj})
         )
       });
-      
+      console.log(this.state.salesByArea)
     }
   render() {
     

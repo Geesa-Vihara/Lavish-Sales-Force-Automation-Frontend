@@ -190,7 +190,7 @@ class StockBalance extends Component{
                             })}  
                             <tr>
                                         
-                                        <td className={classes.td} colSpan="4"></td><td className={classes.td}><b>Total</b></td><td className={classes.td}><b></b></td>
+                                        <td className={classes.td} colSpan="4"></td><td className={classes.td}><b>Total</b></td><td className={classes.td}><b>{stock.totalValue}</b></td>
                             </tr>
                             </tbody>
                         </table> 
