@@ -75,7 +75,7 @@ class  SalesRepTable extends React.Component{
     this.onChange=this.onChange.bind(this);
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps(){              //After adding salesrep this component will render again
 
     var token = localStorage.getItem('jwtToken');
     Axios
@@ -124,7 +124,7 @@ class  SalesRepTable extends React.Component{
       })
   }
 
-  onChange = (e) => {
+  onChange = (e) => {                        //search by filtering
     const filterText=e.target.value;
     this.setState(prevState => {
       const filteredData = prevState.salesReps.filter(e => {

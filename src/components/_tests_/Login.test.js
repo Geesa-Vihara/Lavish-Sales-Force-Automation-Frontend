@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import { shallow,mount } from 'enzyme';
-import Login from './Login';
+import Login from '../../views/Pages/Login';
 import TextField from "@material-ui/core/TextField";
 import { exportAllDeclaration } from '@babel/types';
 

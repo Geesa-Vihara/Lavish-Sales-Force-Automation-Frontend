@@ -1072,219 +1072,21 @@ class Analytics extends React.Component {
                     </ListItemAvatar>
                     <ListItemText
                       primary={rep._id}
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                          {rep.area}
-                          </Typography>
-                        </React.Fragment>
-                      }
+                      // secondary={
+                      //   <React.Fragment>
+                      //     <Typography
+                      //       component="span"
+                      //       variant="body2"
+                      //       className={classes.inline}
+                      //       color="textPrimary"
+                      //     >
+                      //     {/* {rep.area} */}
+                      //     </Typography>
+                      //   </React.Fragment>
+                      // }
                     />
                   </ListItem>);
                   })}
-                  {/* <Divider variant="inset" component="li" /> */}
-                  {/* <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Travis Howard" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Summer BBQ"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            to Scott, Alex, Jennifer
-                          </Typography>
-                          {" — Wish I could come, but I'm out of town this…"}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt="Cindy Baker" src={salesrep} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>                   */}
                 </List>
               </GridList>
               </CardContent>
@@ -1466,34 +1268,10 @@ class Analytics extends React.Component {
                <CardContent >
                 {topOutlets.map((outlet,i) => {
                     return(
-                
-                <h6 key={i} style={{lineHeight:2, fontSize:15}}><b>
-                  {outlet._id} : Rs <small style={{fontSize:15,color:lightGreen[600]}}>{outlet.totalSum}</small><br/></b>
-                {/* Kandy: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Wellawaya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Badulla: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Hambanthota: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Pitigala: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Matara: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Galle: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Ambalangoda: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Kaluthara: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Horana: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Diwulapitiya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Chilaw: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Puththalam: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Anuradhapura: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Polonnaruwa: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Kuliyapitiya: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Kurunagala: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Mathale: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Kegalle: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Awissawella: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Rathnapura: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Negombo: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Gampaha: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/>
-                Homagama: <small style={{fontSize:9,color:lightGreen[600]}}>Cargills food city</small><br/></b> */}
-                 </h6>  );
+                      <h6 key={i} style={{lineHeight:2, fontSize:15}}><b>
+                        {outlet._id} : Rs <small style={{fontSize:15,color:lightGreen[600]}}>{outlet.totalSum}</small><br/></b>
+                      </h6>  
+                    );
                 })}           
               </CardContent> 
             </Card>
