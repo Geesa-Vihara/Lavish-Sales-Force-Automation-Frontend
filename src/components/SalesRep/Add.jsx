@@ -97,12 +97,12 @@ class Add extends React.Component{
     }
 
     onChange = (e) => {        
-        this.setState({[e.target.id] : e.target.value});
+        this.setState({[e.target.id] : e.target.value});     //changing textfield
     }
 
     handleChange = (e) =>{
         e.preventDefault();
-        this.setState({area:e.target.value});
+        this.setState({area:e.target.value});               //Area drop down
         
     }
 
@@ -127,19 +127,16 @@ class Add extends React.Component{
                 }
             })
             .then(res => {
-                 if(res.status===200){                                
-                    this.setState({open:false});
-                    this.props.history.push("/admin/salesreps");
+                 if(res.status === 200){                                
+                    this.setState({open:false});                        //closing modal
+                    this.props.history.push("/admin/salesreps");       //go back to salesrep table
                 }
                 else {
                      if(res.status === 404){
                          this.setState({statusError:"User Name exists"})
                         //openNotifier({msg:"Error Already Exists"});
                      }
-                     else if(res.status ===400){
-                        this.setState({statusError:"Network Error"})
-                       //  openNotifier({msg:"Error"});
-                     }
+                 
                     const error = new Error(res.error);
                     throw error;
                 }
@@ -177,6 +174,7 @@ class Add extends React.Component{
                 <Card className={classes.modalCard}>
                     <form noValidate onSubmit={this.onSubmit} >
                         <CardContent className={classes.modalCardContent}>
+                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {statusError}</FormHelperText>
                             <TextField
                                 required
                                 autoFocus
@@ -190,7 +188,7 @@ class Add extends React.Component{
                                 type="text"
                             />
                             <FormHelperText id="component-error-text" className={classes.textfielderror}> {errors.userName}</FormHelperText>
-                            <FormHelperText id="component-error-text" className={classes.textfielderror}> {statusError}</FormHelperText>
+                            {/* <FormHelperText id="component-error-text" className={classes.textfielderror}> {statusError}</FormHelperText> */}
                             <TextField
                                 required
                                 id="fullName"

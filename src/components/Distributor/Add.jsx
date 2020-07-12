@@ -126,10 +126,7 @@ class Add extends React.Component{
                         this.setState({statusError:"User Name exists"})
                         //openNotifier({msg:"Error Already Exists"});
                      }
-                     else if(res.status ===400){
-                        this.setState({statusError:"Network Error"})
-                         //openNotifier({msg:"Error"});
-                     }
+                   
                     const error = new Error(res.error);
                     throw error;
                 }

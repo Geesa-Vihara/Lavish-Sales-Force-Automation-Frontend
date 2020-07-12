@@ -16,9 +16,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import SalesReport from '../Reports/salesreport.jsx';
-import StockBalance from '../Reports/stockbalance';
-
 import Axios from 'axios';
 import { Table,TableBody,TableCell,TableHead,TableRow }  from "@material-ui/core";
 import {
@@ -28,7 +25,8 @@ import {
 import Assignment from "@material-ui/icons/Assignment";
 import axios from 'axios';
 import  { Link,Route}  from 'react-router-dom';
-
+import SalesReport from '../Reports/salesreport.jsx';
+import StockBalance from '../Reports/stockbalance';
   
 const useStyles = theme => ({
   table:{

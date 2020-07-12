@@ -85,30 +85,7 @@ class InvoiceTable extends React.Component{
             selectedDateTo:Date.now()
         };
     }
-    // componentWillReceiveProps(){
-
-    //     var token = localStorage.getItem('jwtToken');
-    //     Axios
-    //       .get('/invoices',{
-    //         headers:{
-    //           'Authorization':token
-    //         }
-    //       })
-    //       .then(res => {
-    //         this.setState({
-    //           invoices: res.data
-    //         });
-    //         console.log(this.state.invoices);
-    //       })
-    //       .catch(err => {
-    //         if(err.tokenmessage){
-    //           console.log(err.tokenmessage);
-    //           this.setState({isExpire:true});
-    //         }
-    //         console.log(err);
-    //       });
-    //   }
-    
+   
     componentDidMount(){
         // const filterData = {
         //     dateFrom:this.state.selectedDateFrom,
@@ -153,18 +130,11 @@ class InvoiceTable extends React.Component{
                 }
             });
     }
-    // visit = (obj, fn) => {
-    //     const values = Object.values(obj)
-    
-    //     values.forEach(val => 
-    //         val && typeof val === "object" ? visit(val, fn) : fn(val))
-    // }
-    // print = (val) => console.log(val)
-    
-
-    getFileName(){
+  
+    getFileName =  () => {                     //setting name for expoting file
         return 'Invoices '+ this.state.date ;
     }
+
     handleChange = (e) => {
         e.preventDefault();
         const selectsalesrep=e.target.value;
@@ -323,7 +293,7 @@ class InvoiceTable extends React.Component{
                             })}
                         </TableBody>
                         </Table>
-                        <CSVLink data={invoices} filename={this.getFileName()}>
+                        <CSVLink data={invoices} filename={this.getFileName}>
                         <Fab variant="extended" size="medium"  aria-label="export"  className={classes.fab}>       
                             <GetAppIcon className={classes.extendedIcon}/>
                                 Export

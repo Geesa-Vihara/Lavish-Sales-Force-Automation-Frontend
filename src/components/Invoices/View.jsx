@@ -177,7 +177,6 @@ class View extends React.Component{
                                         <TableCell style={{border:'1px solid black'}}>Product</TableCell>
                                         <TableCell style={{border:'1px solid black'}}>Weight</TableCell>
                                         <TableCell style={{border:'1px solid black'}}>Qty</TableCell>
-                                        {/* <TableCell style={{fontSize:'1.1em',border:'1px solid black'}}>Rate</TableCell> */}
                                         <TableCell style={{border:'1px solid black'}}>price</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -185,12 +184,10 @@ class View extends React.Component{
                                     {Object.keys(invoice).filter(p=>invoice[p].price>0).map((product,i)=> {
                                    
                                             return(
-                                                <TableRow key={i} hover>
-                                                    {/* <TableCell>{invoice[product].Invoiceno}</TableCell> */}   
+                                                <TableRow key={i} hover>   
                                                     <TableCell style={{border:'1px solid black'}}>{invoice[product].name}</TableCell>
                                                     <TableCell style={{border:'1px solid black'}}>{invoice[product].weight}</TableCell>
                                                     <TableCell style={{border:'1px solid black'}}>{invoice[product].qut}</TableCell>
-                                                    {/* <TableCell>{invoice[product].rate}</TableCell> */}
                                                     <TableCell style={{border:'1px solid black'}}>{invoice[product].price}</TableCell>
                                                 </TableRow>  
                                             );
